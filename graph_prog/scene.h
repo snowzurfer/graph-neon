@@ -60,6 +60,9 @@ protected:
 	// Set the buffers depending on device context
 	void setBuffers();
 
+	// Draw an unit cube at the centre of the screen
+	void drawUnitCube();
+
 	// HDC Used with the drawsprite function to manipulate/use the sprite
 	HDC bitmapHDC_;
 

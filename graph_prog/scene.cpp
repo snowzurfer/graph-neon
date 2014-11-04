@@ -83,89 +83,36 @@ void Scene::render(float interp) {
 	glLoadIdentity();
 
 	// Set camera looking down the -z axis, 3 units away from the center
-	gluLookAt(0, 0, 8,     0, 0, 0,     0, 1, 0); // Where we are, What we look at, and which way is up
+	gluLookAt(0, 3, 15,     0, 0, 0,     0, 1, 0); // Where we are, What we look at, and which way is up
 
-	// Move the coordinates system
-	//glTranslatef(-1.0f, 0.0f, 0.0f);
-	//...Then tilt our solar system slightly so it isn’t on the eye plane
-	glRotatef(20, 1, 0, 0); // On the x-axis
 	
-	// Render the sun
-	glColor3f(1.0f, 0.9f, 0.0f); // Colour
-	gluSphere(gluNewQuadric(), 0.20, 20,20); // Shape
 
-	// Push the matrix to remember the current one. 
-	// This is the transform of the sun!
+	// Save current matrix
 	glPushMatrix();
-		// Rotate around the sun
-		glRotatef(rot0_, 0, 1, 0);
-		// Move away from it
-		glTranslatef(1, 0, 0);
-		// Scale down the world
-		glScalef(0.1, 0.1, 0.1);
-		// Change the colour used to draw
-		glColor3f(0.8f, 0.1f, 0.1f);
-		// Render the smaller planet
-		gluSphere(gluNewQuadric(), 0.20, 20, 20);
+		// Stretch the world to draw the arm of the robot
+		glScalef(3, 1, 1);
+
+		// Render the arm
+		drawUnitCube();
 	glPopMatrix();
-	// Pop a matrix from the stack to "go back to the sun"
+	// Go back to previous matrix
 
-	// Push the matrix to remember the current one. 
-	// This is the transform of the sun!
-	glPushMatrix(); 
-		// Rotate around the sun
-		glRotatef(rot1_, 0, 1, 0);
-		// Move away from it
-		glTranslatef(1.5, 0, 0);
-		// Scale down the world
-		glScalef(0.3, 0.3, 0.3);
-		// Change the colour used to draw
-		glColor3f(0.1f, 0.3f, 1.0f);
-		// Render the smaller planet
-		gluSphere(gluNewQuadric(), 0.20, 20, 20);
-
-		// Push the matrix to remember the current one.
-		// This is the transform of the sun + 2nd planet!
-		glPushMatrix();
-			// Rotate around the 2nd planet
-			glRotatef((rot1_*2.0),0,1,0);
-			// Move away from it
-			glTranslatef(1.5,0,0);
-			// Scale down the world
-			glScalef(0.3, 0.3, 0.3);
-			// Change the colour used to draw
-			glColor3f(0.8f, 0.8f, 0.8f);
-			// Render the moon
-			gluSphere(gluNewQuadric(), 0.20, 20,20);
-		glPopMatrix();
-		// Pop a matrix from the stack to "go back to the 2nd planet"
-
-	glPopMatrix();
-	// Pop a matrix from the stack to "go back to the sun"
-
-
-	// Push the matrix to remember the current one. 
-	// This is the transform of the sun!
+	// Save current matrix
 	glPushMatrix();
-		// Tilt the axis of rotation of the planet
-		glRotatef(45.f, 1.f, 0.f, 0.5f);
-		// Rotate around the sun
-		glRotatef(rot2_, 0, 1, 0);
-		// Move away from it
-		glTranslatef(3.f, 0, 0);
-		// Scale down the world
-		glScalef(0.7f, 0.7f, 0.7f);
-		// Change the colour used to draw
-		glColor3f(0.7f, 0.1f, 0.75f);
-		// Render the planet
-		gluSphere(gluNewQuadric(), 0.20, 20, 20);
+		// Move to the right top
+		glTranslatef(3, 1, 0);
+
+		// Rotate
+		glRotatef(30, 0, 0, 1);
+
+		// Move down-right
+		glTranslatef(1, -1, 0);
+
+		// Render hand
+		drawUnitCube();
 	glPopMatrix();
-	// Pop a matrix from the stack to "go back to the sun"
+	// Go back to previous matrix
 
-
-	// Reset colour
-	glColor3f(1.0f, 1.0f, 1.0f);
-	
 	// Swap the frame buffers (back with front)
 	SwapBuffers(hdc_);
 }
@@ -259,6 +206,132 @@ void Scene::initOpenGL(int w, int h) {
 	resizeGLWindow(w, h);	
 }
 
+void Scene::drawUnitCube() {
+	// Being the drawing state
+	glBegin (GL_TRIANGLES);
+
+		// FRONT FACE
+		glColor3f(1.0f, 0.0f, 0.0f);		// Red
+		glVertex3f(-1.0f, 1.0f, 1.0f); 		// TLF
+		
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
+
+		//glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+		
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);		// TLF
+
+
+		// RIGHT SIDE FACE
+		glColor3f(0.5f, 0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+		
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+		
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
+
+
+		// BOTTOM SIDE FACE
+		glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+		
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
+		
+
+		// TOP SIDE FACE
+		glColor3f(0.0f, 0.5f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
+		
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
+		
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 1.0f);		// TLF
+
+
+		// LEFT SIDE FACE
+		glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
+
+		//glColor3f(1.0f, 0.0f, 0.0f);		
+		glVertex3f(-1.0f, 1.0f, 1.0f); 		// TLF
+
+
+		// BACK SIDE FACE
+		glColor3f(0.0f, 0.0f, 0.5f);
+		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
+
+		//glColor3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
+
+		//glColor3f(0.0f, 0.0f, 0.5f);
+		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
+
+		//glColor3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
+
+		//glColor3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+	glEnd();
+	// End drawing
+}
 
 }
 // EO Namespace
