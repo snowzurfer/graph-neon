@@ -21,18 +21,18 @@ Vec3 Vec3::copy(){
         return copy;           
 }
  
-bool Vec3::equals(const Vec3& v2, float epsilon){
+bool Vec3::equals(const Vec3& v2, float epsilon) const{
         return ((std::abs(this->elements[0] - v2[0]) < epsilon) &&
                     (std::abs(this->elements[1] - v2[1]) < epsilon) &&
                         (std::abs(this->elements[2] - v2[2]) < epsilon));      
 }
  
  
-float Vec3::length(){
+float Vec3::length() const{
         return std::sqrt(this->lengthSquared());
 }
  
-float Vec3::lengthSquared(){
+float Vec3::lengthSquared() const{
         return (
                 this->elements[0]*this->elements[0] +
                 this->elements[1]*this->elements[1] +
@@ -51,7 +51,7 @@ Vec3& Vec3::normalize(){
         return *this;
 }
  
-Vec3 Vec3::cross(const Vec3& v2){
+Vec3 Vec3::cross(const Vec3& v2) const{
         Vec3 cross(
                 (this->elements[1] * v2[2] - this->elements[2] * v2[1]),
                 (this->elements[2] * v2[0] - this->elements[0] * v2[2]),
@@ -60,7 +60,7 @@ Vec3 Vec3::cross(const Vec3& v2){
         return cross;
 }
  
-Vec3 Vec3::subtract(const Vec3& v1, float scale){
+Vec3 Vec3::subtract(const Vec3& v1, float scale) const{
         Vec3 sub(
                 (this->elements[0] - v1[0]*scale),
                 (this->elements[1] - v1[1]*scale),
@@ -91,26 +91,26 @@ Vec3& Vec3::setZ(float z){
         return *this;
 }
 
-float Vec3::getX(){
+float Vec3::getX() const{
        return this->elements[0];
 }
  
-float Vec3::getY(){
+float Vec3::getY() const{
        return this->elements[1];
 }
  
-float Vec3::getZ(){
+float Vec3::getZ() const{
       return this->elements[2];
 }
  
-float Vec3::dot(const Vec3& v2){
+float Vec3::dot(const Vec3& v2) const{
         return (this->elements[0]*v2[0] +
                 this->elements[1]*v2[1] +
                 this->elements[2]*v2[2]
                 );
 }
  
-Vec3 Vec3::scale(float scale){
+Vec3 Vec3::scale(float scale) const{
         Vec3 scaled(
                 (this->elements[0]*scale),
                 (this->elements[1]*scale),
@@ -119,7 +119,7 @@ Vec3 Vec3::scale(float scale){
         return scaled;
 }
  
-Vec3 Vec3::add(const Vec3& v1, float scale){
+Vec3 Vec3::add(const Vec3& v1, float scale) const{
         Vec3 sum(
                 (this->elements[0] + v1[0]*scale),
                 (this->elements[1] + v1[1]*scale),

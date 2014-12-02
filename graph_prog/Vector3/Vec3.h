@@ -18,22 +18,22 @@ public:
     Vec3& setY(float y);
     Vec3& setZ(float z);
 
-	float getX();
-	float getY();
-	float getZ();
+	float getX() const;
+	float getY() const;
+	float getZ() const;
  
-    Vec3 add(const Vec3& v1, float scale=1.0);
-    Vec3 subtract(const Vec3& v1, float scale=1.0);
-    Vec3 scale(float scale);
+    Vec3 add(const Vec3& v1, float scale=1.0) const;
+    Vec3 subtract(const Vec3& v1, float scale=1.0) const;
+    Vec3 scale(float scale) const;
  
-    float dot(const Vec3& v2);
-    Vec3 cross(const Vec3& v2);
+    float dot(const Vec3& v2) const;
+    Vec3 cross(const Vec3& v2) const;
  
     Vec3& normalize();
-    float length();
-    float lengthSquared();
+    float length() const;
+    float lengthSquared() const;
  
-    bool equals(const Vec3& v2, float epsilon);
+    bool equals(const Vec3& v2, float epsilon) const;
     float operator[](int pos) const;
  
     Vec3 operator+(const Vec3& v2);

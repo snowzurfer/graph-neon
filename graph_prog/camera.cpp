@@ -38,7 +38,7 @@ void Camera::update_() {
 }
 
 const Vec3 Camera::getLookAt() const {
-	return Vec3(position_ + forward_);
+	return Vec3(position_.add(forward_));
 }
 
 }
