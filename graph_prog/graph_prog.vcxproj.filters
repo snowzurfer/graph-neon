@@ -68,5 +68,8 @@
     <ClInclude Include="window.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="app_globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

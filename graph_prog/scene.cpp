@@ -20,6 +20,12 @@ Scene::Scene() :
 	
 };
 
+Scene::~Scene() {
+	// Free memory
+	delete camera_;
+	camera_ = NULL;
+}
+
 void Scene::initialise(HWND *lwnd, Input* in) {
 	hwnd_ = lwnd;	// Access to the window
 	input_ = in;	// Access to user input
@@ -76,6 +82,9 @@ void Scene::update() {
 	if(cubeRot > 360.f) {
 		cubeRot = 0.f;
 	};
+
+	// Update camera
+	camera_->update();
 }
 
 void Scene::procInput() {
@@ -97,6 +106,9 @@ void Scene::procInput() {
 		// Set the key up so that it doesn't get processed again
 		input_->setKeyUp(0x4D);
 	}
+
+	// Send camera input so that it can update itself
+	camera_->handleInput(input_);
 }
 
 void Scene::render(float interp) {

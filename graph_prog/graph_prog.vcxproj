@@ -85,6 +85,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app_globals.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />

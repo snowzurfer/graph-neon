@@ -16,6 +16,7 @@
 #include <gl/GLU.h>
 #include "light.h"
 #include "camera.h"
+#include "app_globals.h"
 
 
 namespace winapp {
@@ -28,6 +29,9 @@ class Scene
 public:
 	// Ctor
 	Scene();
+
+	// Dtor
+	~Scene();
 
 	// Initialise the class
 	void initialise(HWND*, Input*);

@@ -9,6 +9,7 @@
 #include "input.h"
 #include "scene.h"
 #include "timerclass.h"
+#include "app_globals.h"
 
 
 // Handle to window
@@ -33,10 +34,7 @@ Scene scene;
 TimerClass timer;
 
 
-const int TICKS_PER_SECOND = 40;
-const float kSecondsPerUpdate = 1.f / (float)TICKS_PER_SECOND; 
-const float SKIP_TICKS = 1000.f / (float)TICKS_PER_SECOND;
-const int MAX_FRAMESKIP = 5;
+
 
 
 

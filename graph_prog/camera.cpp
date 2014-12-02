@@ -15,13 +15,17 @@ Camera::Camera() :
 	{
 }
 
+Camera::~Camera() {
+
+}
+
 void Camera::handleInput(Input *input) {
 	// Depending on key pressed
-	if(input->isKeyPressed(kW)) {
+	if(input->isKeyDown(kW)) {
 		// Move forward
 		forwardSpeed_ = kCameraMovementSpeed;
 	}
-	else if(input->isKeyPressed(kS)) {
+	else if(input->isKeyDown(kS)) {
 		// Move backwards
 		forwardSpeed_ = -kCameraMovementSpeed;
 	}
@@ -31,11 +35,11 @@ void Camera::handleInput(Input *input) {
 	}
 
 	// Depending on key pressed
-	if(input->isKeyPressed(kA)) {
+	if(input->isKeyDown(kA)) {
 		// Move left laterally
 		lateralSpeed_ = -kCameraMovementSpeed;
 	}
-	else if(input->isKeyPressed(kS)) {
+	else if(input->isKeyDown(kD)) {
 		// Move right laterally
 		lateralSpeed_ = kCameraMovementSpeed;
 	}
@@ -52,7 +56,7 @@ void Camera::update() {
 	Vec3 lateralVelocity(right_.scale(lateralSpeed_));
 
 	// Integrate velocity into position
-	position_ += (frontalVelocity + lateralVelocity);
+	position_ += ((frontalVelocity + lateralVelocity).scale(kSecondsPerUpdate));
 }
 
 void Camera::updateVectors() {
@@ -79,7 +83,7 @@ void Camera::update_() {
 	up_.setZ(-sinY * sinR - sinP * cosR * -cosY);
 
 	// Calculate the right vector
-	right_ = up_.cross(forward_);
+	right_ = forward_.cross(up_);
 }
 
 const Vec3 Camera::getLookAt() const {
