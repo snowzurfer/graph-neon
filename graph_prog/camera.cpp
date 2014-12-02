@@ -10,8 +10,53 @@ Camera::Camera() :
 	forward_(),
 	up_(),
 	right_(),
-	speed_(20.f)
+	forwardSpeed_(0.f),
+	lateralSpeed_(0.f)
 	{
+}
+
+void Camera::handleInput(Input *input) {
+	// Depending on key pressed
+	if(input->isKeyPressed(kW)) {
+		// Move forward
+		forwardSpeed_ = kCameraMovementSpeed;
+	}
+	else if(input->isKeyPressed(kS)) {
+		// Move backwards
+		forwardSpeed_ = -kCameraMovementSpeed;
+	}
+	else {
+		// Stop frontal movement
+		forwardSpeed_ = 0.f;
+	}
+
+	// Depending on key pressed
+	if(input->isKeyPressed(kA)) {
+		// Move left laterally
+		lateralSpeed_ = -kCameraMovementSpeed;
+	}
+	else if(input->isKeyPressed(kS)) {
+		// Move right laterally
+		lateralSpeed_ = kCameraMovementSpeed;
+	}
+	else {
+		// Stop lateral movement
+		lateralSpeed_ = 0.f;
+	}
+}
+
+void Camera::update() {
+	// Calculate the velovity for frontal movement
+	Vec3 frontalVelocity(forward_.scale(forwardSpeed_));
+	// Calculate the velocity for lateral movement
+	Vec3 lateralVelocity(right_.scale(lateralSpeed_));
+
+	// Integrate velocity into position
+	position_ += (frontalVelocity + lateralVelocity);
+}
+
+void Camera::updateVectors() {
+	update_();
 }
 
 void Camera::update_() {
@@ -38,7 +83,7 @@ void Camera::update_() {
 }
 
 const Vec3 Camera::getLookAt() const {
-	return Vec3(position_.add(forward_));
+	return Vec3(position_ + forward_);
 }
 
 }

@@ -15,6 +15,7 @@
 #include <gl/GL.h>	
 #include <gl/GLU.h>
 #include "light.h"
+#include "camera.h"
 
 
 namespace winapp {
@@ -76,6 +77,9 @@ protected:
 	int s_wdith, s_height;
 	float rot0_, rot1_, rot2_, speed_, cubeRot;
 	Light light0;
+
+	// Camera
+	Camera *camera_;
 	
 
 

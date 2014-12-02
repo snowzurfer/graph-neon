@@ -4,12 +4,16 @@
 // Includes
 #include "Vector3\Vec3.h"
 #include <cmath>
+#include "input.h"
 
 namespace winapp {
 
 const float kPi = 3.1415;
 const float kPiOver180 = kPi / 180.f;
 const float k180OverPi = 180.f / kPi;
+const float kCameraMovementSpeed = 0.5f;
+
+
 
 class Camera
 {
@@ -21,11 +25,14 @@ public:
 	~Camera();
 
 	// Handle input
-	void handleInput();
+	void handleInput(Input *input);
 
 	// Update camera based on input
 	void update();
 
+	// Re-calculate the vectors after a rotation has
+	// happened.
+	void updateVectors();
 
 	// Getters and setters
 	const Vec3 &getPos() const { return position_; }
@@ -57,10 +64,9 @@ private:
 	// Define where right is with respect to the camera
 	Vec3 right_;
 
-
 	// Define speed of the camera
-	float speed_;
-
+	float forwardSpeed_;
+	float lateralSpeed_;
 
 	// Update values of camera after rotation has been modified
 	void update_();

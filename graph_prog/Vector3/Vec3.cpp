@@ -133,11 +133,11 @@ float Vec3::operator[](int pos) const{
     return elements[pos];
 }
  
-Vec3 Vec3::operator+(const Vec3& v2) {
+Vec3 Vec3::operator+(const Vec3& v2) const{
     return this->add(v2);
 }
  
-Vec3 Vec3::operator-(const Vec3& v2) {
+Vec3 Vec3::operator-(const Vec3& v2) const{
     return this->subtract(v2);
 }
  

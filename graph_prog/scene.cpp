@@ -14,7 +14,8 @@ Scene::Scene() :
 	rot1_(0.f),
 	rot2_(0.f),
 	speed_(0.f),
-	light0(GL_LIGHT0)
+	light0(GL_LIGHT0),
+	camera_(NULL)
 	{
 	
 };
@@ -44,6 +45,13 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 	rot1_ = 0;
 	rot2_ = 20;
 	speed_ = 0.05* (1000 / 40);
+
+	// Create a default camera
+	camera_ = new Camera();
+	camera_->setPos(Vec3(4.f, 0.f, 12.f));
+	camera_->setUp(Vec3(0.f, 1.f, 0.f));
+	camera_->setForward(Vec3(0.f, 0.f, -1.f));
+	camera_->updateVectors();
 }
 
 void Scene::resize() {
@@ -97,8 +105,18 @@ void Scene::render(float interp) {
 	// ... And load the identity to clear the matrix
 	glLoadIdentity();
 
-	// Set camera looking down the -z axis, 3 units away from the center
-	gluLookAt(4, 5, 12,     0, 0, 0,     0, 1, 0); // Where we are, What we look at, and which way is up
+	{
+		// Get vectors for gluLookAt from camera
+		Vec3 camPos = camera_->getPos();
+		Vec3 lookAt = camera_->getLookAt();
+		Vec3 up		= camera_->getUp();
+
+		// Where we are, What we look at, and which way is up
+		gluLookAt(camPos.getX(), camPos.getY(), camPos.getZ(),
+				  lookAt.getX(), lookAt.getY(), lookAt.getZ(), 
+				  up.getX(),	 up.getY(),		up.getZ()); 
+
+	}
 
 	// Define a directional light
 	/*GLfloat light0Ambient_[] = {0.3f, 0.3f, 0.3f, 1.0f};

@@ -16,6 +16,12 @@ namespace winapp {
 // Number of keys to keep track of
 const int KeysNum = 256;
 
+const int kW = 0x57;
+const int kA = 0x41;
+const int kS = 0x53;
+const int kD = 0x44;
+
+
 class Input
 {
 public:

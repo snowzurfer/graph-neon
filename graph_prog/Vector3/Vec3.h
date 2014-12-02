@@ -36,8 +36,8 @@ public:
     bool equals(const Vec3& v2, float epsilon) const;
     float operator[](int pos) const;
  
-    Vec3 operator+(const Vec3& v2);
-    Vec3 operator-(const Vec3& v2);
+    Vec3 operator+(const Vec3& v2) const;
+    Vec3 operator-(const Vec3& v2) const;
  
     Vec3& operator+=(const Vec3& v2);
     Vec3& operator-=(const Vec3& v2);
