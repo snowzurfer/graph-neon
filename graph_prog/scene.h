@@ -14,6 +14,7 @@
 #include <math.h>
 #include <gl/GL.h>	
 #include <gl/GLU.h>
+#include "light.h"
 
 
 namespace winapp {
@@ -25,12 +26,7 @@ class Scene
 {
 public:
 	// Ctor
-	Scene() : 
-		rot0_(0.f),
-		rot1_(0.f),
-		rot2_(0.f),
-		speed_(0.f)
-	{};
+	Scene();
 
 	// Initialise the class
 	void initialise(HWND*, Input*);
@@ -63,6 +59,9 @@ protected:
 	// Draw an unit cube at the centre of the screen
 	void drawUnitCube();
 
+	// Draw a plane composed of 2 triangles on the x-z plane
+	void drawPlane(const float r, const float g, const float b);
+
 	// HDC Used with the drawsprite function to manipulate/use the sprite
 	HDC bitmapHDC_;
 
@@ -75,7 +74,10 @@ protected:
 
 	// Tutorial variables
 	int s_wdith, s_height;
-	float rot0_, rot1_, rot2_, speed_;
+	float rot0_, rot1_, rot2_, speed_, cubeRot;
+	Light light0;
+	
+
 
 	// For moving object
 	unsigned int xpos, ypos;

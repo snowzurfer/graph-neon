@@ -9,6 +9,16 @@
 
 namespace winapp {
 
+Scene::Scene() : 
+	rot0_(0.f),
+	rot1_(0.f),
+	rot2_(0.f),
+	speed_(0.f),
+	light0(GL_LIGHT0)
+	{
+	
+};
+
 void Scene::initialise(HWND *lwnd, Input* in) {
 	hwnd_ = lwnd;	// Access to the window
 	input_ = in;	// Access to user input
@@ -26,7 +36,8 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 	glEnable(GL_DEPTH_TEST);							// Enables Depth Testing
 	glDepthFunc(GL_LEQUAL);								// The Type Of Depth Testing To Do
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
-	glEnable(GL_COLOR_MATERIAL);						// Turn on colour rendering manually
+	//glEnable(GL_COLOR_MATERIAL);						// Turn on colour rendering manually
+	glEnable(GL_LIGHTING);								// Enable lighting
 	
 	// Initialise other variables
 	rot0_ = 0;
@@ -53,6 +64,10 @@ void Scene::update() {
 	rot0_ += speed_;
 	rot1_ += (speed_ * 2);
 	rot2_ += (speed_ * 0.8);
+	cubeRot += speed_;
+	if(cubeRot > 360.f) {
+		cubeRot = 0.f;
+	};
 }
 
 void Scene::procInput() {
@@ -83,33 +98,48 @@ void Scene::render(float interp) {
 	glLoadIdentity();
 
 	// Set camera looking down the -z axis, 3 units away from the center
-	gluLookAt(0, 3, 15,     0, 0, 0,     0, 1, 0); // Where we are, What we look at, and which way is up
+	gluLookAt(4, 5, 12,     0, 0, 0,     0, 1, 0); // Where we are, What we look at, and which way is up
 
-	
+	// Define a directional light
+	/*GLfloat light0Ambient_[] = {0.3f, 0.3f, 0.3f, 1.0f};
+	GLfloat light0Diffuse_[] =   {1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat light0Position_[]=   {-1.0f, 0.8f, 0.0f, 0.0f};*/
+
+	// Define a point light
+	light0.setPosition(-3.0f, 1.f, 5.0f, 1.0f);
+
+	// Apply light modifications
+	light0.apply();
 
 	// Save current matrix
 	glPushMatrix();
-		// Stretch the world to draw the arm of the robot
-		glScalef(3, 1, 1);
+		// Rotate cube
+		glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
-		// Render the arm
+		// Draw cube
 		drawUnitCube();
+
+	glPopMatrix();
+	// Go back to previous matrix
+
+
+	// Save current matrix
+	glPushMatrix();
+		/*glTranslatef(light0Position_[0], light0Position_[1], light0Position_[2]);
+
+		glColor3f(1, 1, 1);
+		gluSphere(gluNewQuadric(), 0.3f, 20.f, 20.f);*/
 	glPopMatrix();
 	// Go back to previous matrix
 
 	// Save current matrix
 	glPushMatrix();
-		// Move to the right top
-		glTranslatef(3, 1, 0);
+		// Move the plane
+		glTranslatef(2.f, 3.f, 1.f);
 
-		// Rotate
-		glRotatef(30, 0, 0, 1);
+		// Draw cube
+		drawPlane(1, 1, 1);
 
-		// Move down-right
-		glTranslatef(1, -1, 0);
-
-		// Render hand
-		drawUnitCube();
 	glPopMatrix();
 	// Go back to previous matrix
 
@@ -211,123 +241,188 @@ void Scene::drawUnitCube() {
 	glBegin (GL_TRIANGLES);
 
 		// FRONT FACE
+		glNormal3f(0.f, 0.f, 1.f);
 		glColor3f(1.0f, 0.0f, 0.0f);		// Red
 		glVertex3f(-1.0f, 1.0f, 1.0f); 		// TLF
 		
+		glNormal3f(0.f, 0.f, 1.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
 
+		glNormal3f(0.f, 0.f, 1.f);
 		//glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
 
+		glNormal3f(0.f, 0.f, 1.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
 		
+		glNormal3f(0.f, 0.f, 1.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
 
+		glNormal3f(0.f, 0.f, 1.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);		// TLF
 
 
 		// RIGHT SIDE FACE
+		glNormal3f(1.f, 0.f, 0.f);
 		glColor3f(0.5f, 0.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
 		
+		glNormal3f(1.f, 0.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
 
+		glNormal3f(1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
 
+		glNormal3f(1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
-		
+
+		glNormal3f(1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
 
+		glNormal3f(1.f, 0.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
 
 
 		// BOTTOM SIDE FACE
+		glNormal3f(0.f, -1.f, 0.f);
 		glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
 		
+		glNormal3f(0.f, -1.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
 
+		glNormal3f(0.f, -1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
 
+		glNormal3f(0.f, -1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, 1.0f);		// BRF
 
+		glNormal3f(0.f, -1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
 
+		glNormal3f(0.f, -1.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
 		
 
 		// TOP SIDE FACE
+		glNormal3f(0.f, 1.f, 0.f);
 		glColor3f(0.0f, 0.5f, 0.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
 		
+		glNormal3f(0.f, 1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
 
+		glNormal3f(0.f, 1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
 
+		glNormal3f(0.f, 1.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, 1.0f, 1.0f);		// TRF
 		
+		glNormal3f(0.f, 1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
 
+		glNormal3f(0.f, 1.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, 1.0f);		// TLF
 
 
 		// LEFT SIDE FACE
+		glNormal3f(-1.f, 0.f, 0.f);
 		glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
 
+		glNormal3f(-1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
 
+		glNormal3f(-1.f, 0.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
 
+		glNormal3f(-1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
 
+		glNormal3f(-1.f, 0.f, 0.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, 1.0f);		// BLF
 
+		glNormal3f(-1.f, 0.f, 0.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);		
 		glVertex3f(-1.0f, 1.0f, 1.0f); 		// TLF
 
 
 		// BACK SIDE FACE
+		glNormal3f(0.f, 0.f, -1.f);
 		glColor3f(0.0f, 0.0f, 0.5f);
 		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
 
+		glNormal3f(0.f, 0.f, -1.f);
 		//glColor3f(0.0f, 1.0f, 0.0f);
 		glVertex3f(1.0f, -1.0f, -1.0f);		// BRB
 
+		glNormal3f(0.f, 0.f, -1.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
 
+		glNormal3f(0.f, 0.f, -1.f);
 		//glColor3f(0.0f, 0.0f, 0.5f);
 		glVertex3f(1.0f, 1.0f, -1.0f);		// TRB
 
+		glNormal3f(0.f, 0.f, -1.f);
 		//glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(-1.0f, -1.0f, -1.0f);	// BLB
 
+		glNormal3f(0.f, 0.f, -1.f);
 		//glColor3f(0.0f, 0.0f, 1.0f);
 		glVertex3f(-1.0f, 1.0f, -1.0f);		// TLB
+
+	glEnd();
+	// End drawing
+}
+
+void Scene::drawPlane(const float r, const float g, const float b) {
+	// Begin drawing
+	glBegin(GL_TRIANGLES);
+		// Setup colour
+		glColor3f(r, g, b);
+
+
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(-0.5f, 0.f, -0.5f);		// TL
+		
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(-0.5f, 0.f, 0.5f);		// BL
+
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(0.5f, 0.0f, 0.5f);		// BR
+
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(-0.5f, 0.f, -0.5f);		// TL
+		
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(0.5f, 0.0f, 0.5f);		// BR
+
+		glNormal3f(0.f, 1.f, 0.f);
+		glVertex3f(0.5f, 0.0f, -0.5f);		// TR
 
 	glEnd();
 	// End drawing
