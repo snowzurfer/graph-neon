@@ -18,9 +18,9 @@ public:
     Vec3& setY(float y);
     Vec3& setZ(float z);
 
-	float getX() const;
-	float getY() const;
-	float getZ() const;
+  float getX() const;
+  float getY() const;
+  float getZ() const;
  
     Vec3 add(const Vec3& v1, float scale=1.0) const;
     Vec3 subtract(const Vec3& v1, float scale=1.0) const;

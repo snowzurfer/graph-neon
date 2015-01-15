@@ -6,6 +6,7 @@
 #include <cmath>
 #include "input.h"
 #include "app_globals.h"
+#include <Windows.h>
 
 namespace winapp {
 
@@ -18,58 +19,64 @@ const float kCameraMovementSpeed = 5.f;
 class Camera
 {
 public:
-	// Ctor
-	Camera();
+  // Ctor
+  // screenRect is a reference to size of window from scene
+  Camera(HWND *hwnd, RECT *screenRect);
 
-	// Dtor
-	~Camera();
+  // Dtor
+  ~Camera();
 
-	// Handle input
-	void handleInput(Input *input);
+  // Handle input
+  void handleInput(Input *input);
 
-	// Update camera based on input
-	void update();
+  // Update camera based on input
+  void update();
 
-	// Re-calculate the vectors after a rotation has
-	// happened.
-	void updateVectors();
+  // Re-calculate the vectors after a rotation has
+  // happened.
+  void updateVectors();
 
-	// Getters and setters
-	const Vec3 &getPos() const { return position_; }
-	void setPos(const Vec3 &val) { position_ = val; }
-	const Vec3 &getRotation() const { return rotation_; }
-	void setRotation(const Vec3 &val) { rotation_ = val; }
-	const Vec3 &getForward() const { return forward_; }
-	void setForward(const Vec3 &val) { forward_ = val; }
-	const Vec3 getLookAt() const;
-	const Vec3 &getUp() const { return up_; }
-	void setUp(const Vec3 &val) { up_ = val; }
+  // Getters and setters
+  const Vec3 &getPos() const { return position_; }
+  void setPos(const Vec3 &val) { position_ = val; }
+  const Vec3 &getRotation() const { return rotation_; }
+  void setRotation(const Vec3 &val) { rotation_ = val; }
+  const Vec3 &getForward() const { return forward_; }
+  void setForward(const Vec3 &val) { forward_ = val; }
+  const Vec3 getLookAt() const;
+  const Vec3 &getUp() const { return up_; }
+  void setUp(const Vec3 &val) { up_ = val; }
 
 private:
-	// Position in world coordinates
-	Vec3 position_;
+  // Position in world coordinates
+  Vec3 position_;
 
-	// Rotation.
-	// x = pitch
-	// y = yaw
-	// z = roll
-	Vec3 rotation_;
+  // Rotation.
+  // x = pitch
+  // y = yaw
+  // z = roll
+  Vec3 rotation_;
 
-	// The direction the camera is pointed to
-	Vec3 forward_;
-	
-	// Define where up is with respect to the camera
-	Vec3 up_;
-	
-	// Define where right is with respect to the camera
-	Vec3 right_;
+  // The direction the camera is pointed to
+  Vec3 forward_;
+  
+  // Define where up is with respect to the camera
+  Vec3 up_;
+  
+  // Define where right is with respect to the camera
+  Vec3 right_;
 
-	// Define speed of the camera
-	float forwardSpeed_;
-	float lateralSpeed_;
+  // Define speed of the camera
+  float forwardSpeed_;
+  float lateralSpeed_;
 
-	// Update values of camera after rotation has been modified
-	void update_();
+  // Update values of camera after rotation has been modified
+  void update_();
+
+  // Size of the window; used to correctly set mouse position
+  RECT *screenRect_;
+  // Handle to the window
+  HWND *hwnd_;
 };
 // EO Class
 

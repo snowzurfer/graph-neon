@@ -25,41 +25,41 @@ const int kD = 0x44;
 class Input
 {
 public:
-	// Default constructor
-	Input();
+  // Default constructor
+  Input();
 
-	// Destructor
-	~Input();
+  // Destructor
+  ~Input();
 
-	// Keyboard related
-	void setKeyDown(WPARAM k);
-	void setKeyUp(WPARAM k);
-	bool isKeyDown(int k);
-	bool isKeyPressed(int k);
+  // Keyboard related
+  void setKeyDown(WPARAM k);
+  void setKeyUp(WPARAM k);
+  bool isKeyDown(int k);
+  bool isKeyPressed(int k);
 
-	// Mouse related
-	void setMouseX(int X);
-	void setMouseY(int Y);
-	int getMouseX();
-	int getMouseY();
-	void setLMouseBtn(WPARAM btn);
-	void setRMouseBtn(WPARAM btn);
+  // Mouse related
+  void setMouseX(int X);
+  void setMouseY(int Y);
+  int getMouseX();
+  int getMouseY();
+  void setLMouseBtn(WPARAM btn);
+  void setRMouseBtn(WPARAM btn);
 
 private:
-	// Array of pressed keys
-	bool keys_[KeysNum];
+  // Array of pressed keys
+  bool keys_[KeysNum];
 
-	// Array of just pressed keys
-	bool justPressedKeys_[KeysNum];
+  // Array of just pressed keys
+  bool justPressedKeys_[KeysNum];
 
-	// Define a structure to hold mouse data
-	struct Mouse 
-	{
-		int x, y;
-		bool left, right;
+  // Define a structure to hold mouse data
+  struct Mouse 
+  {
+    int x, y;
+    bool left, right;
 
-		Mouse(): x(0), y(0), left(false), right(false) {};
-	} _mouse; // Also define an instance of the mouse struct
+    Mouse(): x(0), y(0), left(false), right(false) {};
+  } _mouse; // Also define an instance of the mouse struct
 
 };
 
