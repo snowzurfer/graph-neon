@@ -17,6 +17,7 @@
 #include "light.h"
 #include "camera.h"
 #include "app_globals.h"
+#include <SOIL.h>
 
 
 namespace winapp {
@@ -63,6 +64,8 @@ protected:
 
   // Draw an unit cube at the centre of the screen
   void drawUnitCube();
+  // Draw a textured unit cube
+  void drawTexturedUnitCube();
 
   // Draw a plane composed of 2 triangles on the x-z plane
   void drawPlane(const float r, const float g, const float b);
@@ -81,6 +84,8 @@ protected:
   int s_wdith, s_height;
   float rot0_, rot1_, rot2_, speed_, cubeRot;
   Light light0;
+  GLuint texture_; // Texture
+
 
   // Camera
   Camera *camera_;
