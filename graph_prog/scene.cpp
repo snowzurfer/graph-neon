@@ -63,13 +63,17 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Load crate texture
   texture_ = SOIL_load_OGL_texture  (
-                      "crate.png",
+                      "media\\crate.png",
                       SOIL_LOAD_AUTO,
                       SOIL_CREATE_NEW_ID,
                       SOIL_FLAG_MIPMAPS | 
                       SOIL_FLAG_NTSC_SAFE_RGB | 
                       SOIL_FLAG_COMPRESS_TO_DXT
   );
+
+  if(texture_ == 0) {
+	  printf("ERROR LOADING");
+  }
 
 }
 
@@ -176,6 +180,30 @@ void Scene::render(float interp) {
 
     // Draw cube
     drawTexturedUnitCube();
+
+  glPopMatrix();
+  // Go back to previous matrix
+
+
+  // Save current matrix
+  glPushMatrix();   
+
+  glBindTexture(GL_TEXTURE_2D, texture_);	//tells opengl which texture to use
+	glBegin (GL_QUADS);	//Begin drawing state
+		glNormal3f(  0.0f,  0.0f, 1.0f);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex3f(-1.0f,  1.0f, 0.0f);		
+		glNormal3f( 0.0f,  0.0f, 1.0f);
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex3f( -1.0f, -1.0f, 0.0f);
+		glNormal3f( 0.0f,  0.0f, 1.0f);
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex3f( 1.0f, -1.0f, 0.0f);
+		glNormal3f( 0.0f, 0.0f, 1.0f);
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex3f( 1.0f, 1.0f, 0.0f);
+	glEnd();		//end drawing
+
 
   glPopMatrix();
   // Go back to previous matrix
