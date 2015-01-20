@@ -38,7 +38,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // OpenGL settings
   glShadeModel(GL_SMOOTH);              // Enable Smooth Shading
-  glClearColor(0.0f, 0.0f, 0.0f, 0.5f);        // Black Background
+  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);        // Black Background
   glClearDepth(1.0f);                  // Depth Buffer Setup
   glEnable(GL_DEPTH_TEST);              // Enables Depth Testing
   glDepthFunc(GL_LEQUAL);                // The Type Of Depth Testing To Do
@@ -56,14 +56,14 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Create a default camera
   camera_ = new Camera(hwnd_, &screenRect_);
-  camera_->setPos(Vec3(4.f, 0.f, 12.f));
+  camera_->setPos(Vec3(0.f, 0.f, 12.f));
   camera_->setUp(Vec3(0.f, 1.f, 0.f));
   camera_->setForward(Vec3(0.f, 0.f, -1.f));
   camera_->updateVectors();
 
   // Load crate texture
   texture_ = SOIL_load_OGL_texture  (
-                      "media\\crate.png",
+                      "media/crate.png",
                       SOIL_LOAD_AUTO,
                       SOIL_CREATE_NEW_ID,
                       SOIL_FLAG_MIPMAPS | 
@@ -129,6 +129,7 @@ void Scene::procInput() {
 }
 
 void Scene::render(float interp) {
+
   // Clear the screen and depth buffer to render a new frame
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // ... And load the identity to clear the matrix
@@ -180,30 +181,6 @@ void Scene::render(float interp) {
 
     // Draw cube
     drawTexturedUnitCube();
-
-  glPopMatrix();
-  // Go back to previous matrix
-
-
-  // Save current matrix
-  glPushMatrix();   
-
-  glBindTexture(GL_TEXTURE_2D, texture_);	//tells opengl which texture to use
-	glBegin (GL_QUADS);	//Begin drawing state
-		glNormal3f(  0.0f,  0.0f, 1.0f);
-		glTexCoord2f(0.0f, 0.0f);
-		glVertex3f(-1.0f,  1.0f, 0.0f);		
-		glNormal3f( 0.0f,  0.0f, 1.0f);
-		glTexCoord2f(0.0f, 1.0f);
-		glVertex3f( -1.0f, -1.0f, 0.0f);
-		glNormal3f( 0.0f,  0.0f, 1.0f);
-		glTexCoord2f(1.0f, 1.0f);
-		glVertex3f( 1.0f, -1.0f, 0.0f);
-		glNormal3f( 0.0f, 0.0f, 1.0f);
-		glTexCoord2f(1.0f, 0.0f);
-		glVertex3f( 1.0f, 1.0f, 0.0f);
-	glEnd();		//end drawing
-
 
   glPopMatrix();
   // Go back to previous matrix
@@ -327,9 +304,7 @@ void Scene::drawUnitCube() {
   glBegin (GL_TRIANGLES);
 
     // FRONT FACE
-    glNormal3f(0.f, 0.f, 1.f);
-    glColor3f(1.0f, 0.0f, 0.0f);    // Red
-    glVertex3f(-1.0f, 1.0f, 1.0f);     // TLF
+    glNormal3f(0.f, 0.f, 1.f); glColor3f(1.0f, 0.0f, 0.0f); glVertex3f(-1.0f, 1.0f, 1.0f);     // TLF
     
     glNormal3f(0.f, 0.f, 1.f);
     //glColor3f(0.0f, 1.0f, 0.0f);
@@ -481,6 +456,8 @@ void Scene::drawUnitCube() {
     //glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
 
+	glColor3f(1.f, 1.f, 1.f);
+
   glEnd();
   // End drawing
 }
@@ -503,19 +480,22 @@ void Scene::drawTexturedUnitCube() {
     glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
 
     glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(1.f, 0.f);
+    glTexCoord2f(1.f, 1.f);
     //glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
 
     glNormal3f(0.f, 0.f, 1.f);
+	  glTexCoord2f(1.f, 1.f);
     //glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
     
     glNormal3f(0.f, 0.f, 1.f);
+	  glTexCoord2f(1.f, 0.f);
     //glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
 
     glNormal3f(0.f, 0.f, 1.f);
+	  glTexCoord2f(0.f, 0.f);
     //glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(-1.0f, 1.0f, 1.0f);    // TLF
 

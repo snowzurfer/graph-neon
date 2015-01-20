@@ -7,6 +7,8 @@
 #include "input.h"
 #include "app_globals.h"
 #include <Windows.h>
+#include <iostream>
+#include <cstdio>
 
 namespace winapp {
 

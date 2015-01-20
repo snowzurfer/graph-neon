@@ -60,11 +60,11 @@ void Camera::handleInput(Input *input) {
   int mouseYDisp = - (input->getMouseY() - winCentre.y);
 
   // If the mouse has moved
-  if(mouseXDisp != 0 && mouseYDisp != 0) {
-    Vec3 disp(mouseYDisp, mouseXDisp, 0);
-
-    // Set PITCH and YAW
-    rotation_ += (disp.scale(0.00001f));
+  if(mouseXDisp != 0 || mouseYDisp != 0) {
+    // Yaw
+    rotation_.setY(rotation_.getY() + (mouseXDisp * kSecondsPerUpdate) * 0.001f);
+    // Pitch
+    rotation_.setX(rotation_.getX() + (mouseYDisp * kSecondsPerUpdate) * 0.001f);
 
     // Set mouse position back
     ClientToScreen(*hwnd_, &winCentre);

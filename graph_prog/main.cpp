@@ -114,7 +114,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
       // Render scene
       scene.render(interp);
     }
-    }
+  }
 
   return msg.wParam ;                    
 }
@@ -167,10 +167,6 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_SIZE:
       
       break;  
-    
-
-    case WM_PAINT:
-        break;    
 
     case WM_DESTROY:  
       PostQuitMessage(0);  
