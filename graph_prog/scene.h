@@ -84,7 +84,8 @@ protected:
   int s_wdith, s_height;
   float rot0_, rot1_, rot2_, speed_, cubeRot;
   Light light0;
-  GLuint texture_; // Texture
+  GLuint texture_; // Texture 
+  Vec3 txPos_, txRot_, txScl_; // Texture position, rotation, scaling
 
 
   // Camera

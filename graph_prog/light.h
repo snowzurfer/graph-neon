@@ -11,7 +11,7 @@ namespace winapp {
 const GLfloat WhiteLight[] = {1.f, 1.f, 1.f, 1.f};
 const GLfloat BlackLight[] = {0.f, 0.f, 0.f, 0.f};
 const GLfloat BaseAmbientLight[] = {0.2f, 0.2f, 0.2f, 1.f};
-const GLfloat BaseSpecLight[] = {0.7f, 0.7f, 0.7, 1.f};
+const GLfloat BaseSpecLight[] = {0.7f, 0.7f, 0.7f, 1.f};
 const GLfloat BasePos[] = {1.f, 1.f, 1.f, 0.f};
 
 // Define a struct to hold colours for usage in the light class

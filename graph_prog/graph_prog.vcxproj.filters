@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Maths">
       <UniqueIdentifier>{b03ec535-56de-47f6-a895-4f9a84ef9161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{857c05d6-9d85-4e2c-8d96-e1384e106eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{c6ce0beb-090a-4e1d-8197-edb0bd82690a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -45,6 +51,9 @@
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="timer\Timer.cpp">
+      <Filter>Source Files\Timer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -70,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="app_globals.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timer\Timer.h">
+      <Filter>Header Files\Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -62,9 +62,9 @@ void Camera::handleInput(Input *input) {
   // If the mouse has moved
   if(mouseXDisp != 0 || mouseYDisp != 0) {
     // Yaw
-    rotation_.setY(rotation_.getY() + (mouseXDisp * kSecondsPerUpdate) * 0.001f);
+    rotation_.setY(rotation_.getY() + (mouseXDisp * kSecPerUpdate) * 0.001f);
     // Pitch
-    rotation_.setX(rotation_.getX() + (mouseYDisp * kSecondsPerUpdate) * 0.001f);
+    rotation_.setX(rotation_.getX() + (mouseYDisp * kSecPerUpdate) * 0.001f);
 
     // Set mouse position back
     ClientToScreen(*hwnd_, &winCentre);
@@ -83,7 +83,7 @@ void Camera::update() {
   Vec3 lateralVelocity(right_.scale(lateralSpeed_));
 
   // Integrate velocity into position
-  position_ += ((frontalVelocity + lateralVelocity).scale(kSecondsPerUpdate));
+  position_ += ((frontalVelocity + lateralVelocity).scale(kSecPerUpdate));
 }
 
 void Camera::updateVectors() {

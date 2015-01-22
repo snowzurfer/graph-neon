@@ -12,7 +12,7 @@
 
 namespace winapp {
 
-const float kPi = 3.1415;
+const float kPi = 3.1415f;
 const float kPiOver180 = kPi / 180.f;
 const float k180OverPi = 180.f / kPi;
 const float kCameraMovementSpeed = 5.f;

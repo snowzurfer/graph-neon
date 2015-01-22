@@ -53,6 +53,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   rot1_ = 0;
   rot2_ = 20;
   speed_ = 0.05* (1000 / 40);
+  txPos_.set(0.3f, 0.f, 0.f);
+  txRot_.set(0.f, 0.f, 0.f);
+  txScl_.set(1.f, 1.f, 1.f);
 
   // Create a default camera
   camera_ = new Camera(hwnd_, &screenRect_);
@@ -93,8 +96,8 @@ void Scene::resize() {
 
 void Scene::update() {
   rot0_ += speed_;
-  rot1_ += (speed_ * 2);
-  rot2_ += (speed_ * 0.8);
+  rot1_ += (speed_ * 2.f);
+  rot2_ += (speed_ * 0.8f);
   cubeRot += speed_;
   if(cubeRot > 360.f) {
     cubeRot = 0.f;
@@ -465,6 +468,26 @@ void Scene::drawUnitCube() {
 void Scene::drawTexturedUnitCube() {
   // Bind texture to the geometry
   glBindTexture(GL_TEXTURE_2D, texture_);
+
+  // Set ST parameters
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
+
+  // Modify the texture
+  glMatrixMode(GL_TEXTURE);
+
+    glPushMatrix();
+
+    glTranslatef(txPos_.getX(), txPos_.getY(), txPos_.getZ()); 
+    glRotatef(txRot_.getX(), 1.f, 0.f, 0.f);
+    glRotatef(txRot_.getY(), 0.f, 1.f, 0.f);
+    glRotatef(txRot_.getZ(), 0.f, 0.f, 1.f);
+    glScalef(txScl_.getX(), txScl_.getY(), txScl_.getZ()); 
+
+  // Draw the shape and map texture
+  glMatrixMode(GL_MODELVIEW);
+
   // Being the drawing state
   glBegin (GL_TRIANGLES);
 
@@ -475,22 +498,22 @@ void Scene::drawTexturedUnitCube() {
     glVertex3f(-1.0f, 1.0f, 1.0f);     // TLF
     
     glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(0.f, 1.f);
+    glTexCoord2f(0.f, 3.f);
     //glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
 
     glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(1.f, 1.f);
+    glTexCoord2f(3.f, 3.f);
     //glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
 
     glNormal3f(0.f, 0.f, 1.f);
-	  glTexCoord2f(1.f, 1.f);
+	  glTexCoord2f(3.f, 3.f);
     //glColor3f(1.0f, 0.0f, 0.0f);
     glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
     
     glNormal3f(0.f, 0.f, 1.f);
-	  glTexCoord2f(1.f, 0.f);
+	  glTexCoord2f(3.f, 0.f);
     //glColor3f(0.0f, 1.0f, 0.0f);
     glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
 
@@ -631,6 +654,13 @@ void Scene::drawTexturedUnitCube() {
 
   glEnd();
   // End drawing
+
+  // Modify the texture
+  glMatrixMode(GL_TEXTURE);
+    glPopMatrix();
+
+  glMatrixMode(GL_MODELVIEW);
+
 }
 
 void Scene::drawPlane(const float r, const float g, const float b) {

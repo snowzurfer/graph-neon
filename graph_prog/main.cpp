@@ -10,6 +10,7 @@
 #include "scene.h"
 #include "timerclass.h"
 #include "app_globals.h"
+#include "timer/Timer.h"
 
 
 // Handle to window
@@ -41,7 +42,7 @@ TimerClass timer;
 // Entry point. The program start here
 int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine, int nCmdShow) {
   // Create a message handler
-    MSG         msg;  
+  MSG         msg;  
 
   // Define the behaviour and characteristics of the window to be created
   RegisterMyWindow(hInstance);
@@ -60,23 +61,50 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
   // Control wether the game is running
   bool gameIsRunning = true;
 
-  // Control game speed 
-  DWORD next_game_tick = GetTickCount();
-    int loops;
-    float interp;
+  // Time to passed in a given frame
+	float elapsedTime_ = 0.f;
+  // Time to simulate in order to catch up
+  float lag_ = 0.f;
+  // Current time for a given frame
+  float currentTime_ = 0.f;
+  // Time measured the previous frame
+  float previousTime_ = 0.f;
+  // Number of loops performed by the simluation loop
+  int simulationLoops_ = 0;
+  // Used to interpolate between frames
+  float interp_ = 0.f;
+  // Precise timer
+  Timer gameTimer_;
+
+  // Start the timer
+  gameTimer_.start();
+  // Initialise previous time variables
+  previousTime_ = gameTimer_.getElapsedTimeInSec();
 
   // Main loop
-  while (gameIsRunning) {              
+  while (gameIsRunning) {
+    // Update timing variables
+    currentTime_ = (float)gameTimer_.getElapsedTimeInSec();
+    elapsedTime_ = currentTime_ - previousTime_;
+    previousTime_ = currentTime_;
+
+    // Update the lag
+    lag_ += elapsedTime_;
+
+    // Restart loops counting
+    simulationLoops_ = 0;
+
+
     // Fetch messages from the Win32 queue
     if (PeekMessage(&msg,NULL,0,0,PM_REMOVE)) {
       // If the cmd is to quit
-        if (msg.message == WM_QUIT) {
+      if (msg.message == WM_QUIT) {
         // Exit the main loop
         break;
       }
 
       // Translate it into character message
-        TranslateMessage (&msg);        
+      TranslateMessage (&msg);        
       // Dispatch the message to the relative window
       DispatchMessage (&msg);
     }
@@ -93,26 +121,23 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
       // Process input first in the game loop
       scene.procInput();
 
-      loops = 0;
-
-      // Current game milliseconds
-      DWORD curr_game_tick = GetTickCount();
-
-      while(curr_game_tick > next_game_tick && loops < MAX_FRAMESKIP) {
+      // Update game objects
+	    while(lag_ >= kSecPerUpdate) {
+		    // Update scene
         scene.update();
 
-        next_game_tick += SKIP_TICKS;
-        ++loops;
+		    // Reduce lag (amount of time to simulate)
+		    lag_ -= kSecPerUpdate;
 
-        curr_game_tick = GetTickCount();
-      }
+        // Increment loops counter
+        ++ simulationLoops_;
+	    }
 
       // Interpolate between update frames
-      interp = float(GetTickCount() + SKIP_TICKS - next_game_tick )
-                        / float( SKIP_TICKS );
+      interp_ = lag_ * kInvSecPerUpdate;
 
       // Render scene
-      scene.render(interp);
+      scene.render(interp_);
     }
   }
 

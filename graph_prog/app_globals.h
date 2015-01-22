@@ -1,11 +1,10 @@
 #ifndef _APP_GLOBALS_S
 #define _APP_GLOBALS_S
 
-
-const int TICKS_PER_SECOND = 60;
-const float kSecondsPerUpdate = 1.f / (float)TICKS_PER_SECOND; 
-const float SKIP_TICKS = 1000.f / (float)TICKS_PER_SECOND;
-const int MAX_FRAMESKIP = 5;
-
+// Declare the constant milliseconds per update
+const int   kUpdatesPerSecond = 30;
+const float kSecPerUpdate = 1.f / (float)kUpdatesPerSecond;
+const float kInvSecPerUpdate = 1 / kSecPerUpdate;
+const float kMSecPerUpdate = kSecPerUpdate * 1000.f;
 
 #endif
