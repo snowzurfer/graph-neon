@@ -13,7 +13,8 @@ Camera::Camera(HWND *hwnd, RECT *screenRect) :
   forwardSpeed_(0.f),
   lateralSpeed_(0.f),
   screenRect_(screenRect),
-  hwnd_(hwnd)
+  hwnd_(hwnd),
+  verticalSpeed_(0.f)
   {
 }
 
@@ -50,6 +51,20 @@ void Camera::handleInput(Input *input) {
     lateralSpeed_ = 0.f;
   }
 
+  // Depending on key pressed
+  if(input->isKeyDown(kX)) {
+    // Move down
+    verticalSpeed_ = -kCameraMovementSpeed;
+  }
+  else if(input->isKeyDown(kZ)) {
+    // Move up
+    verticalSpeed_ = +kCameraMovementSpeed;
+  }
+  else {
+    // Stop vertical movement
+    verticalSpeed_ = 0.f;
+  }
+
   // Calculate centre of window
   POINT winCentre;
   winCentre.x = (screenRect_->right - screenRect_->left) / 2;
@@ -81,9 +96,11 @@ void Camera::update() {
   Vec3 frontalVelocity(forward_.scale(forwardSpeed_));
   // Calculate the velocity for lateral movement
   Vec3 lateralVelocity(right_.scale(lateralSpeed_));
+  // Calculate the velocity for vertical movement
+  Vec3 verticalVelocity(up_.scale(verticalSpeed_));
 
   // Integrate velocity into position
-  position_ += ((frontalVelocity + lateralVelocity).scale(kSecPerUpdate));
+  position_ += ((frontalVelocity + lateralVelocity + verticalVelocity).scale(kSecPerUpdate));
 }
 
 void Camera::updateVectors() {

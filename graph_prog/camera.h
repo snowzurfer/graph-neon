@@ -71,6 +71,7 @@ private:
   // Define speed of the camera
   float forwardSpeed_;
   float lateralSpeed_;
+  float verticalSpeed_;
 
   // Update values of camera after rotation has been modified
   void update_();

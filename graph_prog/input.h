@@ -20,6 +20,8 @@ const int kW = 0x57;
 const int kA = 0x41;
 const int kS = 0x53;
 const int kD = 0x44;
+const int kZ = 0x5A;
+const int kX = 0x58;
 
 
 class Input
