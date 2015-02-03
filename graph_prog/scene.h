@@ -18,6 +18,7 @@
 #include "camera.h"
 #include "app_globals.h"
 #include <SOIL.h>
+#include "cube_shape.h"
 
 
 namespace winapp {
@@ -93,11 +94,12 @@ protected:
   // Unit cube disp list
   GLuint unitCubeDList_;
 
-	
+	// Unit cube shape
+  CubeShape cubeShape_;
+
   // Camera
   Camera *camera_;
   
-
 
   // For moving object
   unsigned int xpos, ypos;

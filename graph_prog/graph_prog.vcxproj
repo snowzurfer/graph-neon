@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cube_shape.cpp" />
     <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />

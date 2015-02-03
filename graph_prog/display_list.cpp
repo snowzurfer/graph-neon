@@ -12,8 +12,9 @@ namespace winapp {
   }
   
   // Generate diplay lists
-  GLuint DisplayListGen::generateDispList(FunctionName *myFunc) {
-
+  GLuint DisplayListGen::generateDispList() {
+    // TODO return 0;
+    return 0;
   }
 
   // Create unit cube
@@ -24,7 +25,7 @@ namespace winapp {
     // Compile the new list
     glNewList(dispListNum, GL_COMPILE);
 
-      drawUnitCube();
+      
 
     glEndList();
     // End compilation of list

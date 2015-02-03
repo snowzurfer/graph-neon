@@ -182,11 +182,14 @@ void Scene::render(float interp) {
     // Rotate cube
     glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
-	// GREEN
-	glColor3f(0.0f, 1.0f, 0.0f);
+	  // GREEN
+	  glColor3f(0.0f, 1.0f, 0.0f);
+
+    // Bind texture to the geometry
+    glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
 
     // Draw cube
-    drawUnitCube();
+    cubeShape_.drawShape();
 
   glPopMatrix();
   // Go back to previous matrix
@@ -199,8 +202,8 @@ void Scene::render(float interp) {
     // Rotate cube
     glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
-	// Set colour to transparent
-	glColor4f(0.f, 0.f, 1.f, 0.25f);
+	  // Set colour to transparent
+	  glColor4f(0.f, 0.f, 1.f, 0.25f);
 	  // Activate blending
 	  glEnable(GL_BLEND);
 
@@ -774,6 +777,8 @@ GLuint Scene::createCubeInDList() {
 
   glEndList();
   // End compilation of list
+
+  return dispListNum;
 }
 
 }

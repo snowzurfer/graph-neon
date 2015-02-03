@@ -6,5 +6,8 @@ const int   kUpdatesPerSecond = 120;
 const float kSecPerUpdate = 1.f / (float)kUpdatesPerSecond;
 const float kInvSecPerUpdate = 1 / kSecPerUpdate;
 const float kMSecPerUpdate = kSecPerUpdate * 1000.f;
+const float kPi = 3.1415f;
+const float kPiOver180 = kPi / 180.f;
+const float k180OverPi = 180.f / kPi;
 
 #endif
