@@ -25,6 +25,18 @@
     <Filter Include="Source Files\Timer">
       <UniqueIdentifier>{c6ce0beb-090a-4e1d-8197-edb0bd82690a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DispList">
+      <UniqueIdentifier>{459b429c-7bdf-4c08-a215-a60e32f28fb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DispList">
+      <UniqueIdentifier>{07eec849-ad3e-4aea-977d-801c3d42c802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shapes">
+      <UniqueIdentifier>{8e154edb-e533-4ccd-87ef-6624cf1e0373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shapes">
+      <UniqueIdentifier>{d1d41625-ca9c-4dd3-bfea-d0741226e6fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -54,6 +66,12 @@
     <ClCompile Include="timer\Timer.cpp">
       <Filter>Source Files\Timer</Filter>
     </ClCompile>
+    <ClCompile Include="display_list.cpp">
+      <Filter>Source Files\DispList</Filter>
+    </ClCompile>
+    <ClCompile Include="plane_shape.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -82,6 +100,18 @@
     </ClInclude>
     <ClInclude Include="timer\Timer.h">
       <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="display_list.h">
+      <Filter>Header Files\DispList</Filter>
+    </ClInclude>
+    <ClInclude Include="base_shape.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="cube_shape.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="plane_shape.h">
+      <Filter>Header Files\Shapes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

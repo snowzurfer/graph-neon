@@ -66,6 +66,8 @@ protected:
   void drawUnitCube();
   // Draw a textured unit cube
   void drawTexturedUnitCube(GLuint texture);
+  // Generate a unit cube in a display list
+  GLuint createCubeInDList();
 
   // Draw a plane composed of 2 triangles on the x-z plane
   void drawPlane(const float r, const float g, const float b);
@@ -88,7 +90,10 @@ protected:
   GLuint crateTransparentTex_;
   Vec3 txPos_, txRot_, txScl_; // Texture position, rotation, scaling
 
+  // Unit cube disp list
+  GLuint unitCubeDList_;
 
+	
   // Camera
   Camera *camera_;
   

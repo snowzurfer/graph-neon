@@ -78,9 +78,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="plane_shape.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="timerclass.cpp" />
     <ClCompile Include="timer\Timer.cpp" />
@@ -89,9 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
+    <ClInclude Include="base_shape.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cube_shape.h" />
+    <ClInclude Include="display_list.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
+    <ClInclude Include="plane_shape.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="timer\Timer.h" />

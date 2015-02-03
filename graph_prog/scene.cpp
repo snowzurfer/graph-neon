@@ -43,7 +43,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glEnable(GL_DEPTH_TEST);										// Enables Depth Testing
   glDepthFunc(GL_LEQUAL);										// The Type Of Depth Testing To Do
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			// Really Nice Perspective Calculations
-  glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
+  //glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
   glEnable(GL_LIGHTING);										// Enable lighting
   glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);	// Specify texturing mode
@@ -94,6 +94,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   if(crateTransparentTex_ == 0) {
 	  printf("ERROR LOADING");
   }
+
+
+  // Create the unit cube display list
+  unitCubeDList_ = createCubeInDList();
 
 }
 
@@ -153,7 +157,7 @@ void Scene::render(float interp) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   // ... And load the identity to clear the matrix
   glLoadIdentity();
-
+  
   {
     // Get vectors for gluLookAt from camera
     Vec3 camPos = camera_->getPos();
@@ -166,11 +170,6 @@ void Scene::render(float interp) {
           up.getX(),   up.getY(),    up.getZ()); 
 
   }
-
-  // Define a directional light
-  /*GLfloat light0Ambient_[] = {0.3f, 0.3f, 0.3f, 1.0f};
-  GLfloat light0Diffuse_[] =   {1.0f, 1.0f, 1.0f, 1.0f};
-  GLfloat light0Position_[]=   {-1.0f, 0.8f, 0.0f, 0.0f};*/
 
   // Define a point light
   light0.setPosition(-3.0f, 1.f, 5.0f, 1.0f);
@@ -202,14 +201,14 @@ void Scene::render(float interp) {
 
 	// Set colour to transparent
 	glColor4f(0.f, 0.f, 1.f, 0.25f);
-	// Activate blending
-	glEnable(GL_BLEND);
+	  // Activate blending
+	  glEnable(GL_BLEND);
 
-    // Draw cube
-    drawUnitCube();
+    // Draw cube using display list
+    glCallList(unitCubeDList_);
 
-	// Deactivate blending
-	glDisable(GL_BLEND);
+	  // Deactivate blending
+	  glDisable(GL_BLEND);
 
   glPopMatrix();
   // Go back to previous matrix
@@ -223,14 +222,14 @@ void Scene::render(float interp) {
     // Rotate cube
     glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
-	// Activate blending
-	glEnable(GL_BLEND);
+	  // Activate blending
+	  glEnable(GL_BLEND);
 
-    // Draw cube
-	drawTexturedUnitCube(crateTransparentTex_);
+      // Draw cube
+	    drawTexturedUnitCube(crateTransparentTex_);
 
-	// Deactivate blending
-	glDisable(GL_BLEND);
+	  // Deactivate blending
+	  glDisable(GL_BLEND);
 
   glPopMatrix();
   // Go back to previous matrix
@@ -506,8 +505,6 @@ void Scene::drawUnitCube() {
     //glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
 
-	glColor3f(1.f, 1.f, 1.f);
-
   glEnd();
   // End drawing
 }
@@ -763,6 +760,20 @@ void Scene::drawPlane(const float r, const float g, const float b) {
 
   glEnd();
   // End drawing
+}
+
+GLuint Scene::createCubeInDList() {
+
+  // Create the display list
+  GLuint dispListNum = glGenLists(1);
+
+  // Compile the new list
+  glNewList(dispListNum, GL_COMPILE);
+
+    drawUnitCube();
+
+  glEndList();
+  // End compilation of list
 }
 
 }
