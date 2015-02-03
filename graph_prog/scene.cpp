@@ -172,7 +172,8 @@ void Scene::render(float interp) {
   }
 
   // Define a point light
-  light0.setPosition(-3.0f, 1.f, 5.0f, 1.0f);
+  light0.setPosition(-3.0f, 1.f, 1.0f, 1.0f);
+  light0.setAmbient(1.f, 1.f, 1.f, 1.f);
 
   // Apply light modifications
   light0.apply();
@@ -180,19 +181,26 @@ void Scene::render(float interp) {
   // Save current matrix
   glPushMatrix();
     // Rotate cube
-    glRotatef(cubeRot, 0.f, 1.f, 0.f);
+    //glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
 	  // GREEN
 	  glColor3f(0.0f, 1.0f, 0.0f);
 
+    // Scale
+    glScalef(20.f, 20.f, 20.f);
+
     // Bind texture to the geometry
     glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
+
+    glCullFace(GL_FRONT);											// Set it for the front faces
 
     // Draw cube
     cubeShape_.drawShape();
 
   glPopMatrix();
   // Go back to previous matrix
+
+  glCullFace(GL_BACK);											// Set it for the back faces
 
   // Save current matrix
   glPushMatrix();
