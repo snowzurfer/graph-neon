@@ -79,7 +79,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
   // Start the timer
   gameTimer_.start();
   // Initialise previous time variables
-  previousTime_ = gameTimer_.getElapsedTimeInSec();
+  previousTime_ = (float)gameTimer_.getElapsedTimeInSec();
 
   // Main loop
   while (gameIsRunning) {

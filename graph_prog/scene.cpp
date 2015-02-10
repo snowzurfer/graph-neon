@@ -46,7 +46,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glEnable(GL_DEPTH_TEST);										// Enables Depth Testing
   glDepthFunc(GL_LEQUAL);										// The Type Of Depth Testing To Do
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			// Really Nice Perspective Calculations
-  glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
+  //glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
   glEnable(GL_LIGHTING);										// Enable lighting
   glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);	// Specify texturing mode
@@ -363,7 +363,7 @@ void Scene::resizeGLWindow(int w, int h) {
   glLoadIdentity();
 
   // Calculate aspect ratio and set the frustum for clipping
-  gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 0.1, 150.0);
+  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.4, 150.0);
   //glFrustum(screenRect_.left, screenRect_.right, screenRect_.bottom, screenRect_.top, 1.0f, 150.0f);
   //glFrustum(-2, 2, -2, 2, 1, 100);
 

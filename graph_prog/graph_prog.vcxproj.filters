@@ -49,6 +49,12 @@
     <Filter Include="Source Files\Materials">
       <UniqueIdentifier>{deb700b4-2486-4346-a7c2-9b6237385191}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Light">
+      <UniqueIdentifier>{0628c2e1-e533-4165-bad2-6454ff902b22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Light">
+      <UniqueIdentifier>{83017f05-739a-4fda-a641-591cfaa14b4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -64,9 +70,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Vector3\Vec3.cpp">
@@ -90,6 +93,9 @@
     <ClCompile Include="skybox.cpp">
       <Filter>Source Files\Skybox</Filter>
     </ClCompile>
+    <ClCompile Include="light.cpp">
+      <Filter>Source Files\Light</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -99,9 +105,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="timerclass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="skybox.h">
       <Filter>Header Files\Skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="light.h">
+      <Filter>Header Files\Light</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
