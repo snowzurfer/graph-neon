@@ -37,6 +37,18 @@
     <Filter Include="Source Files\Shapes">
       <UniqueIdentifier>{d1d41625-ca9c-4dd3-bfea-d0741226e6fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Skybox">
+      <UniqueIdentifier>{324089bf-bafb-4079-bf4a-50f5d990a896}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Skybox">
+      <UniqueIdentifier>{0c879a00-8c95-4b0e-b312-63fef076d751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Materials">
+      <UniqueIdentifier>{b7be1006-2769-480c-ac57-67bb9fc6593c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials">
+      <UniqueIdentifier>{deb700b4-2486-4346-a7c2-9b6237385191}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -74,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="cube_shape.cpp">
       <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
+      <Filter>Source Files\Skybox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +130,9 @@
     </ClInclude>
     <ClInclude Include="plane_shape.h">
       <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Header Files\Skybox</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

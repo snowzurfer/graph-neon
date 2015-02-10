@@ -19,6 +19,7 @@
 #include "app_globals.h"
 #include <SOIL.h>
 #include "cube_shape.h"
+#include "skybox.h"
 
 
 namespace winapp {
@@ -96,6 +97,9 @@ protected:
 
 	// Unit cube shape
   CubeShape cubeShape_;
+
+  // Skybox
+  Skybox *skyBox_;
 
   // Camera
   Camera *camera_;

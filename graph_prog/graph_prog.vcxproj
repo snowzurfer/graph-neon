@@ -39,6 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;</IncludePath>
+    <SourcePath>$(ProjDir);$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src;</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -85,6 +87,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="plane_shape.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="skybox.cpp" />
     <ClCompile Include="timerclass.cpp" />
     <ClCompile Include="timer\Timer.cpp" />
     <ClCompile Include="Vector3\Vec3.cpp" />
@@ -100,6 +103,7 @@
     <ClInclude Include="light.h" />
     <ClInclude Include="plane_shape.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="skybox.h" />
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="timer\Timer.h" />
     <ClInclude Include="Vector3\Vec3.h" />

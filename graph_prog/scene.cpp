@@ -15,6 +15,7 @@ Scene::Scene() :
   rot2_(0.f),
   speed_(0.f),
   light0(GL_LIGHT0),
+  skyBox_(NULL),
   camera_(NULL)
   {
   
@@ -24,6 +25,8 @@ Scene::~Scene() {
   // Free memory
   delete camera_;
   camera_ = NULL;
+
+
 }
 
 void Scene::initialise(HWND *lwnd, Input* in) {
@@ -38,12 +41,12 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // OpenGL settings
   glShadeModel(GL_SMOOTH);										// Enable Smooth Shading
-  glClearColor(0.5f, 0.5f, 0.5f, 0.5f);							// Black Background
+  glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);							// Black Background
   glClearDepth(1.0f);											// Depth Buffer Setup
   glEnable(GL_DEPTH_TEST);										// Enables Depth Testing
   glDepthFunc(GL_LEQUAL);										// The Type Of Depth Testing To Do
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			// Really Nice Perspective Calculations
-  //glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
+  glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
   glEnable(GL_LIGHTING);										// Enable lighting
   glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);	// Specify texturing mode
@@ -96,8 +99,31 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   }
 
 
+  // Load skybox texture
+  GLuint skyboxTexture = 0;
+  skyboxTexture = SOIL_load_OGL_texture  (
+                      "media/skybox_img.png",
+                      SOIL_LOAD_AUTO,
+                      SOIL_CREATE_NEW_ID,
+                      SOIL_FLAG_MIPMAPS | 
+                      SOIL_FLAG_NTSC_SAFE_RGB | 
+                      SOIL_FLAG_COMPRESS_TO_DXT
+  );
+
+  // If the texture has been loaded
+  if(skyboxTexture != 0) {
+	  printf("SKYBOX TEXTURE LOADED");
+    // Create the skybox
+    skyBox_ = new Skybox(skyboxTexture);
+  }
+
+  
+
   // Create the unit cube display list
   unitCubeDList_ = createCubeInDList();
+
+  
+
 
 }
 
@@ -179,20 +205,26 @@ void Scene::render(float interp) {
   light0.apply();
 
   // Save current matrix
+  glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
-    // Rotate cube
-    //glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
-	  // GREEN
-	  glColor3f(0.0f, 1.0f, 0.0f);
+    // Translate to cam position
+    Vec3 camPos = camera_->getPos();
+    glTranslatef(camPos.getX(), camPos.getY(), camPos.getZ());
 
+    // Render the skybox
+    skyBox_->draw();
+
+  glPopMatrix();
+
+  // Save current matrix
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
     // Scale
     glScalef(20.f, 20.f, 20.f);
 
     // Bind texture to the geometry
     glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
-
-    glCullFace(GL_FRONT);											// Set it for the front faces
 
     // Draw cube
     cubeShape_.drawShape();
@@ -200,9 +232,9 @@ void Scene::render(float interp) {
   glPopMatrix();
   // Go back to previous matrix
 
-  glCullFace(GL_BACK);											// Set it for the back faces
 
   // Save current matrix
+  glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
 	// Translate cube
 	glTranslatef(0.f, 0.f, 4.f);
@@ -225,6 +257,7 @@ void Scene::render(float interp) {
   // Go back to previous matrix
 
   // Save current matrix
+  glMatrixMode(GL_MODELVIEW);
   glPushMatrix();   
 
     // Translate cube
@@ -330,7 +363,7 @@ void Scene::resizeGLWindow(int w, int h) {
   glLoadIdentity();
 
   // Calculate aspect ratio and set the frustum for clipping
-  gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 1, 150.0);
+  gluPerspective(45.0f, (GLfloat)w/(GLfloat)h, 0.1, 150.0);
   //glFrustum(screenRect_.left, screenRect_.right, screenRect_.bottom, screenRect_.top, 1.0f, 150.0f);
   //glFrustum(-2, 2, -2, 2, 1, 100);
 
