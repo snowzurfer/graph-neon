@@ -49,10 +49,16 @@
     <Filter Include="Source Files\Materials">
       <UniqueIdentifier>{deb700b4-2486-4346-a7c2-9b6237385191}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Light">
+    <Filter Include="Header Files\Materials\Colour">
+      <UniqueIdentifier>{20d15076-cfc2-4735-b3b9-947dd44ea619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials\Colour">
+      <UniqueIdentifier>{d6942625-1923-42c5-b8bb-969e1e8d0847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Materials\Light">
       <UniqueIdentifier>{0628c2e1-e533-4165-bad2-6454ff902b22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Light">
+    <Filter Include="Source Files\Materials\Light">
       <UniqueIdentifier>{83017f05-739a-4fda-a641-591cfaa14b4e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -94,7 +100,10 @@
       <Filter>Source Files\Skybox</Filter>
     </ClCompile>
     <ClCompile Include="light.cpp">
-      <Filter>Source Files\Light</Filter>
+      <Filter>Source Files\Materials\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="colour.cpp">
+      <Filter>Source Files\Materials\Colour</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,7 +147,10 @@
       <Filter>Header Files\Skybox</Filter>
     </ClInclude>
     <ClInclude Include="light.h">
-      <Filter>Header Files\Light</Filter>
+      <Filter>Header Files\Materials\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="colour.h">
+      <Filter>Header Files\Materials\Colour</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

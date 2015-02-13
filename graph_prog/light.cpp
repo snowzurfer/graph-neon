@@ -6,10 +6,10 @@ namespace winapp {
 
 Light::Light(const int lightNum) :
   lightNum_(lightNum),
-  ambient_(BaseAmbientLight),
-  diffuse_(WhiteLight),
+  ambient_(kWhiteColourNoAlpha),
+  diffuse_(kWhiteColourNoAlpha),
   shininess_(50),
-  specular_(BaseSpecLight),
+  specular_(kBaseSpecularLight),
   constAtt_(1.f),
   linAtt_(0.f),
   quadAtt_(0.f),
@@ -75,29 +75,6 @@ void Light::setPosition(const GLfloat x, const GLfloat y, const GLfloat z, const
 void Light::setPosition(const GLfloat *params) {
   setPosition(params[0], params[1], params[2], params[3]);
 }
-
-/*void Light::setComponent(const int component, const GLfloat *params) {
-  switch(component) {
-    case GL_DIFFUSE: {
-      for(int itor = 0; itor < 3; ++itor) {
-        diffuse_[itor] = params[itor];
-      }
-      break;
-    }
-    case GL_AMBIENT: {
-      for(int itor = 0; itor < 3; ++itor) {
-        ambient_[itor] = params[itor];
-      }
-      break;
-    }
-    case GL_POSITION: {
-      for(int itor = 0; itor < 3; ++itor) {
-        position_[itor] = params[itor];
-      }
-      break;
-    }
-  }
-}*/
 
 }
 // EO Namespace

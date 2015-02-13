@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="colour.cpp" />
     <ClCompile Include="cube_shape.cpp" />
     <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
@@ -97,6 +98,7 @@
     <ClInclude Include="app_globals.h" />
     <ClInclude Include="base_shape.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="colour.h" />
     <ClInclude Include="cube_shape.h" />
     <ClInclude Include="display_list.h" />
     <ClInclude Include="input.h" />
