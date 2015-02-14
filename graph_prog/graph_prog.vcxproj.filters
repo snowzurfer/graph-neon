@@ -102,7 +102,7 @@
     <ClCompile Include="light.cpp">
       <Filter>Source Files\Materials\Light</Filter>
     </ClCompile>
-    <ClCompile Include="colour.cpp">
+    <ClCompile Include="winapp_colour.cpp">
       <Filter>Source Files\Materials\Colour</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,7 +149,7 @@
     <ClInclude Include="light.h">
       <Filter>Header Files\Materials\Light</Filter>
     </ClInclude>
-    <ClInclude Include="colour.h">
+    <ClInclude Include="winapp_colour.h">
       <Filter>Header Files\Materials\Colour</Filter>
     </ClInclude>
   </ItemGroup>

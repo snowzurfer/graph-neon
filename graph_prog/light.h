@@ -4,7 +4,7 @@
 // Includes
 #include <Windows.h>
 #include <gl/GL.h>
-#include "colour.h"
+#include "winapp_colour.h"
 
 namespace winapp {
 

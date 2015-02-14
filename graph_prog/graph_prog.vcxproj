@@ -80,7 +80,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="colour.cpp" />
     <ClCompile Include="cube_shape.cpp" />
     <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
@@ -92,13 +91,13 @@
     <ClCompile Include="timerclass.cpp" />
     <ClCompile Include="timer\Timer.cpp" />
     <ClCompile Include="Vector3\Vec3.cpp" />
+    <ClCompile Include="winapp_colour.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
     <ClInclude Include="base_shape.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="colour.h" />
     <ClInclude Include="cube_shape.h" />
     <ClInclude Include="display_list.h" />
     <ClInclude Include="input.h" />
@@ -109,6 +108,7 @@
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="timer\Timer.h" />
     <ClInclude Include="Vector3\Vec3.h" />
+    <ClInclude Include="winapp_colour.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
