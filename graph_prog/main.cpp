@@ -48,7 +48,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
   RegisterMyWindow(hInstance);
 
   // Initialise window and define GRAPHICAL style
-     if (!InitialiseMyWindow(hInstance, nCmdShow, 200, 200, 800, 600)) {
+  if (!InitialiseMyWindow(hInstance, nCmdShow, 200, 200, 800, 600)) {
     return FALSE;
   }
 

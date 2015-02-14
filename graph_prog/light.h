@@ -29,9 +29,7 @@ public:
   void setPosition(const GLfloat *params);
   void setPosition(const GLfloat x, const GLfloat y, const GLfloat z, const GLfloat w);
 
-  inline void setShininess(const GLfloat val) {
-    shininess_ = val;
-  };
+  
   inline void setConstAttenuation(const GLfloat val) {
     constAtt_ = val;
   };
@@ -65,9 +63,6 @@ private:
 
   // Diffuse
   Colour diffuse_;
-
-  // Shininess
-  GLfloat shininess_;
 
   // Specular
   Colour specular_;
