@@ -14,7 +14,7 @@ class BaseShape
 {
 public:
 
-  virtual void drawShape() = 0;
+  
 protected:
   
 

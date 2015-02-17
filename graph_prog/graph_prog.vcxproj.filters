@@ -46,17 +46,23 @@
     <Filter Include="Header Files\Materials">
       <UniqueIdentifier>{b7be1006-2769-480c-ac57-67bb9fc6593c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Materials">
-      <UniqueIdentifier>{deb700b4-2486-4346-a7c2-9b6237385191}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Materials\Colour">
       <UniqueIdentifier>{20d15076-cfc2-4735-b3b9-947dd44ea619}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Materials\Colour">
-      <UniqueIdentifier>{d6942625-1923-42c5-b8bb-969e1e8d0847}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Materials\Light">
       <UniqueIdentifier>{0628c2e1-e533-4165-bad2-6454ff902b22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\lnfw">
+      <UniqueIdentifier>{64eb1884-95cf-466e-b5a7-4722221e783a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lnfw">
+      <UniqueIdentifier>{4c54b93a-5362-4a43-8e12-be088cf66312}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials">
+      <UniqueIdentifier>{deb700b4-2486-4346-a7c2-9b6237385191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials\Colour">
+      <UniqueIdentifier>{d6942625-1923-42c5-b8bb-969e1e8d0847}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Materials\Light">
       <UniqueIdentifier>{83017f05-739a-4fda-a641-591cfaa14b4e}</UniqueIdentifier>
@@ -77,9 +83,6 @@
     </ClCompile>
     <ClCompile Include="window.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3\Vec3.cpp">
-      <Filter>Source Files\Maths</Filter>
     </ClCompile>
     <ClCompile Include="camera.cpp">
       <Filter>Source Files</Filter>
@@ -105,6 +108,18 @@
     <ClCompile Include="winapp_colour.cpp">
       <Filter>Source Files\Materials\Colour</Filter>
     </ClCompile>
+    <ClCompile Include="lnfw\entities\entity.cpp">
+      <Filter>Source Files\lnfw</Filter>
+    </ClCompile>
+    <ClCompile Include="lnfw\observer\observer_component.cpp">
+      <Filter>Source Files\lnfw</Filter>
+    </ClCompile>
+    <ClCompile Include="lnfw\observer\subject.cpp">
+      <Filter>Source Files\lnfw</Filter>
+    </ClCompile>
+    <ClCompile Include="lnfw\physics\Vector3\Vec3.cpp">
+      <Filter>Source Files\Maths</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -118,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="camera.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3\Vec3.h">
-      <Filter>Header Files\Maths</Filter>
     </ClInclude>
     <ClInclude Include="window.h">
       <Filter>Source Files</Filter>
@@ -151,6 +163,33 @@
     </ClInclude>
     <ClInclude Include="winapp_colour.h">
       <Filter>Header Files\Materials\Colour</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\components\component.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\physics\transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\entities\entity.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\game_states\gamestate.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\observer\message.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\observer\observer_component.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\observer\subject.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\systems\system.h">
+      <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="lnfw\physics\Vector3\Vec3.h">
+      <Filter>Header Files\Maths</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
