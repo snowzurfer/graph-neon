@@ -8,7 +8,6 @@ Light::Light(const int lightNum) :
   lightNum_(lightNum),
   ambient_(kWhiteColourNoAlpha),
   diffuse_(kWhiteColourNoAlpha),
-  shininess_(50),
   specular_(kBaseSpecularLight),
   constAtt_(1.f),
   linAtt_(0.f),
@@ -23,7 +22,6 @@ void Light::apply() {
   glLightfv(lightNum_, GL_DIFFUSE,   diffuse_  );
   glLightfv(lightNum_, GL_POSITION,  position_ );
   glLightfv(lightNum_, GL_SPECULAR,  specular_ );
-  glLightf (lightNum_, GL_SHININESS, shininess_);
 
   glLightf (lightNum_, GL_CONSTANT_ATTENUATION,  constAtt_);
   glLightf (lightNum_, GL_LINEAR_ATTENUATION,    linAtt_);
