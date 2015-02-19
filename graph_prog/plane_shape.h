@@ -1,7 +1,7 @@
 #ifndef _PLANE_SHAPE_H
 #define _PLANE_SHAPE_H
 
-#include "base_shape.h"
+#include "shape_comp.h"
 
 
 namespace winapp {

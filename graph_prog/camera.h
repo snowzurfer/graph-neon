@@ -2,10 +2,10 @@
 #define _CAMERA_H
 
 // Includes
-#include "Vector3\Vec3.h"
+#include <lnfw/physics/Vector3/Vec3.h>
 #include <cmath>
-#include "input.h"
-#include "app_globals.h"
+#include <input.h>
+#include <app_globals.h>
 #include <Windows.h>
 #include <iostream>
 #include <cstdio>

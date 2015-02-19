@@ -39,8 +39,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>M:\Uni\year_2\sem_2\graphics\week17\graph_prog\graph_prog\lnfw\lnfw;$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
-    <SourcePath>M:\Uni\year_2\sem_2\graphics\week17\graph_prog\graph_prog\lnfw\lnfw;$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src</SourcePath>
+    <IncludePath>$(ProjectDir);$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include</IncludePath>
+    <SourcePath>$(ProjectDir);$(ProjDir)\graph_prog\lnfw;$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)\include;$(ProjectDir)\graph_prog\lnfw\lnfw</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -79,8 +79,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="base_shape.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="cube_shape.cpp" />
     <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="light.cpp" />
@@ -89,11 +89,12 @@
     <ClCompile Include="lnfw\observer\subject.cpp" />
     <ClCompile Include="lnfw\physics\Vector3\Vec3.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="plane_shape.cpp" />
     <ClCompile Include="scene.cpp" />
     <ClCompile Include="skybox.cpp" />
+    <ClCompile Include="texture_comp.cpp" />
     <ClCompile Include="timerclass.cpp" />
     <ClCompile Include="timer\Timer.cpp" />
+    <ClCompile Include="tools\crc.cpp" />
     <ClCompile Include="winapp_colour.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
@@ -101,7 +102,6 @@
     <ClInclude Include="app_globals.h" />
     <ClInclude Include="base_shape.h" />
     <ClInclude Include="camera.h" />
-    <ClInclude Include="cube_shape.h" />
     <ClInclude Include="display_list.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="light.h" />
@@ -114,11 +114,12 @@
     <ClInclude Include="lnfw\physics\transform.h" />
     <ClInclude Include="lnfw\physics\Vector3\Vec3.h" />
     <ClInclude Include="lnfw\systems\system.h" />
-    <ClInclude Include="plane_shape.h" />
     <ClInclude Include="scene.h" />
     <ClInclude Include="skybox.h" />
+    <ClInclude Include="texture_comp.h" />
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="timer\Timer.h" />
+    <ClInclude Include="tools\crc.h" />
     <ClInclude Include="winapp_colour.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>

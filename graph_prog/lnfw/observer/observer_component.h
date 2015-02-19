@@ -3,7 +3,7 @@
 
 
 // Includes
-#include <components\component.h>
+#include <lnfw\components\component.h>
 #include <observer\message.h>
 
 

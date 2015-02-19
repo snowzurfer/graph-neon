@@ -1,7 +1,7 @@
 #ifndef _CUBE_SHAPE_H
 #define _CUBE_SHAPE_H
 
-#include "base_shape.h"
+#include "shape_comp.h"
 #include "plane_shape.h"
 #include "app_globals.h"
 

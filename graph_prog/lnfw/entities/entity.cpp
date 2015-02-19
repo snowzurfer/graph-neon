@@ -7,12 +7,19 @@
 namespace lnfw {
 
 
-Entity::Entity() : comps_(), 
-	ID_(-1) {
-}
+  Entity::Entity() : 
+    transform(),
+    comps_(), 
+	  ID_(-1),
+    children_(),
+    parent_(NULL) {
+  }
 
-Entity::Entity(const int ID) : comps_(),
-	ID_(ID) {
+  Entity::Entity(const int ID) :  transform(),
+    comps_(), 
+    ID_(ID),
+    children_(),
+    parent_(NULL) {
 }
 
 Component* Entity::getComp(const int type) const {
@@ -55,6 +62,13 @@ const bool Entity::hasComp(const int type) const {
 
 	// If not
 	return false;
+}
+
+void Entity::addChild(Entity *child) {
+  // If the child is not null
+  if(child != NULL) {
+    children_.push_back(child);
+  }
 }
 
 }

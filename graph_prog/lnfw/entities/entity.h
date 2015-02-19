@@ -4,8 +4,9 @@
 
 // Includes
 #include <map>
-#include "../components/component.h"
-#include "../physics/transform.h"
+#include <lnfw/components/component.h>
+#include <lnfw/physics/transform.h>
+#include <list>
 
 namespace lnfw {
 
@@ -36,7 +37,13 @@ public:
 	// Transform of the entity
 	Transform transform;
 
-	// Child of the entity
+  // Add a child
+  void addChild(Entity *child);
+
+  // Retrieve the parent of this entity
+  inline Entity *getParent() {
+    return parent_; 
+  };
 
 private:
 	// Map of components attached to the entity
@@ -44,6 +51,12 @@ private:
 
 	// Unique ID of the entity
 	int ID_;
+
+  // Children of the entity
+  std::list<Entity *> children_;
+
+  // Parent entity
+  Entity *parent_;
 };
 // EO Class
 
