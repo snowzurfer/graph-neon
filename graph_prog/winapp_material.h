@@ -3,9 +3,9 @@
 
 #include <windows.h>
 #include <gl/GL.h>
-#include <gl/GLU.h>
-#include "winapp_colour.h"
+#include <winapp_colour.h>
 #include <cstdint>
+#include <lnfw/components/component.h>
 
 namespace winapp {
 
@@ -19,11 +19,14 @@ const GLfloat kNoShininess = 0.f;
 const GLfloat kLowShininess = 0.5;
 const GLfloat kHighShininess = 100.f;
 
-class Material
+class MaterialComp : public lnfw::Component
 {
 public:
+  // Register the component
+  REGISTER_COMPONENT(MaterialComp);
+
   // Ctor
-  Material();
+  MaterialComp();
 
   // Apply the members of the class to the GL state machine
   // on the specified face.
@@ -38,7 +41,6 @@ public:
   void setSpecular(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a);
   void setEmission(const GLfloat *params);
   void setEmission(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a);
-
   inline void setShininess(const GLfloat val) {
     shininess_ = val;
   };
