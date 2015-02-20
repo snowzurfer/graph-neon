@@ -8,6 +8,19 @@
 
 namespace winapp {
 
+  class Texel 
+  {
+  public:
+    Texel(const float xCoord, const float yCoord) :
+      x(xCoord),
+      y(yCoord)
+      {
+
+    }
+
+    float x, y;
+  };
+
   class TextureComp : public lnfw::Component 
   {
   public:

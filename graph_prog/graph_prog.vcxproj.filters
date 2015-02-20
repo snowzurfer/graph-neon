@@ -150,7 +150,10 @@
     <ClCompile Include="winapp_material.cpp">
       <Filter>Source Files\Materials\Material</Filter>
     </ClCompile>
-    <ClCompile Include="VertexRendererComp.cpp">
+    <ClCompile Include="vertex_renderer_comp.cpp">
+      <Filter>Source Files\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="classic_renderer_comp.cpp">
       <Filter>Source Files\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -227,7 +230,10 @@
     <ClInclude Include="winapp_material.h">
       <Filter>Header Files\Materials\Material</Filter>
     </ClInclude>
-    <ClInclude Include="VertexRendererComp.h">
+    <ClInclude Include="classic_renderer_comp.h">
+      <Filter>Header Files\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_renderer_comp.h">
       <Filter>Header Files\Renderers</Filter>
     </ClInclude>
   </ItemGroup>

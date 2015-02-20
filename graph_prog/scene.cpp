@@ -39,7 +39,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // OpenGL settings
   glShadeModel(GL_SMOOTH);										// Enable Smooth Shading
-  glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);							// Black Background
+  glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);				
   glClearDepth(1.0f);											// Depth Buffer Setup
   glEnable(GL_DEPTH_TEST);										// Enables Depth Testing
   glDepthFunc(GL_LEQUAL);										// The Type Of Depth Testing To Do
@@ -342,7 +342,7 @@ bool Scene::createPixelFormat(HDC hdc) {
         return false; 
     } 
  
-  // We got here! Everything went well, communcate it
+  // We got here! Everything went well, comunicate it
     return true;
 }
 
@@ -373,16 +373,17 @@ void Scene::resizeGLWindow(int w, int h) {
 
 void Scene::initOpenGL(int w, int h) {  
   // Get an HDC for the window
-    hdc_ = GetDC(*hwnd_);
+  hdc_ = GetDC(*hwnd_);
 
   // Attempt to create/set the pixel format
-    if (!createPixelFormat(hdc_)) {
+  if (!createPixelFormat(hdc_)) {
     // If failed, close the program
-        PostQuitMessage (0);
+    PostQuitMessage (0);
   }
 
   // Creates hw rendering context from  hdc
-    hrc_ = wglCreateContext(hdc_);
+  hrc_ = wglCreateContext(hdc_);
+  
   // Use this HRC for wiggle
   wglMakeCurrent(hdc_, hrc_);    
 

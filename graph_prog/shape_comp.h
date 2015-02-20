@@ -5,6 +5,7 @@
 #include <lnfw/components/component.h>
 #include <vector>
 #include <lnfw/physics/Vector3/Vec3.h>
+#include <texture_comp.h>
 
 namespace winapp {
   
@@ -17,7 +18,8 @@ namespace winapp {
     // Ctor
     ShapeComp(const std::vector<unsigned int> &indices, 
               const std::vector<Vec3> &vertices, 
-              const std::vector<Vec3> &normals);
+              const std::vector<Vec3> &normals,
+              const std::vector<Texel> &texels);
 
     // Getters and setters
     inline const std::vector<Vec3> &getVertices() const  {
@@ -45,6 +47,9 @@ namespace winapp {
     std::vector<Vec3> vertices_;
     std::vector<Vec3> normals_;
     std::vector<unsigned int> indices_;
+    // Texture coordinates
+    std::vector<Texel> texels_;
+
   };
   // EO Class
 

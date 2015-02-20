@@ -1,9 +1,8 @@
 
 // Includes
-#include <VertexRendererComp.h>
+#include <vertex_renderer_comp.h>
 #include <Windows.h>
 #include <gl/GL.h>
-#include <gl/GLU>
 
 namespace winapp {
   
@@ -45,7 +44,8 @@ namespace winapp {
     glTexCoordPointer(2, GL_FLOAT, 0, &shape->getNormals()[0]);
 
     // Deference
-    glDrawElements(GL_TRIANGLES, shape->getVertices().size(), GL_UNSIGNED_BYTE, sh
+    glDrawElements(GL_TRIANGLES, shape->getVertices().size(), 
+                   GL_UNSIGNED_BYTE, &shape->getIndices()[0]);
 
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);

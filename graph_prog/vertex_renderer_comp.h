@@ -1,5 +1,5 @@
-#ifndef _RENDERER_COMP_H
-#define _RENDERER_COMP_H
+#ifndef _VERTEX_RENDERER_COMP_H
+#define _VERTEX_RENDERER_COMP_H
 
 #include <lnfw/components/component.h>
 #include <texture_comp.h>
@@ -20,6 +20,8 @@ namespace winapp {
                               const TextureComp *texture = NULL,
                               const MaterialComp *material = NULL);
   };
+  // EO Class
+
 }
 // EO Namespace
 

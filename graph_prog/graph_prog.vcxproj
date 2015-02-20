@@ -79,7 +79,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="VertexRendererComp.cpp" />
+    <ClCompile Include="classic_renderer_comp.cpp" />
+    <ClCompile Include="vertex_renderer_comp.cpp" />
     <ClCompile Include="shape_comp.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="display_list.cpp" />
@@ -102,7 +103,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
-    <ClInclude Include="VertexRendererComp.h" />
+    <ClInclude Include="classic_renderer_comp.h" />
+    <ClInclude Include="vertex_renderer_comp.h" />
     <ClInclude Include="shape_comp.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="display_list.h" />
