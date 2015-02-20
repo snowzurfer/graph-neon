@@ -35,7 +35,7 @@ namespace winapp {
 
     //////////RENDER
 
-    // Begin Drawing
+    // Begin drawing
     glBegin(GL_TRIANGLES);
 
     // For each index
@@ -43,29 +43,17 @@ namespace winapp {
       // Get the normal, vertex and texel at index i
       const Vec3 norm = shape->getNormals()[shape->getIndices()[i]];
       const Vec3 vertx = shape->getVertices()[shape->getIndices()[i]];
+      const Texel texel = shape->getTexels()[shape->getIndices()[i]];
 
-
-      glNormal3f(0.f, 0.f, 1.f);
+      // Apply these attributes and render
+      glNormal3f(norm.getX(), norm.getY(), norm.getY());
+      glTexCoord2f(texel.x, texel.y);
+      glVertex3f(vertx.getX(), vertx.getY(), vertx.getZ());
     }
 
-    // Enable client states
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_NORMAL_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    // End drawing
+    glEnd();
 
-    // Specify data for the arrays
-    glVertexPointer(3, GL_FLOAT, 0, &shape->getVertices()[0]);
-    glNormalPointer(GL_FLOAT, 0, &shape->getNormals()[0]);
-    glTexCoordPointer(2, GL_FLOAT, 0, &shape->getNormals()[0]);
-
-    // Deference
-    glDrawElements(GL_TRIANGLES, shape->getVertices().size(), 
-      GL_UNSIGNED_BYTE, &shape->getIndices()[0]);
-
-    // Disable client states
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
   }
 
 }

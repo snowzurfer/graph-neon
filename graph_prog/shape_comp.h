@@ -31,6 +31,9 @@ namespace winapp {
     inline const std::vector<unsigned int> &getIndices() const {
       return indices_;
     }
+    inline const std::vector<Texel> &getTexels() const {
+      return texels_;
+    }
     inline void setVertices(const std::vector<Vec3> &vect) {
       vertices_ = vect;
     }
@@ -39,6 +42,9 @@ namespace winapp {
     }
     inline void setIndices(const std::vector<unsigned int> &vect) {
       indices_ = vect;
+    }
+    inline void setTexels(const std::vector<Texel> &vect) {
+      texels_ = vect;
     }
 
 
