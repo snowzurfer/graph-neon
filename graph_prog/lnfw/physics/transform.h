@@ -2,12 +2,9 @@
 #define _TRANSFORM_H
 
 
-// Includes
-#include "Vector3\Vec3.h"
-
 namespace lnfw {
   
-  template <typedef VECTOR3>
+  template <typename V>
   class Transform
   {
   public:
@@ -18,9 +15,9 @@ namespace lnfw {
 		  rotation(0.f, 0.f, 0.f) {};
 
 	  // Components of the transform
-	  VECTOR3 position;
-	  VECTOR3 scale;
-	  VECTOR3 rotation;
+	  V position;
+	  V scale;
+	  V rotation;
   };
   // EO Class
 

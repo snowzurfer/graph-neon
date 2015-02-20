@@ -32,9 +32,13 @@ Colour::Colour(const GLfloat R, const GLfloat G, const GLfloat B, const GLfloat 
 
 }
 
-Colour::operator GLfloat *(){
+Colour::operator GLfloat *() const {
   return (GLfloat*)(this);
 };
+
+Colour::operator const GLfloat*() const {
+  return (const GLfloat*)(this);
+}
 
 }
 // EO Namespace

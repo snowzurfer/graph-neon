@@ -7,6 +7,7 @@
 #include <lnfw/components/component.h>
 #include <lnfw/physics/transform.h>
 #include <list>
+#include <lnfw/physics/Vector3/Vec3.h>
 
 namespace lnfw {
 
@@ -35,7 +36,7 @@ public:
 	const bool hasComp(const int type) const;
 
 	// Transform of the entity
-	Transform transform;
+	Transform<Vec3> transform;
 
   // Add a child
   void addChild(Entity *child);

@@ -17,7 +17,7 @@ namespace winapp {
 
   }
 
-  void MaterialComp::apply(uint32_t face) {
+  void MaterialComp::apply(uint32_t face) const {
     glMaterialf (face, GL_SHININESS, shininess_);
     glMaterialfv(face, GL_AMBIENT,   ambient_  );
     glMaterialfv(face, GL_DIFFUSE,   diffuse_  );

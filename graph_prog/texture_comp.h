@@ -11,14 +11,14 @@ namespace winapp {
   class TextureComp : public lnfw::Component 
   {
   public:
-    // Register the class
+    // Register the component
     REGISTER_COMPONENT(TextureComp);
 
     // Ctor
     TextureComp(GLuint textureID);
 
     // Getters and setters
-    inline GLuint getTextureID() {
+    inline const GLuint getTextureID() const {
       return textureID_;
     }
     inline void setTextureID(GLuint textureID) {

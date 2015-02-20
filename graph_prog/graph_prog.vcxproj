@@ -79,7 +79,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="base_shape.cpp" />
+    <ClCompile Include="VertexRendererComp.cpp" />
+    <ClCompile Include="shape_comp.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="display_list.cpp" />
     <ClCompile Include="input.cpp" />
@@ -96,11 +97,13 @@
     <ClCompile Include="timer\Timer.cpp" />
     <ClCompile Include="tools\crc.cpp" />
     <ClCompile Include="winapp_colour.cpp" />
+    <ClCompile Include="winapp_material.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
-    <ClInclude Include="base_shape.h" />
+    <ClInclude Include="VertexRendererComp.h" />
+    <ClInclude Include="shape_comp.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="display_list.h" />
     <ClInclude Include="input.h" />
@@ -121,6 +124,7 @@
     <ClInclude Include="timer\Timer.h" />
     <ClInclude Include="tools\crc.h" />
     <ClInclude Include="winapp_colour.h" />
+    <ClInclude Include="winapp_material.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

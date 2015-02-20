@@ -25,8 +25,6 @@ Scene::~Scene() {
   // Free memory
   delete camera_;
   camera_ = NULL;
-
-
 }
 
 void Scene::initialise(HWND *lwnd, Input* in) {

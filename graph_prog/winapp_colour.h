@@ -24,7 +24,9 @@ public:
   float r,g,b,a;
 
   // Implicit conversion operator overload
-  operator GLfloat* ();
+  operator GLfloat* () const;
+  operator const GLfloat* () const;
+
 };
 // EO Class
 

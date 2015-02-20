@@ -4,7 +4,7 @@
 
 // Includes
 #include <lnfw\components\component.h>
-#include <observer\message.h>
+#include <lnfw\observer\message.h>
 
 
 // Forward declarations

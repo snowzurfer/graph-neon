@@ -79,6 +79,18 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{1af5322d-f50e-471d-9b38-28953b551675}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Materials\Material">
+      <UniqueIdentifier>{e254585a-55c4-4e5d-a6c8-4b835558f9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Materials\Material">
+      <UniqueIdentifier>{591ce50f-1fa4-43b1-a53e-bde17f2e6d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Renderers">
+      <UniqueIdentifier>{28b94df2-6d0e-4b3f-80f0-ba22700e138c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Renderers">
+      <UniqueIdentifier>{5a393e9c-ea86-406c-b8c9-aeb279c9387c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -126,14 +138,20 @@
     <ClCompile Include="lnfw\physics\Vector3\Vec3.cpp">
       <Filter>Source Files\Maths</Filter>
     </ClCompile>
-    <ClCompile Include="base_shape.cpp">
-      <Filter>Source Files\Shapes</Filter>
-    </ClCompile>
     <ClCompile Include="tools\crc.cpp">
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="texture_comp.cpp">
       <Filter>Source Files\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="shape_comp.cpp">
+      <Filter>Source Files\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="winapp_material.cpp">
+      <Filter>Source Files\Materials\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexRendererComp.cpp">
+      <Filter>Source Files\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,9 +178,6 @@
     </ClInclude>
     <ClInclude Include="display_list.h">
       <Filter>Header Files\DispList</Filter>
-    </ClInclude>
-    <ClInclude Include="base_shape.h">
-      <Filter>Header Files\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="skybox.h">
       <Filter>Header Files\Skybox</Filter>
@@ -205,6 +220,15 @@
     </ClInclude>
     <ClInclude Include="lnfw\physics\transform.h">
       <Filter>Header Files\lnfw</Filter>
+    </ClInclude>
+    <ClInclude Include="shape_comp.h">
+      <Filter>Header Files\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="winapp_material.h">
+      <Filter>Header Files\Materials\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexRendererComp.h">
+      <Filter>Header Files\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

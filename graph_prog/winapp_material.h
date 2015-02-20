@@ -30,7 +30,7 @@ public:
 
   // Apply the members of the class to the GL state machine
   // on the specified face.
-  void apply(uint32_t face);
+  void apply(uint32_t face) const;
 
   // Getters and setters
   void setAmbient(const GLfloat *params);

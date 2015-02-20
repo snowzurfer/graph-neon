@@ -20,13 +20,13 @@ namespace winapp {
               const std::vector<Vec3> &normals);
 
     // Getters and setters
-    inline const std::vector<Vec3> &getVertices() {
+    inline const std::vector<Vec3> &getVertices() const  {
       return vertices_;
     }
-    inline const std::vector<Vec3> &getNormals() {
+    inline const std::vector<Vec3> &getNormals() const {
       return normals_;
     }
-    inline const std::vector<unsigned int> &getIndices() {
+    inline const std::vector<unsigned int> &getIndices() const {
       return indices_;
     }
     inline void setVertices(const std::vector<Vec3> &vect) {
