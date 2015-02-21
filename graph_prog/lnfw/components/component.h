@@ -18,10 +18,12 @@ class Component
 {
 public:
 	// Ctor
-	Component();
+  Component() {};
 
 	// Dtor
 	virtual ~Component() {};
+
+  virtual unsigned int GetComponentType() = 0;
 
 };
 // EO Class

@@ -20,8 +20,6 @@ public:
 	// Ctor
 	Entity(const int ID);
 
-	// Dtor
-	virtual ~Entity();
 
 	// Get a component depending on its type
 	Component* getComp(int type) const;

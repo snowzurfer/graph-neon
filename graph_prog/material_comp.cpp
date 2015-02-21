@@ -1,6 +1,6 @@
 
 // Includes
-#include "winapp_material.h"
+#include "material_comp.h"
 
 namespace winapp {
 

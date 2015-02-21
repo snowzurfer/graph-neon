@@ -5,6 +5,8 @@
 
 namespace winapp {
 
+  REGISTER_COMPONENT_IMPL(ShapeComp);
+
   ShapeComp::ShapeComp(const std::vector<unsigned int> &indices, 
                       const std::vector<Vec3> &vertices, 
                       const std::vector<Vec3> &normals,

@@ -18,7 +18,7 @@
 #include "camera.h"
 #include "app_globals.h"
 #include <SOIL.h>
-#include "cube_shape.h"
+//#include "cube_shape.h"
 #include "skybox.h"
 
 
@@ -96,10 +96,10 @@ protected:
   GLuint unitCubeDList_;
 
 	// Unit cube shape
-  CubeShape cubeShape_;
+  // cubeShape_;
 
   // Skybox
-  Skybox *skyBox_;
+  //Skybox *skyBox_;
 
   // Camera
   Camera *camera_;

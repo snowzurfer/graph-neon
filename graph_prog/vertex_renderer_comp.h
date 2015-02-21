@@ -5,7 +5,7 @@
 #include <texture_comp.h>
 #include <shape_comp.h>
 #include <lnfw/physics/transform.h>
-#include <winapp_material.h>
+#include <material_comp.h>
 
 namespace winapp {
 

@@ -48,7 +48,6 @@ namespace winapp {
       return new ShapeComp(indices, vertices, normals, texels);
   }
 
-
   ShapeComp * ShapeBuilder::buildDisk(unsigned int detail) {
     // Number of vertices should be at least 3
     if(detail < 3) {
@@ -74,7 +73,7 @@ namespace winapp {
     float angle = 0.f;
 
     // For the level of detail
-    for(int i = 0; i < detail; ++i) {
+    for(unsigned int i = 0; i < detail; ++i) {
       // Calculate the x and y positions
       float x = std::cosf(angle) / 2;
       float y = std::sinf(angle) / 2;
@@ -86,6 +85,9 @@ namespace winapp {
       indices.push_back(0);
       indices.push_back(i + 1);
       indices.push_back(i + 2);
+
+      // Increase angle
+      angle += angleStep;
     }
 
     return new ShapeComp(indices, vertices, normals, texels);

@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="classic_renderer_comp.cpp" />
+    <ClCompile Include="shape_builder.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />
     <ClCompile Include="shape_comp.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -92,18 +93,18 @@
     <ClCompile Include="lnfw\physics\Vector3\Vec3.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="scene.cpp" />
-    <ClCompile Include="skybox.cpp" />
     <ClCompile Include="texture_comp.cpp" />
     <ClCompile Include="timerclass.cpp" />
     <ClCompile Include="timer\Timer.cpp" />
     <ClCompile Include="tools\crc.cpp" />
     <ClCompile Include="winapp_colour.cpp" />
-    <ClCompile Include="winapp_material.cpp" />
+    <ClCompile Include="material_comp.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
     <ClInclude Include="classic_renderer_comp.h" />
+    <ClInclude Include="shape_builder.h" />
     <ClInclude Include="vertex_renderer_comp.h" />
     <ClInclude Include="shape_comp.h" />
     <ClInclude Include="camera.h" />
@@ -120,14 +121,16 @@
     <ClInclude Include="lnfw\physics\Vector3\Vec3.h" />
     <ClInclude Include="lnfw\systems\system.h" />
     <ClInclude Include="scene.h" />
-    <ClInclude Include="skybox.h" />
     <ClInclude Include="texture_comp.h" />
     <ClInclude Include="timerclass.h" />
     <ClInclude Include="timer\Timer.h" />
     <ClInclude Include="tools\crc.h" />
     <ClInclude Include="winapp_colour.h" />
-    <ClInclude Include="winapp_material.h" />
+    <ClInclude Include="material_comp.h" />
     <ClInclude Include="window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

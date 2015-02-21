@@ -18,6 +18,9 @@ namespace lnfw {
 class ObserverComponent : public Component
 {
 public:
+
+  REGISTER_COMPONENT(ObserverComponent);
+
 	// Ctor
 	ObserverComponent (const int type);
 

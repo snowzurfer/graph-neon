@@ -5,7 +5,11 @@
 
 // Includes
 #include "scene.h"
-
+#include <shape_builder.h>
+#include <shape_comp.h>
+#include <lnfw/physics/transform.h>
+#include <texture_comp.h>
+#include <material_comp.h>
 
 namespace winapp {
 
@@ -15,7 +19,7 @@ Scene::Scene() :
   rot2_(0.f),
   speed_(0.f),
   light0(GL_LIGHT0),
-  skyBox_(NULL),
+  //skyBox_(NULL),
   camera_(NULL)
   {
   
@@ -112,10 +116,16 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   if(skyboxTexture != 0) {
 	  printf("SKYBOX TEXTURE LOADED");
     // Create the skybox
-    skyBox_ = new Skybox(skyboxTexture);
+    //skyBox_ = new Skybox(skyboxTexture);
   }
 
-  
+  // Create a shape builder
+  ShapeBuilder shapeBuilder;
+
+  ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
+  TextureComp *testTextComp = new TextureComp(crateSolidTex_);
+  Transform<Vec3> *testTransform = new Transform<Vec3>();
+  MaterialComp *testMaterial = new MaterialComp();
 
   // Create the unit cube display list
   unitCubeDList_ = createCubeInDList();
@@ -211,7 +221,7 @@ void Scene::render(float interp) {
     glTranslatef(camPos.getX(), camPos.getY(), camPos.getZ());
 
     // Render the skybox
-    skyBox_->draw();
+    //skyBox_->draw();
 
   glPopMatrix();
 
@@ -225,7 +235,7 @@ void Scene::render(float interp) {
     glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
 
     // Draw cube
-    cubeShape_.drawShape();
+//    cubeShape_.drawShape();
 
   glPopMatrix();
   // Go back to previous matrix

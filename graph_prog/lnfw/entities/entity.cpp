@@ -38,9 +38,9 @@ Component* Entity::getComp(const int type) const {
 
 void Entity::attachComp(Component *comp) {
 	// If the component doesn't already exist
-	if(comps_.find(comp->getType()) == comps_.end()) {
+	if(comps_.find(comp->GetComponentType()) == comps_.end()) {
 		// Add it
-		comps_[comp->getType()] = comp;
+		comps_[comp->GetComponentType()] = comp;
 	}
 }
 

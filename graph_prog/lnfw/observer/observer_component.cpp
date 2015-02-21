@@ -5,8 +5,10 @@
 
 namespace lnfw {
 
+  REGISTER_COMPONENT_IMPL(ObserverComponent);
+
 ObserverComponent::ObserverComponent(const int type) :
-	Component(type),
+	Component(),
 	subjectReference_(NULL) {
 }
 
