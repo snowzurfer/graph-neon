@@ -120,11 +120,13 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   }
 
   // Create a shape builder
-  ShapeBuilder shapeBuilder;
+  ShapesFactory shapeBuilder;
 
   ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
+  ShapeComp *planeShape = shapeBuilder.buildPlane(2);
+  ShapeComp *cubeShape = shapeBuilder.buildCube(2);
   TextureComp *testTextComp = new TextureComp(crateSolidTex_);
-  Transform<Vec3> *testTransform = new Transform<Vec3>();
+  lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   MaterialComp *testMaterial = new MaterialComp();
 
   // Create the unit cube display list
