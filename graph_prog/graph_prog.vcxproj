@@ -79,7 +79,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="base_renderer_comp.cpp" />
     <ClCompile Include="classic_renderer_comp.cpp" />
+    <ClCompile Include="rendering_sys.cpp" />
     <ClCompile Include="shape_builder.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />
     <ClCompile Include="shape_comp.cpp" />
@@ -103,7 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app_globals.h" />
+    <ClInclude Include="base_renderer_comp.h" />
     <ClInclude Include="classic_renderer_comp.h" />
+    <ClInclude Include="rendering_sys.h" />
     <ClInclude Include="shape_builder.h" />
     <ClInclude Include="vertex_renderer_comp.h" />
     <ClInclude Include="shape_comp.h" />

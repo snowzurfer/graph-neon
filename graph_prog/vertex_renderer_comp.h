@@ -6,14 +6,15 @@
 #include <shape_comp.h>
 #include <lnfw/physics/transform.h>
 #include <material_comp.h>
+#include <base_renderer_comp.h>
 
 namespace winapp {
 
-  class VertexRendererComp : public lnfw::Component
+  class VertexRendererComp : public BaseRendererComp
   {
   public:
-    // Register the component
-    REGISTER_COMPONENT(VertexRendererComp);
+
+    //REGISTER_COMPONENT(VertexRendererComp);
 
     const void render(const lnfw::Transform<Vec3> *transform, 
                               const ShapeComp *shape, 

@@ -97,6 +97,18 @@
     <Filter Include="Source Files\Builder">
       <UniqueIdentifier>{36991366-a102-4974-9cf7-4db92a4ee08a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{d479e43d-b6e8-46ec-bbad-c414ac38267d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems">
+      <UniqueIdentifier>{ef7f6855-ab39-4cfd-a0dd-d75a5b7489d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\Renderer">
+      <UniqueIdentifier>{fcb095bb-53d5-4513-b3ab-e2dd3919b6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\Renderer">
+      <UniqueIdentifier>{1da13af1-577c-453c-a707-3fcbe1816f1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -161,6 +173,12 @@
     </ClCompile>
     <ClCompile Include="material_comp.cpp">
       <Filter>Source Files\Materials\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="rendering_sys.cpp">
+      <Filter>Source Files\Systems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="base_renderer_comp.cpp">
+      <Filter>Source Files\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="material_comp.h">
       <Filter>Header Files\Materials\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="rendering_sys.h">
+      <Filter>Header Files\Systems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="base_renderer_comp.h">
+      <Filter>Header Files\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

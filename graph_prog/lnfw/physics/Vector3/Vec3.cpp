@@ -154,3 +154,7 @@ Vec3& Vec3::operator-=(const Vec3& v2) {
                 this->elements[2] -= v2[2];
         return *this;
 }
+
+Vec3::operator const float *() {
+  return elements;
+}

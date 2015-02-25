@@ -18,6 +18,7 @@ namespace lnfw {
 	  V position;
 	  V scale;
 	  V rotation;
+
   };
   // EO Class
 

@@ -41,6 +41,8 @@ public:
  
     Vec3& operator+=(const Vec3& v2);
     Vec3& operator-=(const Vec3& v2);
+
+    operator const float *();
 };
 
 #endif

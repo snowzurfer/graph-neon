@@ -22,22 +22,26 @@ public:
 
 
 	// Get a component depending on its type
-	Component* getComp(int type) const;
+	Component* getComp(const unsigned int type);
 
 	// Attach a component
 	void attachComp(Component *comp);
 
 	// Detach a component depending on its type
-	void detachComp(const int type);
+	void detachComp(const unsigned int type);
 
 	// Whether the entity has a component of a given type
-	const bool hasComp(const int type) const;
+	const bool hasComp(const unsigned int type) const;
 
 	// Transform of the entity
 	Transform<Vec3> transform;
 
   // Add a child
   void addChild(Entity *child);
+
+  inline const std::list<Entity *> &getChildrenList() const {
+    return children_;
+  }
 
   // Retrieve the parent of this entity
   inline Entity *getParent() {
@@ -46,7 +50,7 @@ public:
 
 private:
 	// Map of components attached to the entity
-	std::map<int, Component*> comps_;
+	std::map<unsigned int, Component *> comps_;
 
 	// Unique ID of the entity
 	int ID_;

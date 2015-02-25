@@ -22,49 +22,42 @@ namespace lnfw {
     parent_(NULL) {
 }
 
-Component* Entity::getComp(const int type) const {
-	// Declare an itor pointing to the element being searched
-	std::map<int, Component*>::const_iterator itor = comps_.find(type);
-
-	// If the component is attached to the entity
-	if(itor != comps_.end()) {
-		// Return it
-		return itor->second;
-	}
-
-	// If not, return a NULL ptr
-	return NULL;
+  Component* Entity::getComp(const unsigned int type) {
+  // If the entity has the component of the given type
+  if(hasComp(type)) {
+    // Return the component
+    return comps_[type];
+  }
+  // If not
+  else {
+    return NULL;
+  }
 }
 
-void Entity::attachComp(Component *comp) {
-	// If the component doesn't already exist
-	if(comps_.find(comp->GetComponentType()) == comps_.end()) {
-		// Add it
-		comps_[comp->GetComponentType()] = comp;
-	}
+  void Entity::attachComp(Component *comp) {
+  // Assign the new component to the entity
+  comps_[comp->GetComponentType()] = comp;
+
+  UInt32 lol = comp->GetComponentType();
+
 }
 
-void Entity::detachComp(const int type) {
-	// If the component is attached
-	if(comps_.find(type) == comps_.end()) {
-		// Remove it
-		comps_.erase(type);
-	}
-
-	// Need to update the nodes and therefore, the systems too
+  void Entity::detachComp(const unsigned int type) {
+	comps_.erase(comps_.find(type));
 }
 
-const bool Entity::hasComp(const int type) const {
-	// If the component is attached
-	if(getComp(type) != NULL) {
-		return true;
-	}
-
-	// If not
-	return false;
+  const bool Entity::hasComp(const unsigned int type) const {
+  // If the entity has the component of type type
+  if(comps_.find(type) != comps_.end()) {
+    return true;
+  }
+  // If not
+  else {
+    return false;
+  }
 }
 
-void Entity::addChild(Entity *child) {
+  void Entity::addChild(Entity *child) {
   // If the child is not null
   if(child != NULL) {
     children_.push_back(child);

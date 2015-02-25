@@ -20,6 +20,9 @@
 #include <SOIL.h>
 //#include "cube_shape.h"
 #include "skybox.h"
+#include <list>
+#include <lnfw/entities/entity.h>
+#include <rendering_sys.h>
 
 
 namespace winapp {
@@ -104,6 +107,14 @@ protected:
   // Camera
   Camera *camera_;
   
+  // Entities list
+  std::list<lnfw::Entity *> entities_;
+  typedef std::list<lnfw::Entity *>::iterator entityItor_;
+  typedef std::list<lnfw::Entity *>::const_iterator constEntityItor_;
+
+
+  // Systems
+  RenderingSys renderingSystem_;
 
   // For moving object
   unsigned int xpos, ypos;

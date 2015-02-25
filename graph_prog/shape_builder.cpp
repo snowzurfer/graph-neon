@@ -23,7 +23,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<unsigned int> indices;
+    std::vector<GLubyte> indices;
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));
@@ -71,7 +71,7 @@ namespace winapp {
       std::vector<Vec3> vertices;
       std::vector<Vec3> normals;
       std::vector<Texel> texels;
-      std::vector<unsigned int> indices;
+      std::vector<GLubyte> indices;
 
 
       // Front face, z stays fixed
@@ -122,7 +122,7 @@ namespace winapp {
       // Bottom face, y stays fixed
       for(float z = 1.f; z >= 0.f; z -= chunkLength) {
         for(float x = 0.f; x <= 1.f; x += chunkLength) {
-          vertices.push_back(Vec3(x - 0.5f, 0.5f , z - 0.5f));
+          vertices.push_back(Vec3(x - 0.5f, -0.5f , z - 0.5f));
           normals.push_back(Vec3(0.f, -1.f, 0.f));
           texels.push_back(Texel(0.25f + (x / 4.f), 0.50 + ((1 - z) / 4.f)));
         }
@@ -168,7 +168,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<unsigned int> indices;
+    std::vector<GLubyte> indices;
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));
@@ -218,7 +218,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<unsigned int> indices;
+    std::vector<GLubyte> indices;
 
 
     // Front face, z stays fixed
@@ -261,7 +261,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<unsigned int> indices;
+    std::vector<GLubyte> indices;
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));

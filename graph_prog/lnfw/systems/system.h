@@ -4,29 +4,25 @@
 // Includes
 #include <list>
 #include <algorithm>
-#include "../game_object.h"
+#include <lnfw/entities/entity.h>
 
 namespace lnfw {
 
-class ISystem 
+class System 
 {
 public:
 	// Ctor
-	ISystem(const int type) :
-		type_(type) {};
+  System() {};
 
 	// Dtor
-	virtual ~ISystem() {};
+	virtual ~System() {};
 
 	// Update the system and relative nodes
-	virtual void update(std::list<GameObject *> entities) = 0;
+	virtual void render(const std::list<Entity *> &entities) = 0;
 
 protected:
-	typedef std::list<lnfw::GameObject *>::iterator gameObjsItor_;
-	typedef std::list<lnfw::GameObject *>::const_iterator gameObjsConstItor_;
-
-	// Type of component treated by the system
-	int type_;
+	typedef std::list<lnfw::Entity *>::iterator entitiesItor_;
+	typedef std::list<lnfw::Entity *>::const_iterator constEntitiesItor_;
 };
 // EO Class
 

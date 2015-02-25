@@ -10,6 +10,9 @@
 #include <lnfw/physics/transform.h>
 #include <texture_comp.h>
 #include <material_comp.h>
+#include <vertex_renderer_comp.h>
+#include <classic_renderer_comp.h>
+#include <base_renderer_comp.h>
 
 namespace winapp {
 
@@ -29,6 +32,15 @@ Scene::~Scene() {
   // Free memory
   delete camera_;
   camera_ = NULL;
+
+  // Free up the entities list
+  for(entityItor_ itor = entities_.begin(); itor != entities_.end(); ++itor) {
+    lnfw::Entity *deleteThis = *itor;
+
+    delete deleteThis;
+  }
+  entities_.clear();
+
 }
 
 void Scene::initialise(HWND *lwnd, Input* in) {
@@ -123,11 +135,23 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   ShapesFactory shapeBuilder;
 
   ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
-  ShapeComp *planeShape = shapeBuilder.buildPlane(2);
-  ShapeComp *cubeShape = shapeBuilder.buildCube(2);
-  TextureComp *testTextComp = new TextureComp(crateSolidTex_);
+  ShapeComp *cubeShape = shapeBuilder.buildCube(0);
+  TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+  testTransform->scale.set(5.f, 3.f, 4.f); 
   MaterialComp *testMaterial = new MaterialComp();
+  BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+
+  // Add components to entity
+  lnfw::Entity *cubeEntity = new lnfw::Entity();
+  cubeEntity->attachComp(testMaterial);
+  cubeEntity->attachComp(cubeShape);
+  cubeEntity->attachComp(testTextComp);
+  cubeEntity->transform = *testTransform;
+  cubeEntity->attachComp(vertexRendererComp);
+
+  // Push entity
+  entities_.push_back(cubeEntity);
 
   // Create the unit cube display list
   unitCubeDList_ = createCubeInDList();
@@ -214,6 +238,9 @@ void Scene::render(float interp) {
   // Apply light modifications
   light0.apply();
 
+
+  renderingSystem_.render(entities_);
+
   // Save current matrix
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
@@ -290,23 +317,23 @@ void Scene::render(float interp) {
 
 
   // Save current matrix
-  glPushMatrix();
-    /*glTranslatef(light0Position_[0], light0Position_[1], light0Position_[2]);
+  /*glPushMatrix();
+    glTranslatef(light0Position_[0], light0Position_[1], light0Position_[2]);
 
     glColor3f(1, 1, 1);
-    gluSphere(gluNewQuadric(), 0.3f, 20.f, 20.f);*/
-  glPopMatrix();
+    gluSphere(gluNewQuadric(), 0.3f, 20.f, 20.f);
+  glPopMatrix();*/
   // Go back to previous matrix
-
+  
   // Save current matrix
-  glPushMatrix();
+  /*glPushMatrix();
     // Move the plane
     glTranslatef(2.f, 3.f, 1.f);
 
     // Draw cube
     drawPlane(1, 1, 1);
 
-  glPopMatrix();
+  glPopMatrix();*/
   // Go back to previous matrix
 
   // Swap the frame buffers (back with front)
