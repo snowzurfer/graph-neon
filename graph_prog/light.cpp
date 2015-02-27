@@ -4,15 +4,12 @@
 
 namespace winapp {
 
-Light::Light(const int lightNum) :
-  lightNum_(lightNum),
-  ambient_(kWhiteColourNoAlpha),
-  diffuse_(kWhiteColourNoAlpha),
-  specular_(kBaseSpecularLight),
-  constAtt_(1.f),
-  linAtt_(0.f),
-  quadAtt_(0.f),
-  enabled_(true) {
+  Light::Light(const int lightNum) :
+    lightNum_(lightNum), ambient_(kDefaultAmbLight),
+    diffuse_(kDefaultDiffLight), specular_(kBaseSpecularLight),
+    constAtt_(1.f), linAtt_(0.f),
+    quadAtt_(0.f), enabled_(true) 
+{
   setPosition(BasePos);
   apply();
 }

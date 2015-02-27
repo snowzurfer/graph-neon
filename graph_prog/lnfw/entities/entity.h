@@ -20,6 +20,8 @@ public:
 	// Ctor
 	Entity(const int ID);
 
+  // Dtor
+  ~Entity();
 
 	// Get a component depending on its type
 	Component* getComp(const unsigned int type);
@@ -35,6 +37,14 @@ public:
 
 	// Transform of the entity
 	Transform<Vec3> transform;
+
+  // Define a functor to delete components in a map
+  struct DeleteComponentPointer_
+  {
+    void operator()(std::map<int, Component *>::value_type value) {
+      delete value.second;
+    }
+  };
 
   // Add a child
   void addChild(Entity *child);

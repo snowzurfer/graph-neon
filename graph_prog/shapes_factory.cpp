@@ -1,6 +1,6 @@
 
 // Includes
-#include <shape_builder.h>
+#include <shapes_factory.h>
 #include <lnfw/physics/Vector3/Vec3.h>
 #include <cmath>
 #include <vector>
@@ -58,6 +58,7 @@ namespace winapp {
       angle += angleStep;
     }
 
+    return new ShapeComp(indices, vertices, normals, texels);
   }
   
   ShapeComp *ShapesFactory::buildCube(unsigned int detail) {
@@ -124,23 +125,23 @@ namespace winapp {
         for(float x = 0.f; x <= 1.f; x += chunkLength) {
           vertices.push_back(Vec3(x - 0.5f, -0.5f , z - 0.5f));
           normals.push_back(Vec3(0.f, -1.f, 0.f));
-          texels.push_back(Texel(0.25f + (x / 4.f), 0.50 + ((1 - z) / 4.f)));
+          texels.push_back(Texel(0.25f + (x / 4.f), 0.5f + ((1 - z) / 4.f)));
         }
       }
 
 
       // Rows numbers
-      int rowsNum = std::pow((float)(divisions + 1), 2) - (divisions + 1);
+      int rowsNum = (int)std::pow((float)(divisions + 1), 2) - (divisions + 1);
 
       // Indices
       for (int face = 0; face < 6; ++face) {
         // Calculate the starting index for the current face
-        int startRow = std::pow((float)(divisions + 1), 2) * face;
+        int startRow = (int)std::pow((float)(divisions + 1), 2) * face;
         // Calculate the limit of rows to process
         int currentRowsNum = startRow + rowsNum;
 
         for(int row = startRow; row < currentRowsNum; row += (divisions + 1)) {
-          for (int i = row; i < (row + divisions); i++ ) {
+          for (unsigned int i = row; i < (row + divisions); i++ ) {
             indices.push_back(i);
             indices.push_back(i + divisions + 1);
             indices.push_back(i + divisions + 2);
@@ -230,10 +231,10 @@ namespace winapp {
       }
     }
     // Indices
-    int rowsNum = std::pow((float)(divisions + 1), 2) - (divisions + 1);
+    int rowsNum = (int)std::pow((float)(divisions + 1), 2) - (divisions + 1);
 
     for(int row = 0; row < rowsNum; row += (divisions + 1)) {
-      for (int i = row; i < (row + divisions); i++ ) {
+      for (unsigned int i = row; i < (row + divisions); i++ ) {
         indices.push_back(i);
         indices.push_back(i + divisions + 1);
         indices.push_back(i + divisions + 2);
@@ -265,13 +266,13 @@ namespace winapp {
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));
-    normals.push_back(Vec3(0.f, 0.f, 1.f));
+    normals.push_back(Vec3(0.f, -1.f, 0.f));
     texels.push_back(Texel(0.5f, 0.5f));
 
     // Angle increase counter
     float angle = 0.f;
 
-    // For the level of detail
+    // For the level of detail (BASE)
     for(unsigned int i = 0; i < detail; ++i) {
       // Calculate the x and z positions
       float x = std::cosf(angle) / 2;
@@ -301,50 +302,61 @@ namespace winapp {
     angle = 0.f;
 
     // Vertices before to add vertices of the faces
-    int vertexNum = vertices.size();
+    int vertexNumStart = vertices.size();
+    int vertexNum = vertexNumStart;
 
     // For each face of the cone
-    for (int i = 0; i < detail; ++i) {
-      // If at latest vertex
-      if(i == detail) {
-        // Prevent "pac-man" effect
-        angle = 0.f;
-      }
+    for (unsigned int i = 0; i < detail; ++i) {
+      
 
       // Top of the cone
       Vec3 topVertex(0.f, 1.f, 0.f);
 
       // Calculate the x and z positions of the current angle
       float xCurr = std::cosf(angle) / 2;
-      float zCurr = std::sinf(angle) / 2;
+      float zCurr = -std::sinf(angle) / 2;
       Vec3 currVertex(xCurr, 0.f, zCurr);
-      // Calculate the x and z positions of the next angle
-      float xNext = std::cosf(angle + angleStep) / 2;
-      float zNext = std::sinf(angle + angleStep) / 2;
-      Vec3 nextVertex(xNext, 0.f, zNext);
+      
+      Vec3 nextVertex;
+
+      // If at latest vertex
+      if(i == (detail - 1)) {
+        // Prevent "pac-man" effect
+        float xNext = std::cosf(0.f) / 2;
+        float zNext = -std::sinf(0.f) / 2;
+        nextVertex.set(xNext, 0.f, zNext);
+      }
+      else {
+        // Calculate the x and z positions of the next angle
+        float xNext = std::cosf(angle + angleStep) / 2;
+        float zNext = -std::sinf(angle + angleStep) / 2;
+        nextVertex.set(xNext, 0.f, zNext);
+      }
 
       // Calculate the normals at these points
-      Vec3 topToCurr = currVertex - topVertex;
+      Vec3 a = currVertex - topVertex;
+      Vec3 b = nextVertex - topVertex;
+      Vec3 norm = (b.cross(a));
 
 
 
       // Store data
-      //vertices.push_back(Vec3(x, 0.f, z));
-      //normals.push_back(Vec3(0.f, -1.f, 0.f));
-      //texels.push_back(Texel(x + 0.5f, z + 0.5f));
-      //indices.push_back(0);
-      //indices.push_back(i + 1);
-      //// If at latest vertex
-      //if(i == (detail - 1) {
-      //  // Prevent "pac-man" effect
-      //  indices.push_back(1);
-      //}
-      //else {
-      //  indices.push_back(i + 2);
-      //}
+      vertices.push_back(topVertex);
+      vertices.push_back(currVertex);
+      vertices.push_back(nextVertex);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      // TODO Change to correct texel coordinates
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
 
-      //// Increase angle
-      //angle += angleStep;
+      // Increase angle
+      angle += angleStep;
     }
 
     return new ShapeComp(indices, vertices, normals, texels);

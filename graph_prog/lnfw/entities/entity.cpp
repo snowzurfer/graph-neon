@@ -1,7 +1,7 @@
 
 // Includes
 #include "entity.h"
-
+#include <algorithm>
 
 
 namespace lnfw {
@@ -63,6 +63,14 @@ namespace lnfw {
     children_.push_back(child);
   }
 }
+
+  Entity::~Entity() {
+    // Delete components
+    std::for_each(comps_.begin(), comps_.end(), DeleteComponentPointer_());
+
+    // Clear the container
+    comps_.clear();
+  }
 
 }
 // EO Namespace

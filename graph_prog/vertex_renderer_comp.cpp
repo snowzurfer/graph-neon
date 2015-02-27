@@ -30,6 +30,9 @@ namespace winapp {
     // Set material properties for the geometry
     material->apply(GL_FRONT);
 
+    // Deactivate blending
+    glEnable(GL_BLEND);
+
     // Bind the texture
     glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 
@@ -43,7 +46,7 @@ namespace winapp {
     float *vertices = new float[shape->getVertices().size() * 3];
 
     int counter = 0;
-    for(int i = 0; i < shape->getVertices().size(); ++i) {
+    for(unsigned int i = 0; i < shape->getVertices().size(); ++i) {
       vertices[counter++] = shape->getVertices()[i].getX();
       vertices[counter++] = shape->getVertices()[i].getY();
       vertices[counter++] = shape->getVertices()[i].getZ();
@@ -51,7 +54,7 @@ namespace winapp {
 
     counter = 0;
     float *normals = new float[shape->getNormals().size() * 3];
-    for(int i = 0; i < shape->getNormals().size(); ++i) {
+    for(unsigned int i = 0; i < shape->getNormals().size(); ++i) {
       normals[counter++] = shape->getNormals()[i].getX();
       normals[counter++] = shape->getNormals()[i].getY();
       normals[counter++] = shape->getNormals()[i].getZ();
@@ -59,7 +62,7 @@ namespace winapp {
 
     counter = 0;
     float *texels = new float[shape->getTexels().size() * 2];
-    for(int i = 0; i < shape->getTexels().size(); ++i) {
+    for(unsigned int i = 0; i < shape->getTexels().size(); ++i) {
       texels[counter++] = shape->getTexels()[i].x;
       texels[counter++] = shape->getTexels()[i].y;
     }
@@ -88,6 +91,9 @@ namespace winapp {
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    // Deactivate blending
+    glDisable(GL_BLEND);
 
     delete[] vertices;
     delete[] normals;

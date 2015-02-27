@@ -12,11 +12,12 @@ namespace winapp {
 
 // Handy material values
 const Colour kNoMaterial(0.f, 0.f, 0.f, 1.f);
-const Colour kDefaultAmbMat(0.7f, 0.7f, 0.7f, 1.f);
-const Colour kDefaultDiffMat(0.85f, 0.85f, 0.85f, 1.f);
-const Colour kDefaultSpecMat(1.f, 1.f, 1.f, 1.f);
+const Colour kDefaultAmbMat(0.95f, 0.95f, 0.95f, 1.f);
+const Colour kDefaultDiffMat(0.95f, 0.95f, 0.95f, 1.f);
+const Colour kDefaultSpecMat(0.8f, 0.8f, 0.8f, 1.f);
 const GLfloat kNoShininess = 0.f;
-const GLfloat kLowShininess = 0.5;
+const GLfloat kDefaultShininess = 40.f;
+const GLfloat kMediumShininess = 50.f;
 const GLfloat kHighShininess = 100.f;
 
 class MaterialComp : public lnfw::Component

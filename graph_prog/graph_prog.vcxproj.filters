@@ -168,9 +168,6 @@
     <ClCompile Include="classic_renderer_comp.cpp">
       <Filter>Source Files\Renderers</Filter>
     </ClCompile>
-    <ClCompile Include="shape_builder.cpp">
-      <Filter>Source Files\Builder</Filter>
-    </ClCompile>
     <ClCompile Include="material_comp.cpp">
       <Filter>Source Files\Materials\Material</Filter>
     </ClCompile>
@@ -179,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="base_renderer_comp.cpp">
       <Filter>Source Files\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="shapes_factory.cpp">
+      <Filter>Source Files\Builder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +254,6 @@
     <ClInclude Include="vertex_renderer_comp.h">
       <Filter>Header Files\Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="shape_builder.h">
-      <Filter>Header Files\Builder</Filter>
-    </ClInclude>
     <ClInclude Include="material_comp.h">
       <Filter>Header Files\Materials\Material</Filter>
     </ClInclude>
@@ -265,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="base_renderer_comp.h">
       <Filter>Header Files\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="shapes_factory.h">
+      <Filter>Header Files\Builder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

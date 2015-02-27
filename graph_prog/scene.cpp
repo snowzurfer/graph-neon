@@ -5,7 +5,7 @@
 
 // Includes
 #include "scene.h"
-#include <shape_builder.h>
+#include <shapes_factory.h>
 #include <shape_comp.h>
 #include <lnfw/physics/transform.h>
 #include <texture_comp.h>
@@ -62,7 +62,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			// Really Nice Perspective Calculations
   //glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
   glEnable(GL_LIGHTING);										// Enable lighting
-  glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
+  //glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);	// Specify texturing mode
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);							// Set blending function
   glEnable(GL_CULL_FACE);										// Enable culling
@@ -136,16 +136,20 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
   ShapeComp *cubeShape = shapeBuilder.buildCube(0);
+  ShapeComp *coneShape = shapeBuilder.buildCone(30);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-  testTransform->scale.set(5.f, 3.f, 4.f); 
+  testTransform->position.set(2.f, 3.f, 3.f);
+  testTransform->rotation.setX(90.f);
   MaterialComp *testMaterial = new MaterialComp();
+  testMaterial->setAmbient(1.f, 0.f, 1.f, 1.f);
+  testMaterial->setDiffuse(1.f, 0.f, 1.f, 1.f);
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
 
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
   cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(cubeShape);
+  cubeEntity->attachComp(coneShape);
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);
@@ -232,8 +236,7 @@ void Scene::render(float interp) {
   }
 
   // Define a point light
-  light0.setPosition(-3.0f, 1.f, 1.0f, 1.0f);
-  light0.setAmbient(1.f, 1.f, 1.f, 1.f);
+  light0.setPosition(15.0f, 15.f, 15.0f, 1.0f);
 
   // Apply light modifications
   light0.apply();
@@ -261,10 +264,12 @@ void Scene::render(float interp) {
     glScalef(20.f, 20.f, 20.f);
 
     // Bind texture to the geometry
-    glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
+    //glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
 
     // Draw cube
 //    cubeShape_.drawShape();
+
+    
 
   glPopMatrix();
   // Go back to previous matrix
@@ -274,21 +279,22 @@ void Scene::render(float interp) {
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
 	// Translate cube
-	glTranslatef(0.f, 0.f, 4.f);
+	//glTranslatef(0.f, 0.f, 0.f);
 
     // Rotate cube
-    glRotatef(cubeRot, 0.f, 1.f, 0.f);
+    //glRotatef(cubeRot, 0.f, 1.f, 0.f);
 
 	  // Set colour to transparent
-	  glColor4f(0.f, 0.f, 1.f, 0.25f);
+	  //glColor4f(0.f, 0.f, 1.f, 0.25f);
 	  // Activate blending
-	  glEnable(GL_BLEND);
+	  //glEnable(GL_BLEND);
 
     // Draw cube using display list
-    glCallList(unitCubeDList_);
+    //glCallList(unitCubeDList_);
+    gluSphere(gluNewQuadric(), 0.20, 20,20);
 
 	  // Deactivate blending
-	  glDisable(GL_BLEND);
+	  //glDisable(GL_BLEND);
 
   glPopMatrix();
   // Go back to previous matrix
@@ -298,7 +304,7 @@ void Scene::render(float interp) {
   glPushMatrix();   
 
     // Translate cube
-    glTranslatef(4.f, 0.f, 0.f);
+    glTranslatef(3.f, 3.f, 3.f);
     
     // Rotate cube
     glRotatef(cubeRot, 0.f, 1.f, 0.f);
@@ -819,7 +825,7 @@ void Scene::drawPlane(const float r, const float g, const float b) {
   // Begin drawing
   glBegin(GL_TRIANGLES);
     // Setup colour
-    glColor3f(r, g, b);
+    //glColor3f(r, g, b);
 
 
     glNormal3f(0.f, 1.f, 0.f);

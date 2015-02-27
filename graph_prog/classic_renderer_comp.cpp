@@ -28,6 +28,9 @@ namespace winapp {
     // Set material properties for the geometry
     material->apply(GL_FRONT);
 
+    // Activate blending
+    glEnable(GL_BLEND);
+
     //// Bind the texture
     glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 
@@ -37,7 +40,7 @@ namespace winapp {
     glBegin(GL_TRIANGLES);
 
     // For each index
-    for(int i = 0; i < shape->getIndices().size(); ++i) {
+    for(unsigned int i = 0; i < shape->getIndices().size(); ++i) {
       // Get the normal, vertex and texel at index i
       const Vec3 norm = shape->getNormals()[shape->getIndices()[i]];
       const Vec3 vertx = shape->getVertices()[shape->getIndices()[i]];
@@ -51,6 +54,9 @@ namespace winapp {
 
     // End drawing
     glEnd();
+
+    // Deactivate blending
+    glDisable(GL_BLEND);
 
   }
 

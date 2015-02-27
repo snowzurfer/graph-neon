@@ -11,7 +11,7 @@ namespace winapp {
     ambient_(kDefaultAmbMat),
     diffuse_(kDefaultDiffMat),
     specular_(kDefaultSpecMat),
-    shininess_(kNoShininess),
+    shininess_(kDefaultShininess),
     emission_(kBlackColourNoAlpha)
   {
 

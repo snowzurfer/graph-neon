@@ -9,8 +9,10 @@
 namespace winapp {
 
 // Define handy colour values
-const Colour kBaseSpecularLight(0.8f, 0.8f, 0.8f, 1.f);
+const Colour kBaseSpecularLight(0.85f, 0.85f, 0.85f, 1.f);
 const GLfloat BasePos[] = {1.f, 1.f, 1.f, 0.f};
+const Colour kDefaultAmbLight(0.3f, 0.3f, 0.3f, 1.f);
+const Colour kDefaultDiffLight(0.95f, 0.95f, 0.95f, 1.f);
 
 class Light 
 {

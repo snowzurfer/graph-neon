@@ -82,7 +82,7 @@
     <ClCompile Include="base_renderer_comp.cpp" />
     <ClCompile Include="classic_renderer_comp.cpp" />
     <ClCompile Include="rendering_sys.cpp" />
-    <ClCompile Include="shape_builder.cpp" />
+    <ClCompile Include="shapes_factory.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />
     <ClCompile Include="shape_comp.cpp" />
     <ClCompile Include="camera.cpp" />
@@ -108,7 +108,7 @@
     <ClInclude Include="base_renderer_comp.h" />
     <ClInclude Include="classic_renderer_comp.h" />
     <ClInclude Include="rendering_sys.h" />
-    <ClInclude Include="shape_builder.h" />
+    <ClInclude Include="shapes_factory.h" />
     <ClInclude Include="vertex_renderer_comp.h" />
     <ClInclude Include="shape_comp.h" />
     <ClInclude Include="camera.h" />
