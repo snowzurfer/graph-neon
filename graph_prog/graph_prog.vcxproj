@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClCompile Include="base_renderer_comp.cpp" />
     <ClCompile Include="classic_renderer_comp.cpp" />
+    <ClCompile Include="dlist_renderer_comp.cpp" />
     <ClCompile Include="rendering_sys.cpp" />
     <ClCompile Include="shapes_factory.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="app_globals.h" />
     <ClInclude Include="base_renderer_comp.h" />
     <ClInclude Include="classic_renderer_comp.h" />
+    <ClInclude Include="dlist_renderer_comp.h" />
     <ClInclude Include="rendering_sys.h" />
     <ClInclude Include="shapes_factory.h" />
     <ClInclude Include="vertex_renderer_comp.h" />

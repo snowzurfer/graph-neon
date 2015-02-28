@@ -180,6 +180,9 @@
     <ClCompile Include="shapes_factory.cpp">
       <Filter>Source Files\Builder</Filter>
     </ClCompile>
+    <ClCompile Include="dlist_renderer_comp.cpp">
+      <Filter>Source Files\Renderers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -265,6 +268,9 @@
     </ClInclude>
     <ClInclude Include="shapes_factory.h">
       <Filter>Header Files\Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="dlist_renderer_comp.h">
+      <Filter>Header Files\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
