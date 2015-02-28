@@ -34,6 +34,9 @@ namespace winapp {
     inline const std::vector<Texel> &getTexels() const {
       return texels_;
     }
+    inline GLuint getDList() const {
+      return dList_;
+    }
     inline void setVertices(const std::vector<Vec3> &vect) {
       vertices_ = vect;
     }
@@ -46,7 +49,12 @@ namespace winapp {
     inline void setTexels(const std::vector<Texel> &vect) {
       texels_ = vect;
     }
-
+    inline void setDList(const GLuint param) {
+      dList_ = param;
+    }
+    
+    // Create a dlist for this shape
+    void createDList();
 
   private:
     // Vertices, normals and indices for the shape
@@ -55,6 +63,9 @@ namespace winapp {
     std::vector<GLushort> indices_;
     // Texture coordinates
     std::vector<Texel> texels_;
+
+    // Eventual dlist for the shape
+    GLuint dList_;
 
   };
   // EO Class

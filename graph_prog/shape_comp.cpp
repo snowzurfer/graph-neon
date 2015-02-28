@@ -1,6 +1,10 @@
 
 // Includes
 #include <shape_comp.h>
+#include <vertex_renderer_comp.h>
+#include <lnfw/physics/transform.h>
+#include <material_comp.h>
+#include <texture_comp.h>
 
 
 namespace winapp {
@@ -15,9 +19,30 @@ namespace winapp {
     vertices_(vertices),
     normals_(normals),
     indices_(indices),
-    texels_(texels)
+    texels_(texels),
+    dList_(-1)
     {
 
     }
+
+    void ShapeComp::createDList() {
+      // If it has already been created
+      if(dList_ != -1) {
+        return;
+      }
+
+      // Create a name for the dlist
+      dList_ = glGenLists(1);
+      // Create a renderer to render into the dlist
+      VertexRendererComp vertRenderer;
+
+      // Start compiling the list
+      glNewList(dList_, GL_COMPILE);
+        vertRenderer().render(&lnfw::Transform<Vec3>(),
+          this);
+      glEndList();
+      
+    }
+
 }
 // EO Namespace
