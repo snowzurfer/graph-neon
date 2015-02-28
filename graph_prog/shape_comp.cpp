@@ -15,12 +15,9 @@ namespace winapp {
                       const std::vector<Vec3> &vertices, 
                       const std::vector<Vec3> &normals,
                       const std::vector<Texel> &texels) :
-    Component(),
-    vertices_(vertices),
-    normals_(normals),
-    indices_(indices),
-    texels_(texels),
-    dList_(-1)
+    Component(), vertices_(vertices),
+    normals_(normals), indices_(indices),
+    texels_(texels), dList_(-1)
     {
 
     }
@@ -38,7 +35,7 @@ namespace winapp {
 
       // Start compiling the list
       glNewList(dList_, GL_COMPILE);
-        vertRenderer().render(&lnfw::Transform<Vec3>(),
+        vertRenderer.render(&lnfw::Transform<Vec3>(),
           this);
       glEndList();
       
