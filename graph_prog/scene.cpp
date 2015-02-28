@@ -134,13 +134,14 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a shape builder
   ShapesFactory shapeBuilder;
 
-  ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
-  ShapeComp *cubeShape = shapeBuilder.buildCube(0);
-  ShapeComp *coneShape = shapeBuilder.buildCone(30);
+  //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
+  ShapeComp *cubeShape = shapeBuilder.buildCube(5);
+  //ShapeComp *coneShape = shapeBuilder.buildCone(30);
+  ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-  testTransform->position.set(2.f, 3.f, 3.f);
-  testTransform->rotation.setX(90.f);
+  testTransform->position.set(0.f, 0.f, 0.f);
+  testTransform->scale.set(3.f, 3.f, 3.f);
   MaterialComp *testMaterial = new MaterialComp();
   testMaterial->setAmbient(1.f, 0.f, 1.f, 1.f);
   testMaterial->setDiffuse(1.f, 0.f, 1.f, 1.f);
@@ -149,7 +150,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
   cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(coneShape);
+  cubeEntity->attachComp(cubeShape);
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);
@@ -261,7 +262,7 @@ void Scene::render(float interp) {
   glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
     // Scale
-    glScalef(20.f, 20.f, 20.f);
+    
 
     // Bind texture to the geometry
     //glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
@@ -304,10 +305,12 @@ void Scene::render(float interp) {
   glPushMatrix();   
 
     // Translate cube
-    glTranslatef(3.f, 3.f, 3.f);
+    glTranslatef(2.f, 2.f, 2.f);
     
     // Rotate cube
     glRotatef(cubeRot, 0.f, 1.f, 0.f);
+
+    //glScalef(5.f, 5.f, 5.f);
 
 	  // Activate blending
 	  glEnable(GL_BLEND);
@@ -321,26 +324,6 @@ void Scene::render(float interp) {
   glPopMatrix();
   // Go back to previous matrix
 
-
-  // Save current matrix
-  /*glPushMatrix();
-    glTranslatef(light0Position_[0], light0Position_[1], light0Position_[2]);
-
-    glColor3f(1, 1, 1);
-    gluSphere(gluNewQuadric(), 0.3f, 20.f, 20.f);
-  glPopMatrix();*/
-  // Go back to previous matrix
-  
-  // Save current matrix
-  /*glPushMatrix();
-    // Move the plane
-    glTranslatef(2.f, 3.f, 1.f);
-
-    // Draw cube
-    drawPlane(1, 1, 1);
-
-  glPopMatrix();*/
-  // Go back to previous matrix
 
   // Swap the frame buffers (back with front)
   SwapBuffers(hdc_);

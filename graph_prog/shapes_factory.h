@@ -26,9 +26,6 @@ namespace winapp {
    
     // Create a plane with a given level of detail (in power of 2)
     ShapeComp *buildPlane(unsigned int detail);
-    
-  private:
-
 
 
   };

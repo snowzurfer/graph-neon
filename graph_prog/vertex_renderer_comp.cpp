@@ -67,8 +67,8 @@ namespace winapp {
       texels[counter++] = shape->getTexels()[i].y;
     }
 
-    /*const GLubyte *indices = shape->getIndices().data();
-    GLubyte *indicesPtr = new GLubyte[shape->getIndices().size()];
+    /*const GLushort *indices = shape->getIndices().data();
+    GLushort *indicesPtr = new GLushort[shape->getIndices().size()];
 
     for(int i = 0; i < shape->getIndices().size(); i++) {
       indicesPtr[i] = indices[i];
@@ -85,7 +85,7 @@ namespace winapp {
 
     // Deference
     glDrawElements(GL_TRIANGLES, shape->getIndices().size(), 
-                   GL_UNSIGNED_BYTE, shape->getIndices().data());
+                   GL_UNSIGNED_SHORT, shape->getIndices().data());
 
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);

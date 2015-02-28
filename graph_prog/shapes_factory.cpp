@@ -23,24 +23,24 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<GLubyte> indices;
+    std::vector<GLushort> indices;
 
     // Store centre of shape
-    vertices.push_back(Vec3(0.f, 0.f, 0.f));
-    normals.push_back(Vec3(0.f, 0.f, 1.f));
+    vertices.push_back(Vec3(0.f, -0.5f, 0.f));
+    normals.push_back(Vec3(0.f, -1.f, 0.f));
     texels.push_back(Texel(0.5f, 0.5f));
 
     // Angle increase counter
     float angle = 0.f;
 
-    // For the level of detail
+    // For the level of detail (BASE)
     for(unsigned int i = 0; i < detail; ++i) {
       // Calculate the x and z positions
-      float x = std::cosf(angle) / 2;
-      float z = std::sinf(angle) / 2;
+      float x = std::cosf(angle) / 2.f;
+      float z = std::sinf(angle) / 2.f;
 
       // Store data
-      vertices.push_back(Vec3(x, 0.f, z));
+      vertices.push_back(Vec3(x, -0.5f, z));
       normals.push_back(Vec3(0.f, -1.f, 0.f));
       texels.push_back(Texel(x + 0.5f, z + 0.5f));
       indices.push_back(0);
@@ -52,6 +52,120 @@ namespace winapp {
       }
       else {
         indices.push_back(i + 2);
+      }
+
+      // Increase angle
+      angle += angleStep;
+    }
+
+    ///////// FACES //////////////////////////////////////////////////////////
+
+    angle = 0.f;
+
+    // Vertices before to add vertices of the faces
+    int vertexNumStart = vertices.size();
+    int vertexNum = vertexNumStart;
+
+    // For each face of the cone
+    for (unsigned int i = 0; i < detail; ++i) {
+
+      // Calculate the x and z positions of the current angle
+      float xCurr = std::cosf(angle) / 2.f;
+      float zCurr = -std::sinf(angle) / 2.f;
+      Vec3 currVertexBottom(xCurr, -0.5f, zCurr);
+      Vec3 currVertexTop(xCurr, 0.5f, zCurr);
+      
+      Vec3 nextVertexBottom;
+
+      // If at latest vertex
+      if(i == (detail - 1)) {
+        // Prevent "pac-man" effect
+        float xNext = std::cosf(0.f) / 2.f;
+        float zNext = -std::sinf(0.f) / 2.f;
+        nextVertexBottom.set(xNext, -0.5f, zNext);
+      }
+      else {
+        // Calculate the x and z positions of the next angle
+        float xNext = std::cosf(angle + angleStep) / 2.f;
+        float zNext = -std::sinf(angle + angleStep) / 2.f;
+        nextVertexBottom.set(xNext, -0.5f, zNext);
+      }
+
+      Vec3 nextVertexTop = nextVertexBottom;
+      nextVertexTop.setY(0.5f);
+
+      // Calculate the normals at this face
+      Vec3 a = currVertexBottom - currVertexTop;
+      Vec3 b = nextVertexBottom - currVertexTop;
+      Vec3 norm = (a.cross(b));
+      norm.normalize();
+
+
+
+      // Store data
+      vertices.push_back(currVertexTop);
+      vertices.push_back(currVertexBottom);
+      vertices.push_back(nextVertexBottom);
+      vertices.push_back(currVertexTop);
+      vertices.push_back(nextVertexBottom);
+      vertices.push_back(nextVertexTop);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      normals.push_back(norm);
+      // TODO Change to correct texel coordinates
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      texels.push_back(Texel(0.5f, 0.5f));
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+      indices.push_back(vertexNum++);
+
+      // Increase angle
+      angle += angleStep;
+    }
+
+    ///////// TOP //////////////////////////////////////////////////////////
+
+    // Read size before insertion of new vertices
+    vertexNumStart = vertices.size();
+
+    // Store centre of shape
+    vertices.push_back(Vec3(0.f, 0.5f, 0.f));
+    normals.push_back(Vec3(0.f, 1.f, 0.f));
+    texels.push_back(Texel(0.5f, 0.5f));
+
+
+    // Angle increase counter
+    angle = 0.f;
+
+    // For the level of detail (BASE)
+    for(unsigned int i = 0; i < detail; ++i) {
+      // Calculate the x and z positions
+      float x = std::cosf(angle) / 2.f;
+      float z = -std::sinf(angle) / 2.f;
+
+      // Store data
+      vertices.push_back(Vec3(x, 0.5f, z));
+      normals.push_back(Vec3(0.f, 1.f, 0.f));
+      texels.push_back(Texel(x + 0.5f, z + 0.5f));
+      indices.push_back(vertexNumStart); // Centre
+      indices.push_back(vertexNumStart + i + 1);
+      // If at latest vertex
+      if(i == (detail - 1)) {
+        // Prevent "pac-man" effect
+        indices.push_back(vertexNumStart + 1);
+      }
+      else {
+        indices.push_back(vertexNumStart + i + 2);
       }
 
       // Increase angle
@@ -72,7 +186,7 @@ namespace winapp {
       std::vector<Vec3> vertices;
       std::vector<Vec3> normals;
       std::vector<Texel> texels;
-      std::vector<GLubyte> indices;
+      std::vector<GLushort> indices;
 
 
       // Front face, z stays fixed
@@ -169,7 +283,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<GLubyte> indices;
+    std::vector<GLushort> indices;
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));
@@ -219,7 +333,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<GLubyte> indices;
+    std::vector<GLushort> indices;
 
 
     // Front face, z stays fixed
@@ -262,7 +376,7 @@ namespace winapp {
     std::vector<Vec3> vertices;
     std::vector<Vec3> normals;
     std::vector<Texel> texels;
-    std::vector<GLubyte> indices;
+    std::vector<GLushort> indices;
 
     // Store centre of shape
     vertices.push_back(Vec3(0.f, 0.f, 0.f));
@@ -275,8 +389,8 @@ namespace winapp {
     // For the level of detail (BASE)
     for(unsigned int i = 0; i < detail; ++i) {
       // Calculate the x and z positions
-      float x = std::cosf(angle) / 2;
-      float z = std::sinf(angle) / 2;
+      float x = std::cosf(angle) / 2.f;
+      float z = std::sinf(angle) / 2.f;
 
       // Store data
       vertices.push_back(Vec3(x, 0.f, z));
@@ -313,8 +427,8 @@ namespace winapp {
       Vec3 topVertex(0.f, 1.f, 0.f);
 
       // Calculate the x and z positions of the current angle
-      float xCurr = std::cosf(angle) / 2;
-      float zCurr = -std::sinf(angle) / 2;
+      float xCurr = std::cosf(angle) / 2.f;
+      float zCurr = -std::sinf(angle) / 2.f;
       Vec3 currVertex(xCurr, 0.f, zCurr);
       
       Vec3 nextVertex;
@@ -322,21 +436,22 @@ namespace winapp {
       // If at latest vertex
       if(i == (detail - 1)) {
         // Prevent "pac-man" effect
-        float xNext = std::cosf(0.f) / 2;
-        float zNext = -std::sinf(0.f) / 2;
+        float xNext = std::cosf(0.f) / 2.f;
+        float zNext = -std::sinf(0.f) / 2.f;
         nextVertex.set(xNext, 0.f, zNext);
       }
       else {
         // Calculate the x and z positions of the next angle
-        float xNext = std::cosf(angle + angleStep) / 2;
-        float zNext = -std::sinf(angle + angleStep) / 2;
+        float xNext = std::cosf(angle + angleStep) / 2.f;
+        float zNext = -std::sinf(angle + angleStep) / 2.f;
         nextVertex.set(xNext, 0.f, zNext);
       }
 
       // Calculate the normals at these points
       Vec3 a = currVertex - topVertex;
       Vec3 b = nextVertex - topVertex;
-      Vec3 norm = (b.cross(a));
+      Vec3 norm = (a.cross(b));
+      norm.normalize();
 
 
 

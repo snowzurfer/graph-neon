@@ -7,7 +7,7 @@ namespace winapp {
 
   REGISTER_COMPONENT_IMPL(ShapeComp);
 
-  ShapeComp::ShapeComp(const std::vector<GLubyte> &indices, 
+  ShapeComp::ShapeComp(const std::vector<GLushort> &indices, 
                       const std::vector<Vec3> &vertices, 
                       const std::vector<Vec3> &normals,
                       const std::vector<Texel> &texels) :
