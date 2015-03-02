@@ -31,12 +31,6 @@
     <Filter Include="Source Files\DispList">
       <UniqueIdentifier>{07eec849-ad3e-4aea-977d-801c3d42c802}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Shapes">
-      <UniqueIdentifier>{8e154edb-e533-4ccd-87ef-6624cf1e0373}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Shapes">
-      <UniqueIdentifier>{d1d41625-ca9c-4dd3-bfea-d0741226e6fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Skybox">
       <UniqueIdentifier>{324089bf-bafb-4079-bf4a-50f5d990a896}</UniqueIdentifier>
     </Filter>
@@ -67,29 +61,11 @@
     <Filter Include="Source Files\Materials\Light">
       <UniqueIdentifier>{83017f05-739a-4fda-a641-591cfaa14b4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Textures">
-      <UniqueIdentifier>{f54a5f11-0c63-4bfc-b60e-0432243258af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Textures">
-      <UniqueIdentifier>{83c03a51-3750-40a5-8619-2f0ba6cd62e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\tools">
       <UniqueIdentifier>{e684ac69-5e1d-4be9-b1e3-a6896f707e1a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{1af5322d-f50e-471d-9b38-28953b551675}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Materials\Material">
-      <UniqueIdentifier>{e254585a-55c4-4e5d-a6c8-4b835558f9cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Materials\Material">
-      <UniqueIdentifier>{591ce50f-1fa4-43b1-a53e-bde17f2e6d82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Renderers">
-      <UniqueIdentifier>{28b94df2-6d0e-4b3f-80f0-ba22700e138c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Renderers">
-      <UniqueIdentifier>{5a393e9c-ea86-406c-b8c9-aeb279c9387c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Builder">
       <UniqueIdentifier>{1908eac1-dcfc-4cba-aaf3-14bb250326bf}</UniqueIdentifier>
@@ -108,6 +84,42 @@
     </Filter>
     <Filter Include="Header Files\Systems\Renderer">
       <UniqueIdentifier>{1da13af1-577c-453c-a707-3fcbe1816f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{1660f8db-7cd6-4521-94f3-30d52d0512d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Renderers">
+      <UniqueIdentifier>{28b94df2-6d0e-4b3f-80f0-ba22700e138c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Material">
+      <UniqueIdentifier>{e254585a-55c4-4e5d-a6c8-4b835558f9cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Shapes">
+      <UniqueIdentifier>{8e154edb-e533-4ccd-87ef-6624cf1e0373}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Textures">
+      <UniqueIdentifier>{f54a5f11-0c63-4bfc-b60e-0432243258af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components">
+      <UniqueIdentifier>{70e6a858-29d4-4f3b-926a-587c60f1e650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Material">
+      <UniqueIdentifier>{591ce50f-1fa4-43b1-a53e-bde17f2e6d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Renderers">
+      <UniqueIdentifier>{5a393e9c-ea86-406c-b8c9-aeb279c9387c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Shapes">
+      <UniqueIdentifier>{d1d41625-ca9c-4dd3-bfea-d0741226e6fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Textures">
+      <UniqueIdentifier>{83c03a51-3750-40a5-8619-2f0ba6cd62e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\Textures">
+      <UniqueIdentifier>{9d1fd59b-a8c1-49d1-8965-65da30daa991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\Textures">
+      <UniqueIdentifier>{9ecf59dc-94d4-465d-93b3-8117fc800d21}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,31 +169,40 @@
       <Filter>Source Files\Tools</Filter>
     </ClCompile>
     <ClCompile Include="texture_comp.cpp">
-      <Filter>Source Files\Textures</Filter>
+      <Filter>Source Files\Components\Textures</Filter>
     </ClCompile>
     <ClCompile Include="shape_comp.cpp">
-      <Filter>Source Files\Shapes</Filter>
+      <Filter>Source Files\Components\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="vertex_renderer_comp.cpp">
-      <Filter>Source Files\Renderers</Filter>
+      <Filter>Source Files\Components\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="classic_renderer_comp.cpp">
-      <Filter>Source Files\Renderers</Filter>
+      <Filter>Source Files\Components\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="material_comp.cpp">
-      <Filter>Source Files\Materials\Material</Filter>
+      <Filter>Source Files\Components\Material</Filter>
     </ClCompile>
     <ClCompile Include="rendering_sys.cpp">
       <Filter>Source Files\Systems\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="base_renderer_comp.cpp">
-      <Filter>Source Files\Renderers</Filter>
+      <Filter>Source Files\Components\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="shapes_factory.cpp">
       <Filter>Source Files\Builder</Filter>
     </ClCompile>
     <ClCompile Include="dlist_renderer_comp.cpp">
-      <Filter>Source Files\Renderers</Filter>
+      <Filter>Source Files\Components\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="animated_texture_comp.cpp">
+      <Filter>Source Files\Components\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="animated_texture_sys.cpp">
+      <Filter>Source Files\Systems\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="lnfw\physics\transform.cpp">
+      <Filter>Source Files\lnfw</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,34 +264,40 @@
       <Filter>Header Files\tools</Filter>
     </ClInclude>
     <ClInclude Include="texture_comp.h">
-      <Filter>Header Files\Textures</Filter>
+      <Filter>Header Files\Components\Textures</Filter>
     </ClInclude>
     <ClInclude Include="lnfw\physics\transform.h">
       <Filter>Header Files\lnfw</Filter>
     </ClInclude>
     <ClInclude Include="shape_comp.h">
-      <Filter>Header Files\Shapes</Filter>
+      <Filter>Header Files\Components\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="classic_renderer_comp.h">
-      <Filter>Header Files\Renderers</Filter>
+      <Filter>Header Files\Components\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="vertex_renderer_comp.h">
-      <Filter>Header Files\Renderers</Filter>
+      <Filter>Header Files\Components\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="material_comp.h">
-      <Filter>Header Files\Materials\Material</Filter>
+      <Filter>Header Files\Components\Material</Filter>
     </ClInclude>
     <ClInclude Include="rendering_sys.h">
       <Filter>Header Files\Systems\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="base_renderer_comp.h">
-      <Filter>Header Files\Renderers</Filter>
+      <Filter>Header Files\Components\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="shapes_factory.h">
       <Filter>Header Files\Builder</Filter>
     </ClInclude>
     <ClInclude Include="dlist_renderer_comp.h">
-      <Filter>Header Files\Renderers</Filter>
+      <Filter>Header Files\Components\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="animated_texture_comp.h">
+      <Filter>Header Files\Components\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="animated_textures_sys.h">
+      <Filter>Header Files\Systems\Textures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

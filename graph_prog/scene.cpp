@@ -243,7 +243,7 @@ void Scene::render(float interp) {
   light0.apply();
 
 
-  renderingSystem_.render(entities_);
+  renderingSystem_.update(entities_);
 
   // Save current matrix
   glMatrixMode(GL_MODELVIEW);

@@ -10,19 +10,87 @@ namespace lnfw {
   public:
 	  // Ctor
 	  Transform() :
-		  position(0.f, 0.f, 0.f),
-		  scale(1.f, 1.f, 1.f),
-		  rotation(0.f, 0.f, 0.f) {};
+      position(),
+      scale(),
+      rotation() {};
+
+    Transform(const V &positionE,
+      const V &rotationE,  
+      const V &scaleE):
+      position(positionE),
+      scale(scaleE),
+      rotation(rotationE) {};
 
 	  // Components of the transform
 	  V position;
 	  V scale;
 	  V rotation;
 
+    friend const Transform<V> operator +(const Transform<V> &lhs,
+      const Transform<V> &rhs);
+    friend const Transform<V> operator *(const Transform<V> &lhs,
+      const Transform<V> &rhs);
+    friend const Transform<V> operator *(const Transform<V> &lhs,
+      const float &rhs);
+
   };
   // EO Class
 
+
+  // Template specialisation
+  /*template<>
+  class Transform<Vec3>
+  {
+    // Ctor
+    Transform();
+
+    Transform(const Vec3 &positionE,
+      const Vec3 &rotationE,  
+      const Vec3 &scaleE);
+
+    // Components of the transform
+    Vec3 position;
+    Vec3 scale;
+    Vec3 rotation;
+
+    friend const Transform<Vec3> operator +(const Transform<Vec3> &lhs,
+      const Transform<Vec3> &rhs);
+    friend const Transform<Vec3> operator *(const Transform<Vec3> &lhs,
+      const Transform<Vec3> &rhs);
+    friend const Transform<Vec3> operator *(const Transform<Vec3> &lhs,
+      const float &rhs);
+  };
+
+
+  using winapp::Texel;
+
+  // Template specialisation
+  template<>
+  class Transform<Texel>
+  {
+    // Ctor
+    Transform();
+
+    Transform(const Texel &positionE,
+      const Texel &rotationE,  
+      const Texel &scaleE);
+
+    // Components of the transform
+    Texel position;
+    Texel scale;
+    Texel rotation;
+
+    friend const Transform<Texel> operator +(const Transform<Texel> &lhs,
+      const Transform<Texel> &rhs);
+    friend const Transform<Texel> operator *(const Transform<Texel> &lhs,
+      const Transform<Texel> &rhs);
+    friend const Transform<Texel> operator *(const Transform<Texel> &lhs,
+      const float &rhs);
+  };*/
+
 }
 // EO Namespace
+
+
 
 #endif

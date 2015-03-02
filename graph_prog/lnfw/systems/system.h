@@ -17,8 +17,8 @@ public:
 	// Dtor
 	virtual ~System() {};
 
-	// Update the system and relative nodes
-	virtual void render(const std::list<Entity *> &entities) = 0;
+	// Update the system
+	virtual void update(const std::list<Entity *> &entities) = 0;
 
 protected:
 	typedef std::list<lnfw::Entity *>::iterator entitiesItor_;

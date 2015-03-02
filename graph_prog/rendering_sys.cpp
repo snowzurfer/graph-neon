@@ -13,8 +13,8 @@
 
 namespace winapp {
 
-  void RenderingSys::render(const std::list<lnfw::Entity *> &entities) {
-    // Iterate through the entities and move them
+  void RenderingSys::update(const std::list<lnfw::Entity *> &entities) {
+    // Iterate through the entities and render them
     for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
       // If the entity has a renderer component
       if((*entityitor)->hasComp(abfw::CRC::GetICRC("BaseRendererComp"))) { 
@@ -40,7 +40,7 @@ namespace winapp {
           // If the entity has children
           if((*entityitor)->getChildrenList().size() > 0) {
             // Obtain the children structure and Render recursively
-            render((*entityitor)->getChildrenList());        
+            update((*entityitor)->getChildrenList());        
           }
 
         // Pop modelview matrix

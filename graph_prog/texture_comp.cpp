@@ -12,5 +12,9 @@ namespace winapp {
 
   }
 
+
+  Texel operator *(const Texel &lhs, const float rhs) {
+    return Texel(lhs.x * rhs, lhs.y * rhs);
+  }
 }
 // EO Namespace
