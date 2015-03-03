@@ -26,12 +26,26 @@ namespace lnfw {
 	  V scale;
 	  V rotation;
 
-    friend const Transform<V> operator +(const Transform<V> &lhs,
-      const Transform<V> &rhs);
-    friend const Transform<V> operator *(const Transform<V> &lhs,
-      const Transform<V> &rhs);
-    friend const Transform<V> operator *(const Transform<V> &lhs,
-      const float &rhs);
+    
+    
+    
+    const Transform<V> operator +(const Transform<V> &rhs) const {
+      return Transform(position + rhs.position,
+        rotation + rhs.rotation,
+        scale + rhs.scale);
+    }
+    
+    const Transform<V> operator *(const Transform<V> &rhs) const {
+      return Transform(position * rhs.position,
+        rotation * rhs.rotation,
+        scale * rhs.scale);
+    }
+    
+    const Transform<V> operator *(const float rhs) const {
+      return Transform(position * rhs,
+        rotation * rhs,
+        scale * rhs);
+    }
 
   };
   // EO Class

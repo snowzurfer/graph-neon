@@ -20,7 +20,10 @@ namespace winapp {
 
     float x, y;
 
-    friend Texel operator *(const Texel &lhs, const float rhs);
+    friend const Texel operator *(const Texel &lhs, const float rhs);
+    friend const Texel operator +(const Texel &lhs, const Texel &rhs);
+    //const Texel operator *(const float rhs) const;
+    //const Texel operator +(const Texel &rhs) const;
   };
 
   class TextureComp : public lnfw::Component 

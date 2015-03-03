@@ -201,9 +201,6 @@
     <ClCompile Include="animated_texture_sys.cpp">
       <Filter>Source Files\Systems\Textures</Filter>
     </ClCompile>
-    <ClCompile Include="lnfw\physics\transform.cpp">
-      <Filter>Source Files\lnfw</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">

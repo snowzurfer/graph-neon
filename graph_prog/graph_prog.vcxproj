@@ -84,7 +84,6 @@
     <ClCompile Include="base_renderer_comp.cpp" />
     <ClCompile Include="classic_renderer_comp.cpp" />
     <ClCompile Include="dlist_renderer_comp.cpp" />
-    <ClCompile Include="lnfw\physics\transform.cpp" />
     <ClCompile Include="rendering_sys.cpp" />
     <ClCompile Include="shapes_factory.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />

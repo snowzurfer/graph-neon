@@ -4,11 +4,7 @@
 // Includes
 #include <lnfw/components/component.h>
 #include <lnfw/physics/transform.h>
-
-// Forward declarations
-namespace winapp {
-  class Texel;
-}
+#include <texture_comp.h>
 
 
 namespace winapp {
