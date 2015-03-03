@@ -13,34 +13,27 @@ namespace winapp {
                                         const TextureComp *texture /* = NULL */,
                                         const MaterialComp *material /* = NULL */)
   {
-    // Move to position
-    glTranslatef(transform->position.getX(),
-                 transform->position.getY(),
-                 transform->position.getZ());
-    // Scale
-    glScalef(transform->scale.getX(),
-             transform->scale.getY(),
-             transform->scale.getZ());
-
-    // Rotate
-    glRotatef(transform->rotation.getX(), 1.f, 0.f, 0.f);
-    glRotatef(transform->rotation.getY(), 0.f, 1.f, 0.f);
-    glRotatef(transform->rotation.getZ(), 0.f, 0.f, 1.f);
+    
+    // Apply geometry transform
+    applyGeometryTransform(transform, shape);
 
     // Set material properties for the geometry
     material->apply(GL_FRONT);
 
-    // Deactivate blending
+    // Activate blending
     glEnable(GL_BLEND);
 
     // Bind the texture
     glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
 
+    // Apply textire transforms
+    applyTextureTransform(texture);
+    
+    
     
     //////////RENDER
 
     
-
     // Specify data for the arrays
 
     float *vertices = new float[shape->getVertices().size() * 3];
@@ -98,6 +91,8 @@ namespace winapp {
     delete[] vertices;
     delete[] normals;
     delete[] texels;
+
+    cleanUpTextures();
   }
 
 }

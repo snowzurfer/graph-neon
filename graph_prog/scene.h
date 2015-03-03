@@ -23,6 +23,8 @@
 #include <list>
 #include <lnfw/entities/entity.h>
 #include <rendering_sys.h>
+#include <animated_textures_sys.h>
+
 
 
 namespace winapp {
@@ -115,6 +117,7 @@ protected:
 
   // Systems
   RenderingSys renderingSystem_;
+  AnimatedTextureSys animatedTextureSys_;
 
   // For moving object
   unsigned int xpos, ypos;

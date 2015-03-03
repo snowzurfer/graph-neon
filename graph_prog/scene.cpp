@@ -13,6 +13,8 @@
 #include <vertex_renderer_comp.h>
 #include <classic_renderer_comp.h>
 #include <base_renderer_comp.h>
+#include <animated_texture_comp.h>
+#include <animated_textures_sys.h>
 
 namespace winapp {
 
@@ -54,19 +56,21 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   initOpenGL(screenRect_.right, screenRect_.bottom); // initialise openGL
 
   // OpenGL settings
-  glShadeModel(GL_SMOOTH);										// Enable Smooth Shading
+  glShadeModel(GL_SMOOTH);										                  // Enable Smooth Shading
   glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);				
-  glClearDepth(1.0f);											// Depth Buffer Setup
-  glEnable(GL_DEPTH_TEST);										// Enables Depth Testing
-  glDepthFunc(GL_LEQUAL);										// The Type Of Depth Testing To Do
-  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			// Really Nice Perspective Calculations
-  //glEnable(GL_COLOR_MATERIAL);									// Turn on colour rendering manually
-  glEnable(GL_LIGHTING);										// Enable lighting
-  //glEnable(GL_TEXTURE_2D);										// Enable 2D texturing
+  glClearDepth(1.0f);											                      // Depth Buffer Setup
+  glEnable(GL_DEPTH_TEST);										                  // Enables Depth Testing
+  glDepthFunc(GL_LEQUAL);										                    // The Type Of Depth Testing To Do
+  glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);		        // Really Nice Perspective Calculations
+  //glEnable(GL_COLOR_MATERIAL);								                // Turn on colour rendering manually
+  glEnable(GL_LIGHTING);										                    // Enable lighting
+  glEnable(GL_TEXTURE_2D);										                  // Enable 2D texturing
   glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);	// Specify texturing mode
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);							// Set blending function
-  glEnable(GL_CULL_FACE);										// Enable culling
-  glCullFace(GL_BACK);											// Set it for the back faces
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Default texture behaviour
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			      // Set blending function
+  glEnable(GL_CULL_FACE);										                    // Enable culling
+  glCullFace(GL_BACK);											                    // Set it for the back faces
 
 
   // Initialise other variables
@@ -143,9 +147,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   testTransform->position.set(0.f, 0.f, 0.f);
   testTransform->scale.set(3.f, 3.f, 3.f);
   MaterialComp *testMaterial = new MaterialComp();
-  testMaterial->setAmbient(1.f, 0.f, 1.f, 1.f);
-  testMaterial->setDiffuse(1.f, 0.f, 1.f, 1.f);
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+  AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 10.f), Texel(0.f, 0.f));
+  animTextureComp->setTransform(animTextTransform);
 
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
@@ -154,6 +159,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);
+  cubeEntity->attachComp(animTextureComp);
 
   // Push entity
   entities_.push_back(cubeEntity);
@@ -191,6 +197,9 @@ void Scene::update() {
 
   // Update camera
   camera_->update();
+
+  // Update systems
+  animatedTextureSys_.update(entities_);
 }
 
 void Scene::procInput() {

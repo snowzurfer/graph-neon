@@ -20,6 +20,17 @@ namespace winapp {
       const ShapeComp *shape,
       const TextureComp *texture = NULL,
       const MaterialComp *material = NULL) = 0;
+
+  protected:
+    // Apply transform to shape
+    void applyGeometryTransform(const lnfw::Transform<Vec3> *transform,
+      const ShapeComp *shape);
+
+    // Apply texture transform to texture
+    void applyTextureTransform(const TextureComp *texture);
+
+    // Clean up matrix stack for textures
+    void cleanUpTextures();
   };
   // EO Class
 

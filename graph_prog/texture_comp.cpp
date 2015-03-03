@@ -7,7 +7,8 @@ namespace winapp {
   REGISTER_COMPONENT_IMPL(TextureComp);
 
   TextureComp::TextureComp(GLuint textureID) :
-    textureID_(textureID)
+    textureID_(textureID),
+    transform_(Texel(0.f, 0.f), Texel(0.f, 0.f), Texel(1.f, 1.f))
   {
 
   }

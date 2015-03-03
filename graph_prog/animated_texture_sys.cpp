@@ -15,12 +15,12 @@ namespace winapp {
     for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
       // If the entity has the required component(s)
       if(((*entityitor)->hasComp(abfw::CRC::GetICRC("AnimatedTextureComp"))) &&
-         ((*entityitor)->hasComp(abfw::CRC::GetICRC("Texture")))) { 
+         ((*entityitor)->hasComp(abfw::CRC::GetICRC("TextureComp")))) { 
         // Retrieve the component(s)
         AnimatedTextureComp *animatedTextureComp = (AnimatedTextureComp *)(*entityitor)->
           getComp(abfw::CRC::GetICRC("AnimatedTextureComp"));
         TextureComp *textureComp = (TextureComp *)(*entityitor)->
-          getComp(abfw::CRC::GetICRC("TextureComp"));
+          getComp(abfw::CRC::GetICRC("TextureComp")); 
 
         // Update the texture component
         lnfw::Transform<Texel> velocityStep = 
@@ -28,6 +28,8 @@ namespace winapp {
 
         lnfw::Transform<Texel> textureTransform = textureComp->getTransform();
         textureComp->setTransform(textureTransform + velocityStep);
+
+        // Check for overflows
 
 
       }
