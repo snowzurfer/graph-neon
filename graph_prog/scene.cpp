@@ -15,6 +15,7 @@
 #include <base_renderer_comp.h>
 #include <animated_texture_comp.h>
 #include <animated_textures_sys.h>
+#include <models_loader.h>
 
 namespace winapp {
 
@@ -137,11 +138,15 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Create a shape builder
   ShapesFactory shapeBuilder;
+  // Create a models loader
+  ModelsLoader modelsLoader;
+
+  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
-  ShapeComp *cubeShape = shapeBuilder.buildCube(5);
+  //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
   //ShapeComp *coneShape = shapeBuilder.buildCone(30);
-  ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
+  //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   testTransform->position.set(0.f, 0.f, 0.f);
@@ -149,13 +154,13 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   MaterialComp *testMaterial = new MaterialComp();
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
-  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 10.f), Texel(0.f, 0.f));
+  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
 
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
   cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(cubeShape);
+  cubeEntity->attachComp(ptrToShape);
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);

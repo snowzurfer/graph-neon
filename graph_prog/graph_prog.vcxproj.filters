@@ -67,12 +67,6 @@
     <Filter Include="Source Files\Tools">
       <UniqueIdentifier>{1af5322d-f50e-471d-9b38-28953b551675}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Builder">
-      <UniqueIdentifier>{1908eac1-dcfc-4cba-aaf3-14bb250326bf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Builder">
-      <UniqueIdentifier>{36991366-a102-4974-9cf7-4db92a4ee08a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Systems">
       <UniqueIdentifier>{d479e43d-b6e8-46ec-bbad-c414ac38267d}</UniqueIdentifier>
     </Filter>
@@ -120,6 +114,18 @@
     </Filter>
     <Filter Include="Header Files\Systems\Textures">
       <UniqueIdentifier>{9ecf59dc-94d4-465d-93b3-8117fc800d21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Builders">
+      <UniqueIdentifier>{1908eac1-dcfc-4cba-aaf3-14bb250326bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Builders">
+      <UniqueIdentifier>{36991366-a102-4974-9cf7-4db92a4ee08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Loaders">
+      <UniqueIdentifier>{30f94577-6920-4250-8dd2-de81f77f0791}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Loaders">
+      <UniqueIdentifier>{eafec9ed-f6ae-4b50-b14b-7fd6e2939061}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -190,7 +196,7 @@
       <Filter>Source Files\Components\Renderers</Filter>
     </ClCompile>
     <ClCompile Include="shapes_factory.cpp">
-      <Filter>Source Files\Builder</Filter>
+      <Filter>Source Files\Builders</Filter>
     </ClCompile>
     <ClCompile Include="dlist_renderer_comp.cpp">
       <Filter>Source Files\Components\Renderers</Filter>
@@ -200,6 +206,12 @@
     </ClCompile>
     <ClCompile Include="animated_texture_sys.cpp">
       <Filter>Source Files\Systems\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\TokenStream.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="models_loader.cpp">
+      <Filter>Source Files\Loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -285,7 +297,7 @@
       <Filter>Header Files\Components\Renderers</Filter>
     </ClInclude>
     <ClInclude Include="shapes_factory.h">
-      <Filter>Header Files\Builder</Filter>
+      <Filter>Header Files\Builders</Filter>
     </ClInclude>
     <ClInclude Include="dlist_renderer_comp.h">
       <Filter>Header Files\Components\Renderers</Filter>
@@ -295,6 +307,12 @@
     </ClInclude>
     <ClInclude Include="animated_textures_sys.h">
       <Filter>Header Files\Systems\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="models_loader.h">
+      <Filter>Header Files\Loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\TokenStream.h">
+      <Filter>Header Files\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
