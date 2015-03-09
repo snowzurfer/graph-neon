@@ -127,6 +127,18 @@
     <Filter Include="Source Files\Loaders">
       <UniqueIdentifier>{eafec9ed-f6ae-4b50-b14b-7fd6e2939061}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Movement">
+      <UniqueIdentifier>{c438d162-c916-4d45-9677-35af2163389c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Movement">
+      <UniqueIdentifier>{78a3f5c4-c86f-403a-a36f-cf4d62c83434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\Movement">
+      <UniqueIdentifier>{1224ba8d-a807-4abc-9f86-4661e33be2d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\Movement">
+      <UniqueIdentifier>{3cc7ed12-784c-471e-977f-65d0afe2968c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -212,6 +224,15 @@
     </ClCompile>
     <ClCompile Include="models_loader.cpp">
       <Filter>Source Files\Loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="entities_factory.cpp">
+      <Filter>Source Files\Builders</Filter>
+    </ClCompile>
+    <ClCompile Include="velocity_comp.cpp">
+      <Filter>Source Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="movement_sys.cpp">
+      <Filter>Source Files\Systems\Movement</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +334,15 @@
     </ClInclude>
     <ClInclude Include="tools\TokenStream.h">
       <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="entities_factory.h">
+      <Filter>Header Files\Builders</Filter>
+    </ClInclude>
+    <ClInclude Include="velocity_comp.h">
+      <Filter>Header Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="movement_sys.h">
+      <Filter>Header Files\Systems\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
