@@ -149,6 +149,9 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
   // Depending on the message received
     switch (message){
   case WM_CLOSE: {
+	  // Show cursor again
+	  ShowCursor(TRUE);
+
       // Ask user if he wants to proceed in closing the window  
       int msgBoxResult = MessageBox(hwnd,                      // Handle to parent window
                     (LPCSTR)"Are you sure you want to quit?",    // Text
@@ -162,6 +165,8 @@ LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
           break;
         }
         case IDNO: {
+			    // Hide cursor again
+			    ShowCursor(FALSE);
           return true;
           break;
         }
@@ -253,6 +258,8 @@ BOOL InitialiseMyWindow(HINSTANCE hInstance, int nCmdShow, int x, int y, int w, 
   // Update the window by sending a WM_PAINT message to it
     UpdateWindow (hwnd);      
 
+	// Disable cursor
+	ShowCursor(FALSE);
   // Exit the function successfully
   return TRUE;
 }
