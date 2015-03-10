@@ -157,7 +157,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(), Vec3(25.f, 25.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(), Vec3());
   
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
