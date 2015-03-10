@@ -141,11 +141,11 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
+  //ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
   //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
-  //ShapeComp *coneShape = shapeBuilder.buildCone(30);
+  ShapeComp *coneShape = shapeBuilder.buildCone(30);
   //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
@@ -160,7 +160,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
   cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(ptrToShape);
+  cubeEntity->attachComp(coneShape);
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);
