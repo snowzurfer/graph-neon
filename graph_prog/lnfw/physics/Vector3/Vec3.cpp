@@ -158,3 +158,7 @@ Vec3& Vec3::operator-=(const Vec3& v2) {
 Vec3::operator const float *() {
   return elements;
 }
+
+const Vec3 Vec3::operator *(const float rhs) const {
+  return this->scale(rhs);
+}

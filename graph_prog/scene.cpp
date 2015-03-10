@@ -16,6 +16,7 @@
 #include <animated_texture_comp.h>
 #include <animated_textures_sys.h>
 #include <models_loader.h>
+#include <velocity_comp.h>
 
 namespace winapp {
 
@@ -141,30 +142,32 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  //ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
+  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
   //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
-  ShapeComp *coneShape = shapeBuilder.buildCone(30);
+  //ShapeComp *coneShape = shapeBuilder.buildCone(30);
   //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   testTransform->position.set(0.f, 0.f, 0.f);
-  testTransform->scale.set(3.f, 3.f, 3.f);
+  testTransform->scale.set(1.5f, 1.5f, 1.5f);
   MaterialComp *testMaterial = new MaterialComp();
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(), Vec3());
+  
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
   cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(coneShape);
+  cubeEntity->attachComp(ptrToShape);
   cubeEntity->attachComp(testTextComp);
   cubeEntity->transform = *testTransform;
   cubeEntity->attachComp(vertexRendererComp);
   cubeEntity->attachComp(animTextureComp);
+  cubeEntity->attachComp(velComponent);
 
   // Push entity
   entities_.push_back(cubeEntity);
@@ -205,6 +208,7 @@ void Scene::update() {
 
   // Update systems
   animatedTextureSys_.update(entities_);
+  movementSys_.update(entities_);
 }
 
 void Scene::procInput() {
