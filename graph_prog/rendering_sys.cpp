@@ -1,9 +1,6 @@
 
 // Includes
 #include <rendering_sys.h>
-#include <vertex_renderer_comp.h>
-#include <classic_renderer_comp.h>
-#include <dlist_renderer_comp.h>
 #include <lnfw/physics/transform.h>
 #include <lnfw/physics/Vector3/Vec3.h>
 #include <tools/crc.h>

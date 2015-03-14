@@ -47,6 +47,9 @@ namespace winapp {
     inline GLuint getDList() const {
       return dList_;
     }
+    inline const bool getFaceVisibility(const int faceNum) const {
+      return faces_[faceNum].visible_;
+    }
     inline void setVertices(const std::vector<Vec3> &vect) {
       vertices_ = vect;
     }
@@ -61,6 +64,9 @@ namespace winapp {
     }
     inline void setFaces(const std::vector<Face> &vect) {
       faces_ = vect;
+    }
+    inline void setFaceVisibility(const int faceNum, const bool visible) {
+      faces_[faceNum].visible_ = visible;
     }
     inline void setDList(const GLuint param) {
       dList_ = param;

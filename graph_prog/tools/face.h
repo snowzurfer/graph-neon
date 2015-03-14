@@ -22,14 +22,11 @@ namespace winapp {
     Face() :
         vertexIndices_(),
           normalIndices_(),
-          neighIndices_(),
+          neighIndices_(3, 0),
           planeEq_(),
           visible_(false)
         {
-          neighIndices_.reserve(3);
-          for(int i = 0; i < 3; ++i) {
-            neighIndices_.push_back(0);
-          }
+          
         }
 
         // Calculate the equation of the plane given the

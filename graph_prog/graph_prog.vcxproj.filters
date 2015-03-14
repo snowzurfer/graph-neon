@@ -73,17 +73,8 @@
     <Filter Include="Source Files\Systems">
       <UniqueIdentifier>{ef7f6855-ab39-4cfd-a0dd-d75a5b7489d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Systems\Renderer">
-      <UniqueIdentifier>{fcb095bb-53d5-4513-b3ab-e2dd3919b6aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Systems\Renderer">
-      <UniqueIdentifier>{1da13af1-577c-453c-a707-3fcbe1816f1f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{1660f8db-7cd6-4521-94f3-30d52d0512d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Components\Renderers">
-      <UniqueIdentifier>{28b94df2-6d0e-4b3f-80f0-ba22700e138c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Components\Material">
       <UniqueIdentifier>{e254585a-55c4-4e5d-a6c8-4b835558f9cb}</UniqueIdentifier>
@@ -99,9 +90,6 @@
     </Filter>
     <Filter Include="Source Files\Components\Material">
       <UniqueIdentifier>{591ce50f-1fa4-43b1-a53e-bde17f2e6d82}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Components\Renderers">
-      <UniqueIdentifier>{5a393e9c-ea86-406c-b8c9-aeb279c9387c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Components\Shapes">
       <UniqueIdentifier>{d1d41625-ca9c-4dd3-bfea-d0741226e6fa}</UniqueIdentifier>
@@ -138,6 +126,18 @@
     </Filter>
     <Filter Include="Source Files\Systems\Movement">
       <UniqueIdentifier>{3cc7ed12-784c-471e-977f-65d0afe2968c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Systems\Rendering">
+      <UniqueIdentifier>{fcb095bb-53d5-4513-b3ab-e2dd3919b6aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\Rendering">
+      <UniqueIdentifier>{1da13af1-577c-453c-a707-3fcbe1816f1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Components\Rendering">
+      <UniqueIdentifier>{28b94df2-6d0e-4b3f-80f0-ba22700e138c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Rendering">
+      <UniqueIdentifier>{5a393e9c-ea86-406c-b8c9-aeb279c9387c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -193,25 +193,25 @@
       <Filter>Source Files\Components\Shapes</Filter>
     </ClCompile>
     <ClCompile Include="vertex_renderer_comp.cpp">
-      <Filter>Source Files\Components\Renderers</Filter>
+      <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="classic_renderer_comp.cpp">
-      <Filter>Source Files\Components\Renderers</Filter>
+      <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="material_comp.cpp">
       <Filter>Source Files\Components\Material</Filter>
     </ClCompile>
     <ClCompile Include="rendering_sys.cpp">
-      <Filter>Source Files\Systems\Renderer</Filter>
+      <Filter>Source Files\Systems\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="base_renderer_comp.cpp">
-      <Filter>Source Files\Components\Renderers</Filter>
+      <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="shapes_factory.cpp">
       <Filter>Source Files\Builders</Filter>
     </ClCompile>
     <ClCompile Include="dlist_renderer_comp.cpp">
-      <Filter>Source Files\Components\Renderers</Filter>
+      <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="animated_texture_comp.cpp">
       <Filter>Source Files\Components\Textures</Filter>
@@ -236,6 +236,12 @@
     </ClCompile>
     <ClCompile Include="tools\face.cpp">
       <Filter>Source Files\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="shadowing_sys.cpp">
+      <Filter>Source Files\Systems\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\shadow_comp.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,25 +312,25 @@
       <Filter>Header Files\Components\Shapes</Filter>
     </ClInclude>
     <ClInclude Include="classic_renderer_comp.h">
-      <Filter>Header Files\Components\Renderers</Filter>
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="vertex_renderer_comp.h">
-      <Filter>Header Files\Components\Renderers</Filter>
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="material_comp.h">
       <Filter>Header Files\Components\Material</Filter>
     </ClInclude>
     <ClInclude Include="rendering_sys.h">
-      <Filter>Header Files\Systems\Renderer</Filter>
+      <Filter>Header Files\Systems\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="base_renderer_comp.h">
-      <Filter>Header Files\Components\Renderers</Filter>
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="shapes_factory.h">
       <Filter>Header Files\Builders</Filter>
     </ClInclude>
     <ClInclude Include="dlist_renderer_comp.h">
-      <Filter>Header Files\Components\Renderers</Filter>
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="animated_texture_comp.h">
       <Filter>Header Files\Components\Textures</Filter>
@@ -349,6 +355,12 @@
     </ClInclude>
     <ClInclude Include="tools\face.h">
       <Filter>Header Files\tools</Filter>
+    </ClInclude>
+    <ClInclude Include="shadowing_sys.h">
+      <Filter>Header Files\Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow_comp.h">
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

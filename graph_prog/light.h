@@ -41,8 +41,9 @@ public:
   inline void setQuadAttenuation(const GLfloat val) {
     quadAtt_ = val;
   };
-  
-  
+  inline const GLfloat *getPosition() const {
+    return position_;
+  }
   inline const bool isEnabled() const {
     return enabled_;
   };
