@@ -15,19 +15,19 @@ namespace winapp {
     REGISTER_COMPONENT(ShadowComp);
 
     // Ctor
-    ShadowComp(const std::vector<const Light *> lights);
+    ShadowComp(std::vector<Light *> &lights);
 
     // Getters and setters
-    std::vector<const Light *> getLights() const { 
+    const std::vector<Light *> &getLights() const { 
       return lights_;
     }
-    void setLights(std::vector<const Light *> val) {
+    void setLights(std::vector<Light *> val) {
       lights_ = val;
     }
 
   private:
     // List of references to lights
-    std::vector<const Light *> lights_;
+    std::vector<Light *> &lights_;
 
   };
   // EO Class

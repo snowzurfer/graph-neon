@@ -17,6 +17,7 @@
 #include <animated_textures_sys.h>
 #include <models_loader.h>
 #include <velocity_comp.h>
+#include <shadow_comp.h>
 
 namespace winapp {
 
@@ -27,7 +28,8 @@ Scene::Scene() :
   speed_(0.f),
   light0(GL_LIGHT0),
   //skyBox_(NULL),
-  camera_(NULL)
+  camera_(NULL),
+  lights_()
   {
   
 };
@@ -44,6 +46,12 @@ Scene::~Scene() {
     delete deleteThis;
   }
   entities_.clear();
+
+  // Delete lights
+  for(int i = 0; i < lights_.size(); ++i) {
+    delete lights_[i];
+  }
+  lights_.clear();
 
 }
 
@@ -137,6 +145,15 @@ void Scene::initialise(HWND *lwnd, Input* in) {
     //skyBox_ = new Skybox(skyboxTexture);
   }
 
+  // Setup lights
+  Light *light = new Light(GL_LIGHT0);
+  light->setPosition(15.0f, 15.f, 15.0f, 1.0f);
+  lights_.push_back(light);
+  // Apply light modifications
+  for(int i = 0; i < lights_.size(); ++i) {
+    lights_[i]->apply();
+  }
+
   // Create a shape builder
   ShapesFactory shapeBuilder;
   // Create a models loader
@@ -158,6 +175,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
   VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(45.f, 45.f, 0.f), Vec3());
+  ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();
@@ -254,13 +272,6 @@ void Scene::render(float interp) {
 
   }
 
-  // Define a point light
-  light0.setPosition(15.0f, 15.f, 15.0f, 1.0f);
-
-  // Apply light modifications
-  light0.apply();
-
-
   renderingSystem_.update(entities_);
 
   // Save current matrix
@@ -275,23 +286,6 @@ void Scene::render(float interp) {
     //skyBox_->draw();
 
   glPopMatrix();
-
-  // Save current matrix
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-    // Scale
-    
-
-    // Bind texture to the geometry
-    //glBindTexture(GL_TEXTURE_2D, crateSolidTex_);
-
-    // Draw cube
-//    cubeShape_.drawShape();
-
-    
-
-  glPopMatrix();
-  // Go back to previous matrix
 
 
   // Save current matrix

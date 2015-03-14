@@ -5,7 +5,7 @@
 namespace winapp {
   REGISTER_COMPONENT_IMPL(ShadowComp);
 
-  ShadowComp::ShadowComp(const std::vector<const Light *> lights) :
+  ShadowComp::ShadowComp(std::vector<Light *> &lights) :
     lights_(lights)
   {
 

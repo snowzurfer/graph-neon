@@ -25,6 +25,7 @@
 #include <rendering_sys.h>
 #include <animated_textures_sys.h>
 #include <movement_sys.h>
+#include <shadowing_sys.h>
 
 
 namespace winapp {
@@ -109,6 +110,9 @@ protected:
   // Camera
   Camera *camera_;
   
+  // List of lights
+  std::vector<Light *> lights_;
+
   // Entities list
   std::list<lnfw::Entity *> entities_;
   typedef std::list<lnfw::Entity *>::iterator entityItor_;
@@ -119,6 +123,7 @@ protected:
   RenderingSys renderingSystem_;
   AnimatedTextureSys animatedTextureSys_;
   MovementSys movementSys_;
+  ShadowingSys shadowingSys_;
 
   // For moving object
   unsigned int xpos, ypos;
