@@ -234,6 +234,9 @@
     <ClCompile Include="movement_sys.cpp">
       <Filter>Source Files\Systems\Movement</Filter>
     </ClCompile>
+    <ClCompile Include="tools\face.cpp">
+      <Filter>Source Files\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="movement_sys.h">
       <Filter>Header Files\Systems\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\face.h">
+      <Filter>Header Files\tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

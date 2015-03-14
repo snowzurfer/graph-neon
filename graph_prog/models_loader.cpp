@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <lnfw/physics/Vector3/Vec3.h>
+#include <tools/face.h>
 
 
 namespace winapp {
@@ -143,19 +144,34 @@ namespace winapp {
 
     // "Unroll" the loaded obj information into a list of triangles.
 
-    int numFaces = (int)faces.size();
+    int numFacesElements = (int)faces.size();
     std::vector<Vec3> newVerts, newNorms;
     std::vector<Texel> newTex;
-    std::vector<GLushort> index;
+    std::vector<GLushort> indices;
+    std::vector<Face> shapeFaces;
 
-    for(int i = 0; i < numFaces; i += 3) {
+    for(int i = 0; i < numFacesElements; i += 3) {
       newVerts.push_back(verts[faces[i] - 1]);
       Texel texel(texC[faces[i + 1] - 1].getX(), texC[faces[i + 1] - 1].getY());
       newTex.push_back(texel);
       newNorms.push_back(norms[faces[i + 2] - 1]);
-      index.push_back((GLushort)(i / 3));
+      indices.push_back((GLushort)(i / 3));
     }
+    for(int i = 0; i < indices.size(); i += 3) {
+      // Create a temporary face
+      Face face;
 
+      // Load the face with indices
+      face.vertexIndices_.push_back(indices[i]);
+      face.normalIndices_.push_back(indices[i]);
+      face.vertexIndices_.push_back(indices[i + 1]);
+      face.normalIndices_.push_back(indices[i + 1]);
+      face.vertexIndices_.push_back(indices[i + 2]);
+      face.normalIndices_.push_back(indices[i + 2]);
+
+      // Push the face in the shape list of faces
+      shapeFaces.push_back(face);
+    }
 
 
     // Your code must end here, prior to the loaded data being deleted
@@ -165,7 +181,7 @@ namespace winapp {
     texC.clear( );
     faces.clear( );
 
-    return new ShapeComp(index, newVerts, newNorms, newTex);
+    return new ShapeComp(indices, newVerts, newNorms, newTex, shapeFaces);
   }
 
 }

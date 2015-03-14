@@ -6,6 +6,7 @@
 #include <vector>
 #include <lnfw/physics/Vector3/Vec3.h>
 #include <texture_comp.h>
+#include <tools/face.h>
 
 namespace winapp {
   
@@ -15,11 +16,17 @@ namespace winapp {
     // Register the class
     REGISTER_COMPONENT(ShapeComp);
 
-    // Ctor
+    // Ctors
     ShapeComp(const std::vector<GLushort> &indices, 
               const std::vector<Vec3> &vertices, 
               const std::vector<Vec3> &normals,
-              const std::vector<Texel> &texels);
+              const std::vector<Texel> &texels,
+              const std::vector<Face> &faces);
+
+    ShapeComp(const std::vector<GLushort> &indices, 
+      const std::vector<Vec3> &vertices, 
+      const std::vector<Vec3> &normals,
+      const std::vector<Texel> &texels);
 
     // Getters and setters
     inline const std::vector<Vec3> &getVertices() const  {
@@ -33,6 +40,9 @@ namespace winapp {
     }
     inline const std::vector<Texel> &getTexels() const {
       return texels_;
+    }
+    inline const std::vector<Face> &getFaces() const {
+      return faces_;
     }
     inline GLuint getDList() const {
       return dList_;
@@ -48,6 +58,9 @@ namespace winapp {
     }
     inline void setTexels(const std::vector<Texel> &vect) {
       texels_ = vect;
+    }
+    inline void setFaces(const std::vector<Face> &vect) {
+      faces_ = vect;
     }
     inline void setDList(const GLuint param) {
       dList_ = param;
@@ -67,6 +80,11 @@ namespace winapp {
     // Eventual dlist for the shape
     GLuint dList_;
 
+    // Faces for shadows
+    std::vector<Face> faces_; 
+
+    // Compute the plane equation for each one of the planes
+    void computePlanes_();
   };
   // EO Class
 

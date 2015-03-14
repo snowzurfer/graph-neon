@@ -89,6 +89,7 @@
     <ClCompile Include="movement_sys.cpp" />
     <ClCompile Include="rendering_sys.cpp" />
     <ClCompile Include="shapes_factory.cpp" />
+    <ClCompile Include="tools\face.cpp" />
     <ClCompile Include="tools\TokenStream.cpp" />
     <ClCompile Include="velocity_comp.cpp" />
     <ClCompile Include="vertex_renderer_comp.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="movement_sys.h" />
     <ClInclude Include="rendering_sys.h" />
     <ClInclude Include="shapes_factory.h" />
+    <ClInclude Include="tools\face.h" />
     <ClInclude Include="tools\TokenStream.h" />
     <ClInclude Include="velocity_comp.h" />
     <ClInclude Include="vertex_renderer_comp.h" />

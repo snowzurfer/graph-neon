@@ -47,6 +47,7 @@ public:
     // Modified by Alberto Taiuti
     const Vec3 operator *(const Vec3 &rhs) const;
     const Vec3 operator *(const float rhs) const;
+    const bool operator ==(const Vec3 &rhs) const;
 };
 
 #endif
