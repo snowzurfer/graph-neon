@@ -142,10 +142,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
+  ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
-  ShapeComp *cubeShape = shapeBuilder.buildCube(5);
+  //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
   //ShapeComp *coneShape = shapeBuilder.buildCone(30);
   //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
@@ -157,7 +157,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(45.f, 45.f, 0.f), Vec3());
   
   // Add components to entity
   lnfw::Entity *cubeEntity = new lnfw::Entity();

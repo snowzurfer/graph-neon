@@ -38,8 +38,6 @@ namespace lnfw {
   // Assign the new component to the entity
   comps_[comp->GetComponentType()] = comp;
 
-  UInt32 lol = comp->GetComponentType();
-
 }
 
   void Entity::detachComp(const unsigned int type) {
