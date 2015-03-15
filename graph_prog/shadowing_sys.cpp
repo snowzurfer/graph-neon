@@ -9,7 +9,7 @@
 #include <tools/abertay_framework.h>
 #include <tools/face.h>
 
-#define PROJ_INFINITY 100;
+#define PROJ_INFINITY 1000;
 
 namespace winapp {
 
@@ -152,7 +152,7 @@ namespace winapp {
     glPopAttrib();
   }
 
-  void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
+  void doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
     // For each face in the shape
     for(int faceNum = 0; faceNum < shapeComp.getFaces().size(); ++faceNum) {
       // Retrieve the current face
@@ -202,7 +202,7 @@ namespace winapp {
     }
   }
 
-  void ShadowingSys::vMat4Mult_(GLmatrix16f M, GLvector4f v) {
+  void vMat4Mult_(GLmatrix16f M, GLvector4f v) {
     GLfloat res[4];										// Hold Calculated Results
     res[0]=M[ 0]*v[0]+M[ 4]*v[1]+M[ 8]*v[2]+M[12]*v[3];
     res[1]=M[ 1]*v[0]+M[ 5]*v[1]+M[ 9]*v[2]+M[13]*v[3];

@@ -69,6 +69,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glShadeModel(GL_SMOOTH);										                  // Enable Smooth Shading
   glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);				
   glClearDepth(1.0f);											                      // Depth Buffer Setup
+  glClearStencil(0x0);                                          // Stencil buffer setup
   glEnable(GL_DEPTH_TEST);										                  // Enables Depth Testing
   glDepthFunc(GL_LEQUAL);										                    // The Type Of Depth Testing To Do
   glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);		        // Really Nice Perspective Calculations
@@ -174,7 +175,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 25.f, 0.f), Vec3());
   ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
@@ -274,7 +275,7 @@ void Scene::render(float interp) {
   renderingSystem_.update(entities_);
 
   // Render shadows
-  shadowingSys_.update(entities_);
+  //shadowingSys_.update(entities_);
 
   // Save current matrix
   glMatrixMode(GL_MODELVIEW);
@@ -361,7 +362,7 @@ bool Scene::createPixelFormat(HDC hdc) {
     pfd.cColorBits = COLOUR_DEPTH;        // Here we use our #define for the color bits
     pfd.cDepthBits = COLOUR_DEPTH;        // Ignored for RBA
     pfd.cAccumBits = 0;              // nothing for accumulation
-    pfd.cStencilBits = 0;            // nothing for stencil
+    pfd.cStencilBits = 1;            // nothing for stencil
  
   // Gets a best match on the pixel format as passed in from device
   // and store it into a variable
@@ -403,7 +404,7 @@ void Scene::resizeGLWindow(int w, int h) {
   glLoadIdentity();
 
   // Calculate aspect ratio and set the frustum for clipping
-  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.4, 150.0);
+  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.001, 150.0);
   //glFrustum(screenRect_.left, screenRect_.right, screenRect_.bottom, screenRect_.top, 1.0f, 150.0f);
   //glFrustum(-2, 2, -2, 2, 1, 100);
 
