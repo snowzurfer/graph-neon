@@ -22,27 +22,66 @@ namespace winapp {
         // Retrieve the necessary components
         ShapeComp *shapeComp = (ShapeComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShapeComp"));
         ShadowComp *shadowComp = (ShadowComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShadowComp"));
-       
+        const lnfw::Transform<Vec3> &transform = (*entityitor)->transform;
          
         // For each light in the scene
         for(unsigned int lightNum = 0; 
           lightNum < shadowComp->getLights().size(); ++lightNum) {
           // Retrieve the light
           const Light &light = *shadowComp->getLights()[lightNum];
-          
+
+          // Work variables
+          GLmatrix16f Minv;
+          GLvector4f wlp, lp;
+
+          // Compute the position with respect to the entity's local
+          // coordinates system
+          glMatrixMode(GL_MODELVIEW);
+          glPushMatrix();
+          glLoadIdentity();
+          // Apply transformations in inverse order
+          glScalef(-transform.scale.getX(), -transform.scale.getY(),
+            -transform.rotation.getZ());
+          glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
+          glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+          glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+          glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
+          lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
+          lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]
+          lp[2] = light.getPosition()[2];								// Store Light Position Z In lp[2]
+          lp[3] = light.getPosition()[3];								// Store Light Direction In lp[3]
+          vMat4Mult_(Minv, lp);									// We Store Rotated Light Vector In 'lp' Array
+          glTranslatef(-transform.position.getX(),
+            -transform.position.getY(),
+            -transform.position.getZ());
+          glPopMatrix();
+          glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
+          wlp[0] = 0.0f;										// World Local Coord X To 0
+          wlp[1] = 0.0f;										// World Local Coord Y To 0
+          wlp[2] = 0.0f;										// World Local Coord Z To 0
+          wlp[3] = 1.0f;
+          vMat4Mult_(Minv, wlp);								// We Store The Position Of The World Origin Relative To The
+          // Local Coord. System In 'wlp' Array
+          lp[0] += wlp[0];									// Adding These Two Gives Us The
+          lp[1] += wlp[1];									// Position Of The Light Relative To
+          lp[2] += wlp[2];									// The Local Coordinate System
+
+          Light workLight(0);
+          workLight.setPosition(lp);
+
           // TODO move all this into a function named "computeVisibility"
-          // Determine if a face is facing the light
+          // Determine if a face is facing the workLight
           unsigned int facesNum = shapeComp->getFaces().size();
           for(unsigned int faceNum = 0; faceNum < facesNum; ++faceNum) {
             // Retrieve the plane equation of the face
             const sPlaneEq &plane = shapeComp->getFaces()[faceNum].planeEq_;
 
-            // Calculate which surfaces are facing the light by
-            // substituting the light's position into the plane
+            // Calculate which surfaces are facing the workLight by
+            // substituting the workLight's position into the plane
             // equation
-            float side = plane.a * light.getPosition()[0] +
-              plane.b * light.getPosition()[1] +
-              plane.c * light.getPosition()[2] +
+            float side = plane.a * workLight.getPosition()[0] +
+              plane.b * workLight.getPosition()[1] +
+              plane.c * workLight.getPosition()[2] +
               plane.d;
 
             if(side > 0.f) {
@@ -74,14 +113,43 @@ namespace winapp {
           // shadows
           glFrontFace(GL_CCW);
           glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-          doShadowPass_(*shapeComp, light);
+          doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
 
+
+          
+
+          
         }
       }
     }
+
+    // Enable rendering to color buffer and reset face rendering
+    glFrontFace(GL_CCW);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+    // Draw a shadowing rectangle covering the entire screen.
+    // This rectangle will be drawn only in the areas where the stencil
+    // buffer is set to 1
+    glColor4f(0.f, 0.f, 0.f, 0.4f);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+    glPushMatrix();
+    glLoadIdentity();
+    glBegin( GL_TRIANGLE_STRIP );
+      glVertex3f(-0.1f, 0.1f,-0.10f);
+      glVertex3f(-0.1f,-0.1f,-0.10f);
+      glVertex3f( 0.1f, 0.1f,-0.10f);
+      glVertex3f( 0.1f,-0.1f,-0.10f);
+    glEnd();
+    glPopMatrix();
+
+    // Pop the attributes set at the beginning of the function
+    glPopAttrib();
   }
 
   void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
@@ -132,6 +200,18 @@ namespace winapp {
         } 
       }
     }
+  }
+
+  void ShadowingSys::vMat4Mult_(GLmatrix16f M, GLvector4f v) {
+    GLfloat res[4];										// Hold Calculated Results
+    res[0]=M[ 0]*v[0]+M[ 4]*v[1]+M[ 8]*v[2]+M[12]*v[3];
+    res[1]=M[ 1]*v[0]+M[ 5]*v[1]+M[ 9]*v[2]+M[13]*v[3];
+    res[2]=M[ 2]*v[0]+M[ 6]*v[1]+M[10]*v[2]+M[14]*v[3];
+    res[3]=M[ 3]*v[0]+M[ 7]*v[1]+M[11]*v[2]+M[15]*v[3];
+    v[0]=res[0];										// Results Are Stored Back In v[]
+    v[1]=res[1];
+    v[2]=res[2];
+    v[3]=res[3];										// Homogenous Coordinate
   }
 
 

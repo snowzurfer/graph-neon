@@ -10,6 +10,9 @@
 
 namespace winapp {
 
+  typedef float GLvector4f[4];							// Typedef's For vMatMult_ function
+  typedef float GLmatrix16f[16];						// Typedef's For vMatMult_ function
+
   class ShadowingSys : public lnfw::System
   {
   public:
@@ -19,6 +22,9 @@ namespace winapp {
   private:
     // Render shadow polys
     void doShadowPass_(const ShapeComp &shapeComp, const Light &light);
+
+    // Multiply a vector by a matrix, 4 by 4
+    void vMat4Mult_(GLmatrix16f M, GLvector4f v);
   };
   // EO Class
 

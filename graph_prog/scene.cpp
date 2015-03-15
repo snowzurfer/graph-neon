@@ -168,13 +168,13 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   TextureComp *testTextComp = new TextureComp(skyboxTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   testTransform->position.set(0.f, 0.f, 0.f);
-  testTransform->scale.set(1.5f, 1.5f, 1.5f);
+  testTransform->scale.set(1.f, 1.f, 1.f);
   MaterialComp *testMaterial = new MaterialComp();
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.50f, 0.50f, 0.f), Vec3(45.f, 45.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec3());
   ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
@@ -186,12 +186,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   cubeEntity->attachComp(vertexRendererComp);
   cubeEntity->attachComp(animTextureComp);
   cubeEntity->attachComp(velComponent);
+  cubeEntity->attachComp(shadowComp);
 
   // Push entity
   entities_.push_back(cubeEntity);
-
-  // Create the unit cube display list
-  unitCubeDList_ = createCubeInDList();
 
   
 
@@ -255,7 +253,7 @@ void Scene::procInput() {
 
 void Scene::render(float interp) {
   // Clear the screen and depth buffer to render a new frame
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
   // ... And load the identity to clear the matrix
   glLoadIdentity();
   
@@ -272,7 +270,11 @@ void Scene::render(float interp) {
 
   }
 
+  // Render geometry
   renderingSystem_.update(entities_);
+
+  // Render shadows
+  shadowingSys_.update(entities_);
 
   // Save current matrix
   glMatrixMode(GL_MODELVIEW);
