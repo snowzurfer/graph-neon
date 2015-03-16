@@ -48,7 +48,7 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
   RegisterMyWindow(hInstance);
 
   // Initialise window and define GRAPHICAL style
-  if (!InitialiseMyWindow(hInstance, nCmdShow, 200, 200, 800, 600)) {
+  if (!InitialiseMyWindow(hInstance, nCmdShow, 200, 50, 800, 600)) {
     return FALSE;
   }
 
@@ -253,13 +253,14 @@ BOOL InitialiseMyWindow(HINSTANCE hInstance, int nCmdShow, int x, int y, int w, 
   }
   
   // Set the specified window's show state (by using nCmdShow
-    ShowWindow (hwnd, nCmdShow);    
+  ShowWindow (hwnd, nCmdShow);    
 
   // Update the window by sending a WM_PAINT message to it
-    UpdateWindow (hwnd);      
+  UpdateWindow (hwnd);      
 
 	// Disable cursor
 	ShowCursor(FALSE);
+
   // Exit the function successfully
   return TRUE;
 }

@@ -80,7 +80,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Default texture behaviour
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			      // Set blending function
-  glEnable(GL_CULL_FACE);										                    // Enable culling
+  //glEnable(GL_CULL_FACE);										                    // Enable culling
   glCullFace(GL_BACK);											                    // Set it for the back faces
 
 
@@ -129,9 +129,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
 
   // Load skybox texture
-  GLuint skyboxTexture = 0;
-  skyboxTexture = SOIL_load_OGL_texture  (
-                      "media/skybox_img.png",
+  GLuint roomTexture = 0;
+  roomTexture = SOIL_load_OGL_texture  (
+                      "media/Models/wizard_house/wizardohouseTempTex2048.png",
                       SOIL_LOAD_AUTO,
                       SOIL_CREATE_NEW_ID,
                       SOIL_FLAG_MIPMAPS | 
@@ -140,7 +140,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   );
 
   // If the texture has been loaded
-  if(skyboxTexture != 0) {
+  if(roomTexture != 0) {
 	  printf("SKYBOX TEXTURE LOADED");
     // Create the skybox
     //skyBox_ = new Skybox(skyboxTexture);
@@ -148,7 +148,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(15.0f, 15.f, 15.0f, 1.0f);
+  light->setPosition(0.0f, 0.1f, 0.0f, 1.0f);
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -160,22 +160,26 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
+  /*ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");*/
+  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizardhouse4.obj");
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
   //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
   //ShapeComp *coneShape = shapeBuilder.buildCone(30);
   //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
-  TextureComp *testTextComp = new TextureComp(skyboxTexture);
+  TextureComp *testTextComp = new TextureComp(roomTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   testTransform->position.set(0.f, 0.f, 0.f);
   testTransform->scale.set(1.f, 1.f, 1.f);
   MaterialComp *testMaterial = new MaterialComp();
+  testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+  testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
+  testMaterial->setShininess(0.f);
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
-  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.15f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 25.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec3());
   ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
@@ -278,7 +282,7 @@ void Scene::render(float interp) {
   //shadowingSys_.update(entities_);
 
   // Save current matrix
-  glMatrixMode(GL_MODELVIEW);
+  /*glMatrixMode(GL_MODELVIEW);
   glPushMatrix();
 
     // Translate to cam position
@@ -336,7 +340,7 @@ void Scene::render(float interp) {
 	  // Deactivate blending
 	  glDisable(GL_BLEND);
 
-  glPopMatrix();
+  glPopMatrix();*/
   // Go back to previous matrix
 
 
@@ -346,47 +350,47 @@ void Scene::render(float interp) {
 
 bool Scene::createPixelFormat(HDC hdc) { 
   // Create and empty px descriptor struct
-    PIXELFORMATDESCRIPTOR pfd = {0}; 
+  PIXELFORMATDESCRIPTOR pfd = {0}; 
 
   // Variable to hold the pixel format returned from win
   // (the closest, because windows)
-    int pixelformat; 
+  int pixelformat; 
   
   // Start defining the way we want our pixels
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);  // Set the size of the structure
-    pfd.nVersion = 1;              // Always set this to 1
+  pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);  // Set the size of the structure
+  pfd.nVersion = 1;              // Always set this to 1
   // Now pass in the appropriate OpenGL flags
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER; 
-    pfd.dwLayerMask = PFD_MAIN_PLANE;      // standard mask (this is ignored anyway)
-    pfd.iPixelType = PFD_TYPE_RGBA;        // RGB and Alpha pixel type
-    pfd.cColorBits = COLOUR_DEPTH;        // Here we use our #define for the color bits
-    pfd.cDepthBits = COLOUR_DEPTH;        // Ignored for RBA
-    pfd.cAccumBits = 0;              // nothing for accumulation
-    pfd.cStencilBits = 1;            // nothing for stencil
+  pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER; 
+  pfd.dwLayerMask = PFD_MAIN_PLANE;      // standard mask (this is ignored anyway)
+  pfd.iPixelType = PFD_TYPE_RGBA;        // RGB and Alpha pixel type
+  pfd.cColorBits = COLOUR_DEPTH;        // Here we use our #define for the color bits
+  pfd.cDepthBits = COLOUR_DEPTH;        // Ignored for RBA
+  pfd.cAccumBits = 0;              // nothing for accumulation
+  pfd.cStencilBits = 8;            // 8 Bits for stencil
  
   // Gets a best match on the pixel format as passed in from device
   // and store it into a variable
-    if ((pixelformat = ChoosePixelFormat(hdc, &pfd)) == false) { 
-        MessageBox(NULL, reinterpret_cast<LPCSTR>("ChoosePixelFormat failed"), 
-            reinterpret_cast<LPCSTR>("Error"), MB_OK |
-                        MB_ICONWARNING); 
+  if ((pixelformat = ChoosePixelFormat(hdc, &pfd)) == false) { 
+      MessageBox(NULL, reinterpret_cast<LPCSTR>("ChoosePixelFormat failed"), 
+          reinterpret_cast<LPCSTR>("Error"), MB_OK |
+                      MB_ICONWARNING); 
     
     // Exit and report it
-        return false; 
-    } 
+    return false; 
+  } 
  
   // Attempt to set the pixel format if it is ok
-    if (SetPixelFormat(hdc, pixelformat, &pfd) == false) { 
-        MessageBox(NULL, reinterpret_cast<LPCSTR>("SetPixelFormat failed"), 
-            reinterpret_cast<LPCSTR>("Error"), MB_OK |
-                        MB_ICONWARNING);
+  if (SetPixelFormat(hdc, pixelformat, &pfd) == false) { 
+      MessageBox(NULL, reinterpret_cast<LPCSTR>("SetPixelFormat failed"), 
+          reinterpret_cast<LPCSTR>("Error"), MB_OK |
+                      MB_ICONWARNING);
     
     // Exit and report it
-        return false; 
-    } 
+    return false; 
+  } 
  
-  // We got here! Everything went well, comunicate it
-    return true;
+  // We got here! Everything went well, communicate it
+  return true;
 }
 
 void Scene::resizeGLWindow(int w, int h) {
