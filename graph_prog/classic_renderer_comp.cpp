@@ -11,20 +11,8 @@ namespace winapp {
     const TextureComp *texture /* = NULL */,
     const MaterialComp *material /* = NULL */)
   {
-    // Apply geometry transform
-    applyGeometryTransform(transform, shape);
-
-    // Set material properties for the geometry
-    material->apply(GL_FRONT);
-
-    // Activate blending
-    glEnable(GL_BLEND);
-
-    // Bind the texture
-    glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
-
-    // Apply textire transforms
-    applyTextureTransform(texture);
+    // Setup rendering; performs type-of-renderer-agnostic steps
+    setupRendering(transform, shape, texture, material);
 
     //////////RENDER
 
@@ -50,7 +38,7 @@ namespace winapp {
     // Deactivate blending
     glDisable(GL_BLEND);
 
-    cleanUpTextures();
+    cleanUpTextures(texture);
   }
 
 }

@@ -2,6 +2,8 @@
 #define _ENTITIES_FACTORY_H
 
 #include <lnfw/entities/entity.h>
+#include <light.h>
+#include <vector>
 
 namespace winapp {
 
@@ -10,9 +12,12 @@ namespace winapp {
   public:
     // Create a skybox
     lnfw::Entity *createSkyBox();
+
+    // Create a box room
+    lnfw::Entity *createBoxRoom();
    
     // Create a basic cone
-    lnfw::Entity *createCone();
+    lnfw::Entity *createCone(std::vector<Light *> &lights);
   };
 
 }

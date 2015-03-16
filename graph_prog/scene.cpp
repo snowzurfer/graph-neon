@@ -18,6 +18,7 @@
 #include <models_loader.h>
 #include <velocity_comp.h>
 #include <shadow_comp.h>
+#include <entities_factory.h>
 
 namespace winapp {
 
@@ -148,20 +149,27 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(0.0f, 0.1f, 0.0f, 1.0f);
+  light->setPosition(30.0f, 30.f, 30.0f, 1.0f);
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
     lights_[i]->apply();
   }
 
+  // Create a entities factory
+  EntitiesFactory entitiesFactory;
+
   // Create a shape builder
   ShapesFactory shapeBuilder;
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  /*ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");*/
-  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizardhouse4.obj");
+  //entities_.push_back(entitiesFactory.createBoxRoom());
+  entities_.push_back(entitiesFactory.createCone(lights_));
+  
+
+  ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
+  /*ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizardhouse4.obj");*/
 
   //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
   //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
@@ -169,17 +177,16 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(roomTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-  testTransform->position.set(0.f, 0.f, 0.f);
-  testTransform->scale.set(1.f, 1.f, 1.f);
+  testTransform->position.set(15.f, 15.f, 15.f);
+  testTransform->scale.set(0.25f, 0.25f, 0.25f);
   MaterialComp *testMaterial = new MaterialComp();
   testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
   testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
-  testMaterial->setShininess(0.f);
   BaseRendererComp *vertexRendererComp = new VertexRendererComp();
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 15.f, 0.f), Vec3());
   ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
@@ -195,6 +202,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Push entity
   entities_.push_back(cubeEntity);
+
 
   
 
@@ -366,7 +374,7 @@ bool Scene::createPixelFormat(HDC hdc) {
   pfd.cColorBits = COLOUR_DEPTH;        // Here we use our #define for the color bits
   pfd.cDepthBits = COLOUR_DEPTH;        // Ignored for RBA
   pfd.cAccumBits = 0;              // nothing for accumulation
-  pfd.cStencilBits = 8;            // 8 Bits for stencil
+  pfd.cStencilBits = COLOUR_DEPTH;            // 8 Bits for stencil
  
   // Gets a best match on the pixel format as passed in from device
   // and store it into a variable

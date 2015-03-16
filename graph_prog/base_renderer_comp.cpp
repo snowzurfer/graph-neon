@@ -55,11 +55,46 @@ namespace winapp {
       glMatrixMode(GL_MODELVIEW);
     }
   }
+  
+  void BaseRendererComp::cleanUpTextures(const TextureComp *tComp) {
+    // If there there is a texture component
+    if(tComp) {
+      glMatrixMode(GL_TEXTURE);
+      glPopMatrix();
+      glMatrixMode(GL_MODELVIEW);
+    }
+    else {
+      // Texturing had been disabled; enable it again
+      glEnable(GL_TEXTURE_2D);
+    }
+  }
 
-  void BaseRendererComp::cleanUpTextures() {
-    glMatrixMode(GL_TEXTURE);
-    glPopMatrix();
-    glMatrixMode(GL_MODELVIEW);
+  void BaseRendererComp::setupRendering(const lnfw::Transform<Vec3> *transform, 
+    const ShapeComp *shape, const TextureComp *texture, const MaterialComp *material) {
+      // Apply geometry transform
+      applyGeometryTransform(transform, shape);
+
+      // If there is a material
+      if(material) {
+        // Set material properties for the geometry
+        material->apply(GL_FRONT);
+      }
+
+      // Activate blending
+      glEnable(GL_BLEND);
+
+      // If there is a texture
+      if(texture) {
+        // Bind the texture
+        glBindTexture(GL_TEXTURE_2D, texture->getTextureID());
+
+        // Apply textire transforms
+        applyTextureTransform(texture);
+      }
+      else {
+        // Disable texturing
+        glDisable(GL_TEXTURE_2D);
+      }
   }
 
 }

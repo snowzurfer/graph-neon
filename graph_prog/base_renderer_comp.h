@@ -30,7 +30,12 @@ namespace winapp {
     void applyTextureTransform(const TextureComp *texture);
 
     // Clean up matrix stack for textures
-    void cleanUpTextures();
+    void cleanUpTextures(const TextureComp *tcomp);
+
+    // Perform type-of-renderer-agnostic tasks
+    void setupRendering(const lnfw::Transform<Vec3> *transform,
+      const ShapeComp *shape, const TextureComp *texture, 
+      const MaterialComp *material);
   };
   // EO Class
 

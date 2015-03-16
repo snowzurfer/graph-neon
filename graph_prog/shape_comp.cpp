@@ -92,5 +92,12 @@ namespace winapp {
       }
     }
 
+    void ShapeComp::invertNormals() {
+      // For each normal in the shape
+      for(unsigned int i = 0; i < normals_.size(); ++i) {
+        normals_[i] = normals_[i].scale(-1);
+      }
+    }
+
 }
 // EO Namespace

@@ -6,6 +6,7 @@
 #include <vector>
 #include <iostream>
 #include <app_globals.h>
+#include <tools/face.h>
 
 namespace winapp {
 
@@ -172,7 +173,11 @@ namespace winapp {
       angle += angleStep;
     }
 
-    return new ShapeComp(indices, vertices, normals, texels);
+
+    // Setup faces for shading
+    std::vector<Face> shapeFaces = buildFacesVector(indices);
+
+    return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
   }
   
   ShapeComp *ShapesFactory::buildCube(unsigned int detail) {
@@ -266,7 +271,10 @@ namespace winapp {
         }
       }
 
-      return new ShapeComp(indices, vertices, normals, texels);
+      // Setup faces for shading
+      std::vector<Face> shapeFaces = buildFacesVector(indices);
+
+      return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
   }
 
   ShapeComp *ShapesFactory::buildDisk(unsigned int detail) {
@@ -318,7 +326,10 @@ namespace winapp {
       angle += angleStep;
     }
 
-    return new ShapeComp(indices, vertices, normals, texels);
+    // Setup faces for shading
+    std::vector<Face> shapeFaces = buildFacesVector(indices);
+
+    return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
   }
 
   ShapeComp *ShapesFactory::buildPlane(unsigned int detail) {
@@ -358,7 +369,10 @@ namespace winapp {
       }
     }
 
-    return new ShapeComp(indices, vertices, normals, texels);
+    // Setup faces for shading
+    std::vector<Face> shapeFaces = buildFacesVector(indices);
+
+    return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
 
   }
 
@@ -474,7 +488,10 @@ namespace winapp {
       angle += angleStep;
     }
 
-    return new ShapeComp(indices, vertices, normals, texels);
+    // Setup faces for shading
+    std::vector<Face> shapeFaces = buildFacesVector(indices);
+
+    return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
   }
 
 }

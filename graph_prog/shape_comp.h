@@ -75,6 +75,9 @@ namespace winapp {
     // Create a dlist for this shape
     void createDList();
 
+    // Invert the normals
+    void invertNormals();
+
   private:
     // Vertices, normals and indices for the shape
     std::vector<Vec3> vertices_;

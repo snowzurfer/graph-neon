@@ -157,21 +157,8 @@ namespace winapp {
       newNorms.push_back(norms[faces[i + 2] - 1]);
       indices.push_back((GLushort)(i / 3));
     }
-    for(int i = 0; i < indices.size(); i += 3) {
-      // Create a temporary face
-      Face face;
-
-      // Load the face with indices
-      face.vertexIndices_.push_back(indices[i]);
-      face.normalIndices_.push_back(indices[i]);
-      face.vertexIndices_.push_back(indices[i + 1]);
-      face.normalIndices_.push_back(indices[i + 1]);
-      face.vertexIndices_.push_back(indices[i + 2]);
-      face.normalIndices_.push_back(indices[i + 2]);
-
-      // Push the face in the shape list of faces
-      shapeFaces.push_back(face);
-    }
+    
+    shapeFaces = buildFacesVector(indices);
 
 
     // Your code must end here, prior to the loaded data being deleted

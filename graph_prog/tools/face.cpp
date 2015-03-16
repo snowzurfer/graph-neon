@@ -25,4 +25,27 @@ namespace winapp {
       v[1].getX()*(v[2].getY()*v[0].getZ() - v[0].getY()*v[2].getZ()) +
       v[2].getX()*(v[0].getY()*v[1].getZ() - v[1].getY()*v[0].getZ()) );
   }
+
+  std::vector<Face> buildFacesVector(const std::vector<GLushort> &indices) {
+    // Setup faces for shading
+    std::vector<Face> shapeFaces;
+    for(int i = 0; i < indices.size(); i += 3) {
+      // Create a temporary face
+      Face face;
+
+      // Load the face with indices
+      face.vertexIndices_.push_back(indices[i]);
+      face.normalIndices_.push_back(indices[i]);
+      face.vertexIndices_.push_back(indices[i + 1]);
+      face.normalIndices_.push_back(indices[i + 1]);
+      face.vertexIndices_.push_back(indices[i + 2]);
+      face.normalIndices_.push_back(indices[i + 2]);
+
+      // Push the face in the shape list of faces
+      shapeFaces.push_back(face);
+    }
+
+    return shapeFaces;
+  }
+
 }

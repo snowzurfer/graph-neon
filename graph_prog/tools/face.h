@@ -7,6 +7,7 @@
 #include <Windows.h>
 #include <gl/GL.h>
 #include <lnfw/physics/Vector3/Vec3.h>
+#include <vector>
 
 
 namespace winapp {
@@ -14,6 +15,8 @@ namespace winapp {
   struct sPlaneEq {
     float a, b, c, d;
   };
+
+  
 
   class Face
   {
@@ -43,6 +46,11 @@ namespace winapp {
   private:
 
   };
+
+  // Utility function.
+  // Loads a vector of faces with correctly initialised faces
+  // using a vector of indices as input
+  std::vector<Face> buildFacesVector(const std::vector<GLushort> &indices);
 
 }
 // EO Namespace
