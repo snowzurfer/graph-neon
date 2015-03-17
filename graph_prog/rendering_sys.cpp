@@ -37,7 +37,7 @@ namespace winapp {
                                 materialComp);
 
           // If the entity has a shadow component
-          if((*entityitor)->hasComp(abfw::CRC::GetICRC("ShadowComp"))) {
+          /*if((*entityitor)->hasComp(abfw::CRC::GetICRC("ShadowComp"))) {
             ShadowComp *shadowComp = (ShadowComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShadowComp"));
             const lnfw::Transform<Vec3> &transform = (*entityitor)->transform;
 
@@ -56,36 +56,34 @@ namespace winapp {
                 glMatrixMode(GL_MODELVIEW);
                 glPushMatrix();
                 glLoadIdentity();
-                // Apply transformations in inverse order
-                /*glScalef(-transform.scale.getX(), -transform.scale.getY(),
-                -transform.scale.getZ());*/
 				
-				glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
-				glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+				        // Apply matrix transformations in inverse order
+				        glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+				        glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
                 glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
-                
-                
-                glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
-                lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
-                lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]
-                lp[2] = light.getPosition()[2];								// Store Light Position Z In lp[2]
-                lp[3] = light.getPosition()[3];								// Store Light Direction In lp[3]
-                vMat4Mult_(Minv, lp);									// We Store Rotated Light Vector In 'lp' Array
+                glGetFloatv(GL_MODELVIEW_MATRIX,Minv);					      // Retrieve ModelView Matrix From Minv
+                lp[0] = light.getPosition()[0];							          // Store Light Position X In lp[0]
+                lp[1] = light.getPosition()[1];							          // Store Light Position Y In lp[1]
+                lp[2] = light.getPosition()[2];							          // Store Light Position Z In lp[2]
+                lp[3] = light.getPosition()[3];							          // Store Light Direction In lp[3]
+                vMat4Mult_(Minv, lp);									                // Store Rotated Light Vector In 'lp' Array
                 glTranslatef(-transform.position.getX(),
                   -transform.position.getY(),
                   -transform.position.getZ());
               
-                glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
-                wlp[0] = 0.0f;										// World Local Coord X To 0
-                wlp[1] = 0.0f;										// World Local Coord Y To 0
-                wlp[2] = 0.0f;										// World Local Coord Z To 0
+                glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				        // Retrieve ModelView Matrix From Minv
+                wlp[0] = 0.0f;										                    // World Local Coord X To 0
+                wlp[1] = 0.0f;										                    // World Local Coord Y To 0
+                wlp[2] = 0.0f;										                    // World Local Coord Z To 0
                 wlp[3] = 1.0f;
-                vMat4Mult_(Minv, wlp);								// We Store The Position Of The World Origin Relative To The
-                // Local Coord. System In 'wlp' Array
+                vMat4Mult_(Minv, wlp);								                // Store The Position Of The World Origin Relative To The
+                                                                      // Local Coord. System In 'wlp' Array
                 lp[0] += wlp[0];									// Adding These Two Gives Us The
                 lp[1] += wlp[1];									// Position Of The Light Relative To
                 lp[2] += wlp[2];									// The Local Coordinate System
                 glPopMatrix();
+
+                // Create a light with position in the object's local coordinates
                 Light workLight(0);
                 workLight.setPosition(lp);
 
@@ -167,7 +165,7 @@ namespace winapp {
                 // Pop the attributes set at the beginning of the function
                 glPopAttrib();
             }
-          }
+          }*/
 
           // If the entity has children
           if((*entityitor)->getChildrenList().size() > 0) {

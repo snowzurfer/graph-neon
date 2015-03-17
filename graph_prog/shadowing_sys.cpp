@@ -8,6 +8,7 @@
 #include <base_renderer_comp.h>
 #include <tools/abertay_framework.h>
 #include <tools/face.h>
+#include <base_renderer_comp.h>
 
 #define PROJ_INFINITY 100.f
 
@@ -24,6 +25,11 @@ namespace winapp {
         ShadowComp *shadowComp = (ShadowComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShadowComp"));
         const lnfw::Transform<Vec3> &transform = (*entityitor)->transform;
          
+
+        // Applly the geometry transformations before to apply shadowing, as the
+        // same way as in the rendering system
+        setupRendering(&transform, shapeComp); 
+
         // For each light in the scene
         for(unsigned int lightNum = 0; 
           lightNum < shadowComp->getLights().size(); ++lightNum) {
@@ -39,33 +45,35 @@ namespace winapp {
           glMatrixMode(GL_MODELVIEW);
           glPushMatrix();
           glLoadIdentity();
+
           // Apply transformations in inverse order
-          glScalef(-transform.scale.getX(), -transform.scale.getY(),
-            -transform.rotation.getZ());
-          glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
-          glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
           glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+				  glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+          glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
+
           glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
           lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
           lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]
           lp[2] = light.getPosition()[2];								// Store Light Position Z In lp[2]
           lp[3] = light.getPosition()[3];								// Store Light Direction In lp[3]
-          vMat4Mult_(Minv, lp);									// We Store Rotated Light Vector In 'lp' Array
+          vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
+          
           glTranslatef(-transform.position.getX(),
             -transform.position.getY(),
             -transform.position.getZ());
-          glPopMatrix();
           glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
           wlp[0] = 0.0f;										// World Local Coord X To 0
           wlp[1] = 0.0f;										// World Local Coord Y To 0
           wlp[2] = 0.0f;										// World Local Coord Z To 0
           wlp[3] = 1.0f;
-          vMat4Mult_(Minv, wlp);								// We Store The Position Of The World Origin Relative To The
-          // Local Coord. System In 'wlp' Array
+          vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
+                                                // Local Coord. System In 'wlp' Array
           lp[0] += wlp[0];									// Adding These Two Gives Us The
           lp[1] += wlp[1];									// Position Of The Light Relative To
           lp[2] += wlp[2];									// The Local Coordinate System
+          glPopMatrix();
 
+          // Create a light with position in the object's local coordinates
           Light workLight(0);
           workLight.setPosition(lp);
 
@@ -107,7 +115,7 @@ namespace winapp {
           glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
           // Setup the stencil buffer
           glEnable(GL_STENCIL_TEST);
-          glStencilFunc(GL_ALWAYS, 1, 1);
+          glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFFL);
 
           // First pass. Increase the stencil values where there are
           // shadows
@@ -117,10 +125,14 @@ namespace winapp {
 
           // Second pass. Decrease the stencil values where there are
           // shadows
-
+          glFrontFace(GL_CW);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          doShadowPass_(*shapeComp, workLight);
 
           
-
+          // Enable rendering to color buffer and reset face rendering
+          glFrontFace(GL_CCW);
+          glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
           
         }
       }
@@ -147,6 +159,7 @@ namespace winapp {
       glVertex3f( 0.1f,-0.1f,-0.10f);
     glEnd();
     glPopMatrix();
+    glDisable(GL_BLEND);
 
     // Pop the attributes set at the beginning of the function
     glPopAttrib();

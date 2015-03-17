@@ -8,7 +8,7 @@ namespace winapp {
 
   REGISTER_COMPONENT_IMPL(BaseRendererComp);
 
-  void BaseRendererComp::applyGeometryTransform(const lnfw::Transform<Vec3> *transform,
+  void applyGeometryTransform(const lnfw::Transform<Vec3> *transform,
       const ShapeComp *shape) {
     // Move to position
     glTranslatef(transform->position.getX(),
@@ -25,7 +25,7 @@ namespace winapp {
     glRotatef(transform->rotation.getZ(), 0.f, 0.f, 1.f);
   }
 
-  void BaseRendererComp::applyTextureTransform
+  void applyTextureTransform
     (const TextureComp *texture) {
     // If there is a texture
     if(texture) {
@@ -56,7 +56,7 @@ namespace winapp {
     }
   }
   
-  void BaseRendererComp::cleanUpTextures(const TextureComp *tComp) {
+  void cleanUpTextures(const TextureComp *tComp) {
     // If there there is a texture component
     if(tComp) {
       glMatrixMode(GL_TEXTURE);
@@ -69,7 +69,7 @@ namespace winapp {
     }
   }
 
-  void BaseRendererComp::setupRendering(const lnfw::Transform<Vec3> *transform, 
+  void setupRendering(const lnfw::Transform<Vec3> *transform, 
     const ShapeComp *shape, const TextureComp *texture, const MaterialComp *material) {
       // Apply geometry transform
       applyGeometryTransform(transform, shape);
