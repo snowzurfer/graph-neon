@@ -149,7 +149,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(30.0f, 30.f, 30.0f, 1.0f);
+  light->setPosition(80.0f, 80.f, 80.0f, 1.0f); // Point light
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -164,21 +164,17 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  //entities_.push_back(entitiesFactory.createBoxRoom());
-  entities_.push_back(entitiesFactory.createCone(lights_));
+  entities_.push_back(entitiesFactory.createBoxRoom());
+  //entities_.push_back(entitiesFactory.createCone(lights_));
   
 
   ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
   /*ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizardhouse4.obj");*/
 
-  //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
-  //ShapeComp *cubeShape = shapeBuilder.buildCube(5);
-  //ShapeComp *coneShape = shapeBuilder.buildCone(30);
-  //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
   TextureComp *testTextComp = new TextureComp(roomTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-  testTransform->position.set(15.f, 15.f, 15.f);
-  testTransform->scale.set(0.25f, 0.25f, 0.25f);
+  testTransform->position.set(5.f, 5.f, 5.f);
+  testTransform->scale.set(0.08f, 0.08f, 0.08f);
   MaterialComp *testMaterial = new MaterialComp();
   testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
   testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);

@@ -45,13 +45,12 @@ namespace winapp {
     // Create a shape builder
     ShapesFactory shapeBuilder;
 
-    //ShapeComp *testShapeComp = shapeBuilder.buildDisk(20);
     ShapeComp *shape = shapeBuilder.buildCube(1);
-    //ShapeComp *coneShape = shapeBuilder.buildCone(30);
-    //ShapeComp *cylinderShape = shapeBuilder.buildCylinder(20);
+    shape->invertNormals();
+
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(10.f, 10.f, 10.f);
+    transform->scale.set(2.f, 2.f, 5.f);
     MaterialComp *material = new MaterialComp();
     material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
     material->setSpecular(0.8f, 0.8f, 0.8f, 1.f);

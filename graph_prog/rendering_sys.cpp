@@ -134,6 +134,9 @@ namespace winapp {
 
                 // Second pass. Decrease the stencil values where there are
                 // shadows
+                glFrontFace(GL_CW);
+                glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+                //doShadowPass_(*shapeComp, workLight);
 
                 // Enable rendering to color buffer and reset face rendering
                 glFrontFace(GL_CCW);
@@ -142,7 +145,7 @@ namespace winapp {
                 // Draw a shadowing rectangle covering the entire screen.
                 // This rectangle will be drawn only in the areas where the stencil
                 // buffer is set to 1
-                glColor4f(0.f, 0.f, 0.f, 0.3f);
+                glColor4f(0.f, 0.f, 0.f, 0.4f);
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);

@@ -9,7 +9,7 @@
 #include <tools/abertay_framework.h>
 #include <tools/face.h>
 
-#define PROJ_INFINITY 1000;
+#define PROJ_INFINITY 100.f
 
 namespace winapp {
 
@@ -178,13 +178,13 @@ namespace winapp {
             Vec3 vC, vD;
 
             // Calculate the projections
-            vC.setX(vA.getX() - light.getPosition()[0]) * PROJ_INFINITY;
-            vC.setY(vA.getY() - light.getPosition()[1]) * PROJ_INFINITY;
-            vC.setZ(vA.getZ() - light.getPosition()[2]) * PROJ_INFINITY;
+            vC.setX((vA.getX() - light.getPosition()[0]) * PROJ_INFINITY);
+            vC.setY((vA.getY() - light.getPosition()[1]) * PROJ_INFINITY);
+            vC.setZ((vA.getZ() - light.getPosition()[2]) * PROJ_INFINITY);
 
-            vD.setX(vB.getX() - light.getPosition()[0]) * PROJ_INFINITY;
-            vD.setY(vB.getY() - light.getPosition()[1]) * PROJ_INFINITY;
-            vD.setZ(vB.getZ() - light.getPosition()[2]) * PROJ_INFINITY;
+            vD.setX((vB.getX() - light.getPosition()[0]) * PROJ_INFINITY);
+            vD.setY((vB.getY() - light.getPosition()[1]) * PROJ_INFINITY);
+            vD.setZ((vB.getZ() - light.getPosition()[2]) * PROJ_INFINITY);
 
             // Render the shadows as a quadrilateral 
             // (as a triangle strip poly)
