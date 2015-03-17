@@ -50,6 +50,10 @@ namespace winapp {
     inline const bool getFaceVisibility(const int faceNum) const {
       return faces_[faceNum].visible_;
     }
+    inline const GLuint getRenderingDir() const {
+      return renderingDir_;
+    }
+
     inline void setVertices(const std::vector<Vec3> &vect) {
       vertices_ = vect;
     }
@@ -70,6 +74,9 @@ namespace winapp {
     }
     inline void setDList(const GLuint param) {
       dList_ = param;
+    }
+    inline void setRenderingDir(const GLuint param) {
+      renderingDir_ = param;
     }
     
     // Create a dlist for this shape
@@ -94,6 +101,9 @@ namespace winapp {
 
     // Compute the plane equation for each one of the planes
     void computePlanes_();
+
+    // Direction for rendering the front face. Default: CCW
+    GLuint renderingDir_;
   };
   // EO Class
 

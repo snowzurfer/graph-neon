@@ -95,6 +95,9 @@ namespace winapp {
         // Disable texturing
         glDisable(GL_TEXTURE_2D);
       }
+
+      // Setup rendering direction
+      glFrontFace(shape->getRenderingDir());
   }
 
 }

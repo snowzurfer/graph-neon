@@ -19,7 +19,7 @@ namespace winapp {
     Component(), vertices_(vertices),
     normals_(normals), indices_(indices),
     texels_(texels), dList_(-1),
-    faces_(faces)
+    faces_(faces), renderingDir_(GL_CCW)
     {
       computePlanes_();
     }
@@ -31,7 +31,7 @@ namespace winapp {
     Component(), vertices_(vertices),
       normals_(normals), indices_(indices),
       texels_(texels), dList_(-1),
-      faces_()
+      faces_(), renderingDir_(GL_CCW)
     {
 
     }
