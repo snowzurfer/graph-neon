@@ -112,8 +112,8 @@ namespace winapp {
                 }
 
                 // Push the attributes to easily retrieve them after the passes
-                /*glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
-                  GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT );*/
+                glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
+                  GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT );
                 // Turn off lighting
                 glDisable(GL_LIGHTING);
                 // Disable writing to the depth buffer
@@ -124,7 +124,7 @@ namespace winapp {
                 glEnable(GL_STENCIL_TEST);
                 // Disable writing to the colour buffer
                 glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-                glStencilFunc(GL_ALWAYS, 1, 1);
+                glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFFL);
 
                 // First pass. Increase the stencil values where there are
                 // shadows
@@ -136,7 +136,7 @@ namespace winapp {
                 // shadows
                 glFrontFace(GL_CW);
                 glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-                //doShadowPass_(*shapeComp, workLight);
+                doShadowPass_(*shapeComp, workLight);
 
                 // Enable rendering to color buffer and reset face rendering
                 glFrontFace(GL_CCW);
@@ -162,13 +162,7 @@ namespace winapp {
                 glDisable(GL_BLEND);
 
                 // Pop the attributes set at the beginning of the function
-                //glPopAttrib();
-                //glEnable(GL_DEPTH_TEST);
-                glDepthFunc(GL_LEQUAL);
-                glDepthMask(GL_TRUE);
-                glEnable(GL_LIGHTING);
-                glDisable(GL_STENCIL_TEST);
-                glShadeModel(GL_SMOOTH);
+                glPopAttrib();
             }
           }
 

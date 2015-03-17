@@ -28,6 +28,7 @@ namespace winapp {
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp(lights);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+	VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 25.f, 0.f), Vec3());
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
@@ -36,6 +37,7 @@ namespace winapp {
     entity->transform = *transform;
     entity->attachComp(vertexRendererComp);
     entity->attachComp(shadowComp);
+	entity->attachComp(velComp);
 
     // Return it
     return entity;
@@ -46,7 +48,7 @@ namespace winapp {
     ShapesFactory shapeBuilder;
 
     ShapeComp *shape = shapeBuilder.buildCube(1);
-    shape->invertNormals();
+    //shape->invertNormals();
 
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);

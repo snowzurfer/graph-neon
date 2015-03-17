@@ -128,6 +128,49 @@ protected:
   // For moving object
   unsigned int xpos, ypos;
 
+
+  void DrawGLRoom()                           // Draw The Room (Box)
+{
+    glBegin(GL_QUADS);                      // Begin Drawing Quads
+        // Floor
+        glNormal3f(0.0f, 1.0f, 0.0f);               // Normal Pointing Up
+        glVertex3f(-10.0f,-10.0f,-20.0f);           // Back Left
+        glVertex3f(-10.0f,-10.0f, 20.0f);           // Front Left
+        glVertex3f( 10.0f,-10.0f, 20.0f);           // Front Right
+        glVertex3f( 10.0f,-10.0f,-20.0f);           // Back Right
+        // Ceiling
+        glNormal3f(0.0f,-1.0f, 0.0f);               // Normal Point Down
+        glVertex3f(-10.0f, 10.0f, 20.0f);           // Front Left
+        glVertex3f(-10.0f, 10.0f,-20.0f);           // Back Left
+        glVertex3f( 10.0f, 10.0f,-20.0f);           // Back Right
+        glVertex3f( 10.0f, 10.0f, 20.0f);           // Front Right
+        // Front Wall
+        glNormal3f(0.0f, 0.0f, 1.0f);               // Normal Pointing Away From Viewer
+        glVertex3f(-10.0f, 10.0f,-20.0f);           // Top Left
+        glVertex3f(-10.0f,-10.0f,-20.0f);           // Bottom Left
+        glVertex3f( 10.0f,-10.0f,-20.0f);           // Bottom Right
+        glVertex3f( 10.0f, 10.0f,-20.0f);           // Top Right
+        // Back Wall
+        glNormal3f(0.0f, 0.0f,-1.0f);               // Normal Pointing Towards Viewer
+        glVertex3f( 10.0f, 10.0f, 20.0f);           // Top Right
+        glVertex3f( 10.0f,-10.0f, 20.0f);           // Bottom Right
+        glVertex3f(-10.0f,-10.0f, 20.0f);           // Bottom Left
+        glVertex3f(-10.0f, 10.0f, 20.0f);           // Top Left
+        // Left Wall
+        glNormal3f(1.0f, 0.0f, 0.0f);               // Normal Pointing Right
+        glVertex3f(-10.0f, 10.0f, 20.0f);           // Top Front
+        glVertex3f(-10.0f,-10.0f, 20.0f);           // Bottom Front
+        glVertex3f(-10.0f,-10.0f,-20.0f);           // Bottom Back
+        glVertex3f(-10.0f, 10.0f,-20.0f);           // Top Back
+        // Right Wall
+        glNormal3f(-1.0f, 0.0f, 0.0f);              // Normal Pointing Left
+        glVertex3f( 10.0f, 10.0f,-20.0f);           // Top Back
+        glVertex3f( 10.0f,-10.0f,-20.0f);           // Bottom Back
+        glVertex3f( 10.0f,-10.0f, 20.0f);           // Bottom Front
+        glVertex3f( 10.0f, 10.0f, 20.0f);           // Top Front
+    glEnd();                            // Done Drawing Quads
+}
+
 };
 // EO Class
 

@@ -81,8 +81,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // Default texture behaviour
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);			      // Set blending function
-  //glEnable(GL_CULL_FACE);										                    // Enable culling
+  glEnable(GL_CULL_FACE);										                    // Enable culling
   glCullFace(GL_BACK);											                    // Set it for the back faces
+  glFrontFace(GL_CW);
 
 
   // Initialise other variables
@@ -149,7 +150,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(80.0f, 80.f, 80.0f, 1.0f); // Point light
+  light->setPosition(150.f, 150.f, 150.f, 1.0f); // Point light
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -165,16 +166,22 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   ModelsLoader modelsLoader;
 
   entities_.push_back(entitiesFactory.createBoxRoom());
-  //entities_.push_back(entitiesFactory.createCone(lights_));
+
+  lnfw::Entity *cone = entitiesFactory.createCone(lights_);
+  cone->transform.position.set(5.f, 5.f, 5.f);
+  cone->transform.rotation.set(5.f, 5.f, 5.f);
+
+  //entities_.push_back(cone);
   
 
-  ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
-  /*ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizardhouse4.obj");*/
+  //ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
+  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizard_house.obj");
+  ptrToShape->invertNormals();
 
   TextureComp *testTextComp = new TextureComp(roomTexture);
   lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
   testTransform->position.set(5.f, 5.f, 5.f);
-  testTransform->scale.set(0.08f, 0.08f, 0.08f);
+  testTransform->scale.set(1.f, 1.f, 1.f);
   MaterialComp *testMaterial = new MaterialComp();
   testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
   testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
@@ -182,7 +189,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
   lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
   animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 15.f, 0.f), Vec3());
+  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 25.f, 0.f), Vec3());
   ShadowComp *shadowComp = new ShadowComp(lights_);
   
   // Add components to entity
