@@ -59,9 +59,12 @@ namespace winapp {
                 // Apply transformations in inverse order
                 /*glScalef(-transform.scale.getX(), -transform.scale.getY(),
                 -transform.scale.getZ());*/
+				
+				glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+				glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
                 glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
-                glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
-                glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+                
+                
                 glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
                 lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
                 lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]

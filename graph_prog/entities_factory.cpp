@@ -28,7 +28,7 @@ namespace winapp {
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp(lights);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
-	VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 25.f, 0.f), Vec3());
+	VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
