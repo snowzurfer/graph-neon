@@ -25,6 +25,9 @@ namespace winapp {
         ShadowComp *shadowComp = (ShadowComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShadowComp"));
         const lnfw::Transform<Vec3> &transform = (*entityitor)->transform;
          
+        // Push the modelview matrix
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
 
         // Applly the geometry transformations before to apply shadowing, as the
         // same way as in the rendering system
@@ -136,7 +139,19 @@ namespace winapp {
           
         }
       }
+
+      // If the entity has children
+      if((*entityitor)->getChildrenList().size() > 0) {
+        // Obtain the children structure and render shadows recursively
+        update((*entityitor)->getChildrenList());        
+      }
+
+      // Pop modelview matrix
+      glPopMatrix();
+
     }
+
+    
 
     // Enable rendering to color buffer and reset face rendering
     glFrontFace(GL_CCW);
