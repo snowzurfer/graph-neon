@@ -171,42 +171,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   cone->transform.position.set(5.f, 5.f, 5.f);
   cone->transform.rotation.set(5.f, 5.f, 5.f);
 
-  //entities_.push_back(cone);
-  
-
-  //ShapeComp *ptrToShape = modelsLoader.load("media/Models/teapot.obj");
-  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizard_house.obj");
-  ptrToShape->invertNormals();
-  ptrToShape->setRenderingDir(GL_CW);
-
-  TextureComp *testTextComp = new TextureComp(roomTexture);
-  lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-  testTransform->position.set(5.f, 5.f, 5.f);
-  testTransform->scale.set(3.f, 3.f, 3.f);
-  MaterialComp *testMaterial = new MaterialComp();
-  testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
-  testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
-  BaseRendererComp *vertexRendererComp = new VertexRendererComp();
-  AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
-  lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
-  animTextureComp->setTransform(animTextTransform);
-  VelocityComp *velComponent = new VelocityComp(Vec3(0.f, 0.f, 0.f), Vec3(0.f, 0.f, 0.f), Vec3());
-  ShadowComp *shadowComp = new ShadowComp(lights_);
-  
-  // Add components to entity
-  lnfw::Entity *cubeEntity = new lnfw::Entity();
-  cubeEntity->attachComp(testMaterial);
-  cubeEntity->attachComp(ptrToShape);
-  cubeEntity->attachComp(testTextComp);
-  cubeEntity->transform = *testTransform;
-  cubeEntity->attachComp(vertexRendererComp);
-  cubeEntity->attachComp(animTextureComp);
-  cubeEntity->attachComp(velComponent);
-  cubeEntity->attachComp(shadowComp);
-
-  // Push entity
-  entities_.push_back(cubeEntity);
-
+  entities_.push_back(entitiesFactory.createMainRoom(lights_));
 
   
 

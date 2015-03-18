@@ -14,6 +14,8 @@
 #include <models_loader.h>
 #include <velocity_comp.h>
 #include <shadow_comp.h>
+#include <SOIL.h>
+#include <cassert>
 
 namespace winapp {
 
@@ -69,5 +71,51 @@ namespace winapp {
     return entity;
   }
 
+  lnfw::Entity *EntitiesFactory::createMainRoom(std::vector<Light *> &lights) {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizard_house.obj");
+    ptrToShape->invertNormals();
+    ptrToShape->setRenderingDir(GL_CW);
+
+    // Load skybox texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/Models/wizard_house/wizardohouseTempTex1024.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    // If the texture has been loaded
+    assert(roomTexture != 0);
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(6.f, 6.f, 6.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp(lights);
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+
+    // Return it
+    return entity;
+  }
 }
 // EO Namespace
