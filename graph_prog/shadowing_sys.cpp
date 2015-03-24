@@ -124,18 +124,15 @@ namespace winapp {
           // shadows
           glFrontFace(GL_CCW);
           glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+          //glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
           glFrontFace(GL_CW);
           glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
-
-          
-          // Enable rendering to color buffer and reset face rendering
-          glFrontFace(GL_CCW);
-          glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
           
         }
       }
@@ -180,14 +177,24 @@ namespace winapp {
     glPopAttrib();
   }
 
-  void doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
+  void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
+    // Create a temporary vector containing the 
+
     // For each face in the shape
     for(int faceNum = 0; faceNum < shapeComp.getFaces().size(); ++faceNum) {
       // Retrieve the current face
       const Face &face = shapeComp.getFaces()[faceNum];
+      
 
       // If the current face is visible
       if(face.visible_) {
+        // Render the face
+        glBegin(GL_TRIANGLES);
+          glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
+            shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
+            shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+        glEnd();
+
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
           // Retrieve eventual neighbour
@@ -224,10 +231,24 @@ namespace winapp {
               glVertex3f(vB.getX() + vD.getX(), vB.getY() + vD.getY(),
                 vB.getZ() + vD.getZ());
             glEnd();
+
+            // Add the newly created extruded vertices to the vector
+            backFacesVertices_.push_back(vC);
+            backFacesVertices_.push_back(vD);
           }
         } 
       }
     }
+
+    // Render the back of the shadow volume
+    glBegin(GL_TRIANGLE_STRIP);
+    for(int i = 0; i < backFacesVertices_.size(); ++i) {
+      glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
+    }
+    glEnd();
+
+    // Clear the work vector
+    backFacesVertices_.clear();
   }
 
   void vMat4Mult_(GLmatrix16f M, GLvector4f v) {

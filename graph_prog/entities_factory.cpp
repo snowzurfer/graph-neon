@@ -75,7 +75,7 @@ namespace winapp {
     // Create a models loader
     ModelsLoader modelsLoader;
 
-	  ShapeComp *ptrToShape = modelsLoader.load("media/Models/wizard_house/wizard_house.obj");
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/wizard_house/wizard_house.obj");
     ptrToShape->invertNormals();
     ptrToShape->setRenderingDir(GL_CW);
 
