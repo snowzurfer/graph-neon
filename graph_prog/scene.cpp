@@ -165,14 +165,18 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  entities_.push_back(entitiesFactory.createBoxRoom());
+  entities_.push_back(entitiesFactory.createMainRoom(lights_));
 
-  lnfw::Entity *cone = entitiesFactory.createTexturedCube(lights_);
-  cone->transform.position.set(5.f, 5.f, 5.f);
-  cone->transform.rotation.set(5.f, 5.f, 5.f);
+  lnfw::Entity *cone = entitiesFactory.createCone(lights_);
+  cone->transform.position.set(10.f, 10.f, 10.f);
+  //cone->transform.rotation.set(5.f, 5.f, 5.f);
   entities_.push_back(cone);
 
-  entities_.push_back(entitiesFactory.createMainRoom(lights_));
+  //entities_.push_back(entitiesFactory.createBoxRoom());
+
+  
+
+  
 
   
 

@@ -118,20 +118,20 @@ namespace winapp {
           glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
           // Setup the stencil buffer
           glEnable(GL_STENCIL_TEST);
-          glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFFL);
+          glStencilFunc(GL_ALWAYS, 0, ~0);
 
           // First pass. Increase the stencil values where there are
           // shadows
-          glFrontFace(GL_CCW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-          //glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
+          glFrontFace(GL_CW);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+          glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
-          glFrontFace(GL_CW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-          //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
+          glFrontFace(GL_CCW);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Enable rendering to color buffer and reset face rendering
@@ -144,7 +144,7 @@ namespace winapp {
           glColor4f(0.f, 0.f, 0.f, 0.4f);
           glEnable(GL_BLEND);
           glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-          glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);
+          glStencilFunc(GL_NOTEQUAL, 0, ~0);
           glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
           glPushMatrix();
             glLoadIdentity();
@@ -157,7 +157,9 @@ namespace winapp {
           glPopMatrix();
           // Pop the attributes set at the beginning of the function
           glPopAttrib();
-          //glDisable(GL_BLEND);
+          glDisable(GL_BLEND);
+
+          glClear(GL_STENCIL_BUFFER_BIT);
           
         }
 
@@ -198,11 +200,11 @@ namespace winapp {
       // If the current face is visible
       if(face.visible_) {
         // Render the face
-        /*glBegin(GL_TRIANGLES);
+        glBegin(GL_TRIANGLES);
           glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
             shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
             shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
-        glEnd();*/
+        glEnd();
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -250,11 +252,11 @@ namespace winapp {
     }
 
     // Render the back of the shadow volume
-   /* glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < backFacesVertices_.size(); ++i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
-    glEnd();*/
+    glEnd();
 
     // Clear the work vector
     backFacesVertices_.clear();
