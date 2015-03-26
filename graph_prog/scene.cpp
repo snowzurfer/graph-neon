@@ -167,9 +167,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   entities_.push_back(entitiesFactory.createBoxRoom());
 
-  lnfw::Entity *cone = entitiesFactory.createCone(lights_);
+  lnfw::Entity *cone = entitiesFactory.createTexturedCube(lights_);
   cone->transform.position.set(5.f, 5.f, 5.f);
   cone->transform.rotation.set(5.f, 5.f, 5.f);
+  entities_.push_back(cone);
 
   entities_.push_back(entitiesFactory.createMainRoom(lights_));
 

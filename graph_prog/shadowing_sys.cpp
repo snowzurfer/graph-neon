@@ -133,48 +133,57 @@ namespace winapp {
           glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
           //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
+
+          // Enable rendering to color buffer and reset face rendering
+          glFrontFace(GL_CCW);
+          glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+          // Draw a shadowing rectangle covering the entire screen.
+          // This rectangle will be drawn only in the areas where the stencil
+          // buffer is set to 1
+          glColor4f(0.f, 0.f, 0.f, 0.4f);
+          glEnable(GL_BLEND);
+          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+          glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+          glPushMatrix();
+            glLoadIdentity();
+            glBegin( GL_TRIANGLE_STRIP );
+            glVertex3f(-0.1f, 0.1f,-0.10f);
+            glVertex3f(-0.1f,-0.1f,-0.10f);
+            glVertex3f( 0.1f, 0.1f,-0.10f);
+            glVertex3f( 0.1f,-0.1f,-0.10f);
+            glEnd();
+          glPopMatrix();
+          // Pop the attributes set at the beginning of the function
+          glPopAttrib();
+          //glDisable(GL_BLEND);
           
         }
-      }
 
-      // If the entity has children
-      if((*entityitor)->getChildrenList().size() > 0) {
-        // Obtain the children structure and render shadows recursively
-        update((*entityitor)->getChildrenList());        
-      }
+        cleanUpTextures(NULL);
+        
+        
 
-      // Pop modelview matrix
-      glPopMatrix();
+        
+
+        // If the entity has children
+        if((*entityitor)->getChildrenList().size() > 0) {
+          // Obtain the children structure and render shadows recursively
+          update((*entityitor)->getChildrenList());        
+        }
+
+        
+
+        // Pop modelview matrix
+        glPopMatrix();
+      }
 
     }
 
     
 
-    // Enable rendering to color buffer and reset face rendering
-    glFrontFace(GL_CCW);
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-    // Draw a shadowing rectangle covering the entire screen.
-    // This rectangle will be drawn only in the areas where the stencil
-    // buffer is set to 1
-    glColor4f(0.f, 0.f, 0.f, 0.4f);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-    glPushMatrix();
-    glLoadIdentity();
-    glBegin( GL_TRIANGLE_STRIP );
-      glVertex3f(-0.1f, 0.1f,-0.10f);
-      glVertex3f(-0.1f,-0.1f,-0.10f);
-      glVertex3f( 0.1f, 0.1f,-0.10f);
-      glVertex3f( 0.1f,-0.1f,-0.10f);
-    glEnd();
-    glPopMatrix();
-    glDisable(GL_BLEND);
-
-    // Pop the attributes set at the beginning of the function
-    glPopAttrib();
+    
   }
 
   void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
@@ -189,11 +198,11 @@ namespace winapp {
       // If the current face is visible
       if(face.visible_) {
         // Render the face
-        glBegin(GL_TRIANGLES);
+        /*glBegin(GL_TRIANGLES);
           glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
             shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
             shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
-        glEnd();
+        glEnd();*/
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -241,11 +250,11 @@ namespace winapp {
     }
 
     // Render the back of the shadow volume
-    glBegin(GL_TRIANGLE_STRIP);
+   /* glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < backFacesVertices_.size(); ++i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
-    glEnd();
+    glEnd();*/
 
     // Clear the work vector
     backFacesVertices_.clear();

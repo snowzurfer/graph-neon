@@ -19,8 +19,10 @@ namespace winapp {
     // Create a basic cone
     lnfw::Entity *createCone(std::vector<Light *> &lights);
 
-	// Create a wizard room
-	lnfw::Entity *createMainRoom(std::vector<Light *> &lights);
+	  // Create a wizard room
+	  lnfw::Entity *createMainRoom(std::vector<Light *> &lights);
+
+    lnfw::Entity *createTexturedCube(std::vector<Light *> &lights);
   };
 
 }
