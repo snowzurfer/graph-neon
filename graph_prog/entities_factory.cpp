@@ -23,14 +23,14 @@ namespace winapp {
     // Create a shapes factory to create the shapes required
     ShapesFactory shapeBuilder;
 
-    ShapeComp *shape = shapeBuilder.buildCone(30);
+    ShapeComp *shape = shapeBuilder.buildCylinder(30);
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
     transform->scale.set(2.f, 2.f, 2.f);
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp(lights);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
-	VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
+	  VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
@@ -39,7 +39,7 @@ namespace winapp {
     entity->transform = *transform;
     entity->attachComp(vertexRendererComp);
     entity->attachComp(shadowComp);
-	entity->attachComp(velComp);
+	  entity->attachComp(velComp);
 
     // Return it
     return entity;
@@ -104,6 +104,7 @@ namespace winapp {
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
     ShadowComp *shadowComp = new ShadowComp(lights);
+    VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
   
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
@@ -112,6 +113,49 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    entity->attachComp(velComp);
+
+    // Return it
+    return entity;
+  }
+
+
+  lnfw::Entity *EntitiesFactory::createTexturedCube(std::vector<Light *> &lights) {
+    // Create a shape builder
+    ShapesFactory shapeBuilder;
+
+    ShapeComp *shape = shapeBuilder.buildCube(0);
+    //shape->invertNormals();
+
+    // Load skybox texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+      "media/Models/wizard_house/wizardohouseTempTex1024.png",
+      SOIL_LOAD_AUTO,
+      SOIL_CREATE_NEW_ID,
+      SOIL_FLAG_MIPMAPS | 
+      SOIL_FLAG_NTSC_SAFE_RGB | 
+      SOIL_FLAG_COMPRESS_TO_DXT
+      );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, 0.f, 0.f);
+    transform->scale.set(2.f, 2.f, 2.f);
+    MaterialComp *material = new MaterialComp();
+    material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    material->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
+    ShadowComp *shadowComp = new ShadowComp(lights);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(material);
+    entity->attachComp(shape);
+    entity->transform = *transform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(testTextComp);
     entity->attachComp(shadowComp);
 
     // Return it

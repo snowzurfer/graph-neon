@@ -118,63 +118,74 @@ namespace winapp {
           glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
           // Setup the stencil buffer
           glEnable(GL_STENCIL_TEST);
-          glStencilFunc(GL_ALWAYS, 1, 0xFFFFFFFFL);
+          glStencilFunc(GL_ALWAYS, 0, ~0);
 
           // First pass. Increase the stencil values where there are
           // shadows
-          glFrontFace(GL_CCW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-          //glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
+          glFrontFace(GL_CW);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+          glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
-          glFrontFace(GL_CW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-          //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
+          glFrontFace(GL_CCW);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
+
+          // Enable rendering to color buffer and reset face rendering
+          glFrontFace(GL_CCW);
+          glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+          // Draw a shadowing rectangle covering the entire screen.
+          // This rectangle will be drawn only in the areas where the stencil
+          // buffer is set to 1
+          glColor4f(0.f, 0.f, 0.f, 0.4f);
+          glEnable(GL_BLEND);
+          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+          glStencilFunc(GL_NOTEQUAL, 0, ~0);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+          glPushMatrix();
+            glLoadIdentity();
+            glBegin( GL_TRIANGLE_STRIP );
+            glVertex3f(-0.1f, 0.1f,-0.10f);
+            glVertex3f(-0.1f,-0.1f,-0.10f);
+            glVertex3f( 0.1f, 0.1f,-0.10f);
+            glVertex3f( 0.1f,-0.1f,-0.10f);
+            glEnd();
+          glPopMatrix();
+          // Pop the attributes set at the beginning of the function
+          glPopAttrib();
+          glDisable(GL_BLEND);
+
+          glClear(GL_STENCIL_BUFFER_BIT);
           
         }
-      }
 
-      // If the entity has children
-      if((*entityitor)->getChildrenList().size() > 0) {
-        // Obtain the children structure and render shadows recursively
-        update((*entityitor)->getChildrenList());        
-      }
+        cleanUpTextures(NULL);
+        
+        
 
-      // Pop modelview matrix
-      glPopMatrix();
+        
+
+        // If the entity has children
+        if((*entityitor)->getChildrenList().size() > 0) {
+          // Obtain the children structure and render shadows recursively
+          update((*entityitor)->getChildrenList());        
+        }
+
+        
+
+        // Pop modelview matrix
+        glPopMatrix();
+      }
 
     }
 
     
 
-    // Enable rendering to color buffer and reset face rendering
-    glFrontFace(GL_CCW);
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-
-    // Draw a shadowing rectangle covering the entire screen.
-    // This rectangle will be drawn only in the areas where the stencil
-    // buffer is set to 1
-    glColor4f(0.f, 0.f, 0.f, 0.4f);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glStencilFunc(GL_NOTEQUAL, 0, 0xFFFFFFFFL);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-    glPushMatrix();
-    glLoadIdentity();
-    glBegin( GL_TRIANGLE_STRIP );
-      glVertex3f(-0.1f, 0.1f,-0.10f);
-      glVertex3f(-0.1f,-0.1f,-0.10f);
-      glVertex3f( 0.1f, 0.1f,-0.10f);
-      glVertex3f( 0.1f,-0.1f,-0.10f);
-    glEnd();
-    glPopMatrix();
-    glDisable(GL_BLEND);
-
-    // Pop the attributes set at the beginning of the function
-    glPopAttrib();
+    
   }
 
   void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {

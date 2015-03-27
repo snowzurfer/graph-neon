@@ -57,28 +57,34 @@ namespace winapp {
     void ShapeComp::computePlanes_() {
       // For each face in the shape minus the next one which this will be 
       // checked against
-      for(unsigned int i = 0; i < faces_.size() - 1; ++i) { 
-        // For each other face in the shape
-        for(unsigned int j = i + 1; j < faces_.size(); ++j) { 
-          // For each one of the edges
-          for(unsigned int edgeI = 0; edgeI < 3; ++edgeI) {
-            // If the current edge doesn't already have a neighbour
-            if(!faces_[i].neighIndices_[edgeI]) {
-              for(unsigned int edgeJ = 0; edgeJ < 3; ++edgeJ) {
+      for(unsigned int i = 0; i < faces_.size(); ++i) {
+        // For each one of the edges in A
+        for(unsigned int edgeA = 0; edgeA < 3; ++edgeA) {
+          // If the current edge doesn't already have a neighbour
+          if(!faces_[i].neighIndices_[edgeA]) {
+            // For each other face in the shape
+            for(unsigned int j = 0; j < faces_.size(); ++j) {
+              // If the face is the same (i)
+              if(j == i) {
+                continue;
+              }
+
+              // For each edge in B
+              for(unsigned int edgeB = 0; edgeB < 3; ++edgeB) {
                 // Retrieve the index of the vertices of the edges
-                GLushort faceIedgeA = faces_[i].vertexIndices_[edgeI];
-                GLushort faceIedgeB = faces_[i].vertexIndices_[(edgeI + 1) 
+                GLushort faceIedgeA = faces_[i].vertexIndices_[edgeA];
+                GLushort faceIedgeB = faces_[i].vertexIndices_[(edgeA + 1) 
                   % 3];
-                GLushort faceJedgeA = faces_[j].vertexIndices_[edgeJ];
-                GLushort faceJedgeB = faces_[j].vertexIndices_[(edgeJ + 1) 
+                GLushort faceJedgeA = faces_[j].vertexIndices_[edgeB];
+                GLushort faceJedgeB = faces_[j].vertexIndices_[(edgeB + 1) 
                   % 3];
 
                 // If the two edges are neighbours
                 if((faceIedgeA == faceJedgeA && faceIedgeB == faceJedgeB) || 
-                    faceIedgeA == faceJedgeB && faceIedgeB == faceJedgeA) {
-                  // Set the neighbours
-                  faces_[i].neighIndices_[edgeI] = j;
-                  faces_[j].neighIndices_[edgeJ] = i;
+                  faceIedgeA == faceJedgeB && faceIedgeB == faceJedgeA) {
+                    // Set the neighbours
+                    faces_[i].neighIndices_[edgeA] = j;
+                    faces_[j].neighIndices_[edgeB] = i;
                 }
               }
             }
