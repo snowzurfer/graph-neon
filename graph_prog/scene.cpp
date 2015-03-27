@@ -258,10 +258,26 @@ void Scene::render(float interp) {
   }
 
   // Render geometry
+  glDisable(GL_LIGHT0);
   renderingSystem_.update(entities_);
+  glEnable(GL_LIGHT0);
+
+  glPushAttrib(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT);
+
 
   // Render shadows
   shadowingSys_.update(entities_);
+
+
+  // re-draw the model with the light enabled only where
+  // it has previously been drawn
+  glDepthFunc(GL_EQUAL);
+  // update the color only where the stencil value is 0
+  glEnable(GL_STENCIL_TEST);
+  glStencilFunc(GL_EQUAL, 0, ~0);
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  renderingSystem_.update(entities_);
+  glPopAttrib();		// restore OpenGL state
 
   // Save current matrix
   /*glMatrixMode(GL_MODELVIEW);
