@@ -8,8 +8,7 @@ namespace winapp {
 
   REGISTER_COMPONENT_IMPL(BaseRendererComp);
 
-  void applyGeometryTransform(const lnfw::Transform<Vec3> *transform,
-      const ShapeComp *shape) {
+  void applyGeometryTransform(const lnfw::Transform<Vec3> *transform) {
     // Move to position
     glTranslatef(transform->position.getX(),
                  transform->position.getY(),
@@ -72,7 +71,7 @@ namespace winapp {
   void setupRendering(const lnfw::Transform<Vec3> *transform, 
     const ShapeComp *shape, const TextureComp *texture, const MaterialComp *material) {
       // Apply geometry transform
-      applyGeometryTransform(transform, shape);
+      applyGeometryTransform(transform);
 
       // If there is a material
       if(material) {
@@ -96,8 +95,11 @@ namespace winapp {
         glDisable(GL_TEXTURE_2D);
       }
 
-      // Setup rendering direction
-      glFrontFace(shape->getRenderingDir());
+      // If there is a shape
+      if(shape) {
+        // Setup rendering direction
+        glFrontFace(shape->getRenderingDir());
+      }
   }
 
 }

@@ -24,8 +24,7 @@ namespace winapp {
   // EO Class
 
   // Apply transform to shape
-  void applyGeometryTransform(const lnfw::Transform<Vec3> *transform,
-      const ShapeComp *shape);
+  void applyGeometryTransform(const lnfw::Transform<Vec3> *transform);
 
   // Perform type-of-renderer-agnostic tasks
   void setupRendering(const lnfw::Transform<Vec3> *transform,

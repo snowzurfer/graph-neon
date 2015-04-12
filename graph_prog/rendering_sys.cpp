@@ -29,7 +29,7 @@ namespace winapp {
         // Push the modelview matrix
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
-
+          
           // Render the object
           rendererComp->render(&(*entityitor)->transform,
                                 shapeComp,

@@ -23,6 +23,15 @@ namespace winapp {
 	  lnfw::Entity *createMainRoom(std::vector<Light *> &lights);
 
     lnfw::Entity *createTexturedCube(std::vector<Light *> &lights);
+
+    // Create one of the two metallic disks
+    lnfw::Entity *createMetallicDisk();
+
+    // Create the sandtimer
+    lnfw::Entity *createSandTimer();
+   
+    // Create the rotating archane
+    lnfw::Entity *createRotatingArchane();
   };
 
 }

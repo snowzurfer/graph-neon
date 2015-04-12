@@ -122,16 +122,16 @@ namespace winapp {
 
           // First pass. Increase the stencil values where there are
           // shadows
-          glFrontFace(GL_CW);
-          //glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-          glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
+          glFrontFace(GL_CCW);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+          //glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
-          glFrontFace(GL_CCW);
-          //glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-          glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
+          glFrontFace(GL_CW);
+          glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Enable rendering to color buffer and reset face rendering

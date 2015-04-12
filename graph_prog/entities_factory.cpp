@@ -16,6 +16,7 @@
 #include <shadow_comp.h>
 #include <SOIL.h>
 #include <cassert>
+#include <winapp_colour.h>
 
 namespace winapp {
 
@@ -54,7 +55,7 @@ namespace winapp {
 
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(2.f, 2.f, 5.f);
+    transform->scale.set(10.f, 2.f, 10.f);
     MaterialComp *material = new MaterialComp();
     material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
     material->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
@@ -161,5 +162,145 @@ namespace winapp {
     // Return it
     return entity;
   }
+
+
+  lnfw::Entity *EntitiesFactory::createMetallicDisk() {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    ShapeComp *shape = shapeBuilder.buildDisk(25);
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->position.set(10.f, 10.f, 3.f);
+    transform->scale.set(4.f, 4.f, 4.f);
+    transform->rotation.setY(270.f);
+    MaterialComp *material = new MaterialComp();
+    material->setAmbient(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setDiffuse(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    material->setShininess(kHighShininess);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(material);
+    entity->attachComp(shape);
+    entity->transform = *transform;
+    entity->attachComp(vertexRendererComp);
+
+    // Return it
+    return entity;
+  }
+
+  lnfw::Entity *EntitiesFactory::createSandTimer() {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    float sandTimerScale = 0.3f;
+    float radiusBasis = 18.f;
+    float heightCones = 14.f;
+    float heightBasis = 3.f;
+    float distCones = heightCones - 1.f;
+    float distBasis = distCones + (heightBasis / 2.f);
+    float radiusCones = 16.f;
+    
+
+    // Sandtimer entity
+    lnfw::Entity *sandTimer = new lnfw::Entity();
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->position.set(-10.f, 10.f, 0.f);
+    transform->scale.set(sandTimerScale, sandTimerScale, sandTimerScale);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    sandTimer->transform = *transform;
+    sandTimer->attachComp(vertexRendererComp);
+
+
+    // Bottom of sandtimer
+    ShapeComp *shape = shapeBuilder.buildCylinder(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, -distBasis, 0.f);
+    transform->scale.set(radiusBasis, heightBasis, radiusBasis);
+    MaterialComp *material = new MaterialComp();
+    material->setAmbient(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setDiffuse(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *bottom = new lnfw::Entity();
+    bottom->attachComp(material);
+    bottom->attachComp(shape);
+    bottom->transform = *transform;
+    bottom->attachComp(vertexRendererComp);
+    sandTimer->addChild(bottom);
+
+
+    // Bottom of glass
+    shape = shapeBuilder.buildCone(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, -distCones, 0.f);
+    transform->scale.set(radiusCones, heightCones, radiusCones);
+    material = new MaterialComp();
+    material->setAmbient(0.7f, 0.7f, 0.7f, 0.2f);
+    material->setDiffuse(0.7f, 0.7f, 0.7f, 0.2f);
+    material->setSpecular(1.f, 1.f, 1.f, 0.8f);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *bottomGlass = new lnfw::Entity();
+    bottomGlass->attachComp(material);
+    bottomGlass->attachComp(shape);
+    bottomGlass->transform = *transform;
+    bottomGlass->attachComp(vertexRendererComp);
+    sandTimer->addChild(bottomGlass);
+
+    // Top of glass
+    shape = shapeBuilder.buildCone(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, distCones, 0.f);
+    transform->scale.set(radiusCones, heightCones, radiusCones);
+    transform->rotation.set(180.f, 0.f, 0.f);
+    material = new MaterialComp();
+    material->setAmbient(0.7f, 0.7f, 0.7f, 0.2f);
+    material->setDiffuse(0.7f, 0.7f, 0.7f, 0.2f);
+    material->setSpecular(1.f, 1.f, 1.f, 0.8f);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *topGlass = new lnfw::Entity();
+    topGlass->attachComp(material);
+    topGlass->attachComp(shape);
+    topGlass->transform = *transform;
+    topGlass->attachComp(vertexRendererComp);
+    sandTimer->addChild(topGlass);
+
+    // Top of sandtimer
+    shape = shapeBuilder.buildCylinder(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, distBasis, 0.f);
+    transform->scale.set(radiusBasis, heightBasis, radiusBasis);
+    material = new MaterialComp();
+    material->setAmbient(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setDiffuse(0.7f, 0.7f, 0.7f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *top = new lnfw::Entity();
+    top->attachComp(material);
+    top->attachComp(shape);
+    top->transform = *transform;
+    top->attachComp(vertexRendererComp);
+    sandTimer->addChild(top);
+
+    // Return it
+    return sandTimer;
+  }
+
+  lnfw::Entity *EntitiesFactory::createRotatingArchane() {
+
+
+
+  }
+
+
 }
 // EO Namespace
