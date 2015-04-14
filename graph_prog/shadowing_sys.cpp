@@ -108,6 +108,8 @@ namespace winapp {
           // Push the attributes to easily retrieve them after the passes
           glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
             GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT );
+          // Enable face culling
+          glEnable(GL_CULL_FACE);
           // Turn off lighting
           glDisable(GL_LIGHTING);
           // Disable writing to the depth buffer
@@ -118,6 +120,9 @@ namespace winapp {
           glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
           // Setup the stencil buffer
           glEnable(GL_STENCIL_TEST);
+          // Enable writing to stencil
+          glStencilMask(GL_TRUE);
+
           glStencilFunc(GL_ALWAYS, 0, ~0);
 
           // First pass. Increase the stencil values where there are
