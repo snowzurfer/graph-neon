@@ -159,6 +159,8 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->attachComp(shadowComp);
 
+    delete transform;
+
     // Return it
     return entity;
   }
@@ -186,6 +188,8 @@ namespace winapp {
     entity->attachComp(shape);
     entity->transform = *transform;
     entity->attachComp(vertexRendererComp);
+
+    delete transform;
 
     // Return it
     return entity;
@@ -291,13 +295,164 @@ namespace winapp {
     top->attachComp(vertexRendererComp);
     sandTimer->addChild(top);
 
+    delete transform;
+
     // Return it
     return sandTimer;
   }
 
   lnfw::Entity *EntitiesFactory::createRotatingArchane() {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    float archaneScale = 0.3f;
+    float mainRadius = 18.f;
+    float heightBasis = 2.f;
+    float armDist = mainRadius / 2.f;
+    float armWidth = 2.f;
+    float armLenght = mainRadius - 0.5f;
+
+    // Main entity
+    lnfw::Entity *archane = new lnfw::Entity();
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->position.set(10.f, 0.f, -5.f);
+    transform->scale.set(archaneScale, archaneScale, archaneScale);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    archane->transform = *transform;
+    archane->attachComp(vertexRendererComp);
 
 
+    // Pivot
+    lnfw::Entity *pivot = new lnfw::Entity();
+    transform = new lnfw::Transform<Vec3>();
+    transform->scale.set(1, 1, 1);
+    vertexRendererComp = new VertexRendererComp();
+    VelocityComp *velComp = new VelocityComp();
+    lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    velTransform->rotation.setY(25.f);
+    velComp->setTransform(*velTransform);
+    delete velTransform;
+    // Add components to entity
+    pivot->transform = *transform;
+    pivot->attachComp(vertexRendererComp);
+    pivot->attachComp(velComp);
+    archane->addChild(pivot);
+
+
+    // Rotating arm
+    ShapeComp *shape = shapeBuilder.buildCube(0);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, 0.f, armDist);
+    transform->scale.set(armWidth, heightBasis, armLenght);
+    MaterialComp *material = new MaterialComp();
+    material->setAmbient(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *arm = new lnfw::Entity();
+    arm->attachComp(material);
+    arm->attachComp(shape);
+    arm->transform = *transform;
+    arm->attachComp(vertexRendererComp);
+    pivot->addChild(arm);
+
+
+    // Arm's disk
+    shape = shapeBuilder.buildCylinder(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, 0.f, mainRadius - 1.f);
+    transform->scale.set(3.5f, 1.f, 3.5f);
+    material = new MaterialComp();
+    material->setAmbient(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    //material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *armDisk = new lnfw::Entity();
+    armDisk->attachComp(material);
+    armDisk->attachComp(shape);
+    armDisk->transform = *transform;
+    armDisk->attachComp(vertexRendererComp);
+    pivot->addChild(armDisk);
+
+
+    // Rotating cylinder
+    shape = shapeBuilder.buildCylinder(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.set(0.f, 0.f, -(mainRadius - 1.f));
+    transform->scale.set(3.5f, 0.3f, 3.5f);
+    material = new MaterialComp();
+    material->setAmbient(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    //material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    velComp = new VelocityComp();
+    velTransform = new lnfw::Transform<Vec3>();
+    velTransform->rotation.setZ(180.f);
+    velComp->setTransform(*velTransform);
+    delete velTransform;
+    // Add components to entity
+    lnfw::Entity *disk = new lnfw::Entity();
+    disk->attachComp(material);
+    disk->attachComp(shape);
+    disk->transform = *transform;
+    disk->attachComp(vertexRendererComp);
+    disk->attachComp(velComp);
+    pivot->addChild(disk);
+
+    // Rotating disk
+    shape = shapeBuilder.buildDisk(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.setY((heightBasis / 2.f) + 0.1f); 
+    transform->scale.set(6.f, 6.f, 6.f);
+    transform->rotation.setX(90.f);
+    material = new MaterialComp();
+    material->setAmbient(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
+    //material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    velComp = new VelocityComp();
+    velTransform = new lnfw::Transform<Vec3>();
+    velTransform->rotation.setY(-35.f);
+    velComp->setTransform(*velTransform);
+    delete velTransform;
+    // Add components to entity
+    lnfw::Entity *coin = new lnfw::Entity();
+    coin->attachComp(material);
+    coin->attachComp(shape);
+    coin->transform = *transform;
+    coin->attachComp(vertexRendererComp);
+    coin->attachComp(velComp);
+    pivot->addChild(coin);
+
+    // Glass pavement on top
+    shape = shapeBuilder.buildDisk(25);
+    transform = new lnfw::Transform<Vec3>();
+    transform->position.setY((heightBasis / 2.f) + 0.5f); 
+    transform->scale.set(mainRadius, mainRadius, mainRadius);
+    transform->rotation.setX(90.f);
+    material = new MaterialComp();
+    material->setAmbient(0.5f, 0.5f, 0.5f, 0.2f);
+    material->setDiffuse(0.5f, 0.5f, 0.5f, 0.2f);
+    material->setSpecular(0.8f, 0.8f, 0.8f, 0.7f);
+    //material->setShininess(kHighShininess);
+    vertexRendererComp = new VertexRendererComp();
+    // Add components to entity
+    lnfw::Entity *glass = new lnfw::Entity();
+    glass->attachComp(material);
+    glass->attachComp(shape);
+    glass->transform = *transform;
+    glass->attachComp(vertexRendererComp);
+    archane->addChild(glass);
+
+
+    delete transform;
+
+    return archane;
 
   }
 
