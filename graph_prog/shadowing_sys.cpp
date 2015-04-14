@@ -29,9 +29,13 @@ namespace winapp {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
 
+        glEnable(GL_NORMALIZE);
+
         // Applly the geometry transformations before to apply shadowing, as the
         // same way as in the rendering system
         setupRendering(&transform, shapeComp); 
+
+        glDisable(GL_NORMALIZE);
 
         // For each light in the scene
         for(unsigned int lightNum = 0; 
@@ -107,7 +111,8 @@ namespace winapp {
 
           // Push the attributes to easily retrieve them after the passes
           glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
-            GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT );
+            GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT |
+            GL_LIGHTING_BIT);
           // Enable face culling
           glEnable(GL_CULL_FACE);
           // Turn off lighting
@@ -122,50 +127,45 @@ namespace winapp {
           glEnable(GL_STENCIL_TEST);
           // Enable writing to stencil
           glStencilMask(GL_TRUE);
-
-          glStencilFunc(GL_ALWAYS, 0, ~0);
+          // Set the stencil function
+          glStencilFunc(GL_ALWAYS, 0, 0);
 
           // First pass. Increase the stencil values where there are
           // shadows
-          glFrontFace(GL_CCW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
-          //glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
+          glCullFace(GL_FRONT);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
+          glStencilOp(GL_KEEP, GL_INCR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Second pass. Decrease the stencil values where there are
           // shadows
-          glFrontFace(GL_CW);
-          glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
-          //glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
+           glCullFace(GL_BACK);
+          //glStencilOp(GL_KEEP, GL_KEEP, GL_DECR);
+          glStencilOp(GL_KEEP, GL_DECR, GL_KEEP);
           doShadowPass_(*shapeComp, workLight);
 
           // Enable rendering to color buffer and reset face rendering
-          glFrontFace(GL_CCW);
           glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+          // Enable depth buffer
+          glDepthMask(GL_TRUE);
+          // Disable face culling
 
-          // Draw a shadowing rectangle covering the entire screen.
-          // This rectangle will be drawn only in the areas where the stencil
-          // buffer is set to 1
-          glColor4f(0.f, 0.f, 0.f, 0.4f);
-          glEnable(GL_BLEND);
-          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-          glStencilFunc(GL_NOTEQUAL, 0, ~0);
+          // Set the stencil to not change
           glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-          glPushMatrix();
-            glLoadIdentity();
-            glBegin( GL_TRIANGLE_STRIP );
-            glVertex3f(-0.1f, 0.1f,-0.10f);
-            glVertex3f(-0.1f,-0.1f,-0.10f);
-            glVertex3f( 0.1f, 0.1f,-0.10f);
-            glVertex3f( 0.1f,-0.1f,-0.10f);
-            glEnd();
-          glPopMatrix();
-          // Pop the attributes set at the beginning of the function
-          glPopAttrib();
-          glDisable(GL_BLEND);
 
-          glClear(GL_STENCIL_BUFFER_BIT);
-          
+          // Render lit part of the object
+          glEnable(GL_LIGHTING);
+          glStencilFunc(GL_EQUAL, 1, 1);
+
+          // Retrieve the renderer component
+          BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+            getComp(abfw::CRC::GetICRC("BaseRendererComp"));
+          // Retrieve the other necessary components
+          TextureComp *textureComp = (TextureComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("TextureComp"));
+          MaterialComp *materialComp = (MaterialComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("MaterialComp"));
+          rendererComp->render(&transform, shapeComp, textureComp, materialComp);
+
+          glPopAttrib();
         }
 
         cleanUpTextures(NULL);

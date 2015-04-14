@@ -258,8 +258,10 @@ void Scene::render(float interp) {
 
   }
 
+  glDisable(GL_LIGHT0);
   // Render geometry
   renderingSystem_.update(entities_);
+  glEnable(GL_LIGHT0);
 
   // Render shadows
   shadowingSys_.update(entities_);
