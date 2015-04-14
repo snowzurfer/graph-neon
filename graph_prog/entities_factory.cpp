@@ -318,9 +318,14 @@ namespace winapp {
     transform->position.set(10.f, 0.f, -5.f);
     transform->scale.set(archaneScale, archaneScale, archaneScale);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    VelocityComp *velComp = new VelocityComp();
+    lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    velComp->setTransform(*velTransform);
+    delete velTransform;
     // Add components to entity
     archane->transform = *transform;
     archane->attachComp(vertexRendererComp);
+    archane->attachComp(velComp);
 
 
     // Pivot
@@ -328,8 +333,8 @@ namespace winapp {
     transform = new lnfw::Transform<Vec3>();
     transform->scale.set(1, 1, 1);
     vertexRendererComp = new VertexRendererComp();
-    VelocityComp *velComp = new VelocityComp();
-    lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    velComp = new VelocityComp();
+    velTransform = new lnfw::Transform<Vec3>();
     velTransform->rotation.setY(25.f);
     velComp->setTransform(*velTransform);
     delete velTransform;
@@ -348,6 +353,7 @@ namespace winapp {
     MaterialComp *material = new MaterialComp();
     material->setAmbient(0.5f, 0.5f, 0.5f, 1.0f);
     material->setDiffuse(0.5f, 0.5f, 0.5f, 1.0f);
+    material->setShininess(kHighShininess);
     vertexRendererComp = new VertexRendererComp();
     // Add components to entity
     lnfw::Entity *arm = new lnfw::Entity();

@@ -30,12 +30,16 @@ namespace winapp {
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
           
+          glEnable(GL_NORMALIZE);
+          
           // Render the object
           rendererComp->render(&(*entityitor)->transform,
                                 shapeComp,
                                 textureComp,
                                 materialComp);
       
+          glDisable(GL_NORMALIZE);
+
           // If the entity has children
           if((*entityitor)->getChildrenList().size() > 0) {
             // Obtain the children structure and Render recursively

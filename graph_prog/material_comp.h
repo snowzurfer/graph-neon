@@ -16,9 +16,9 @@ const Colour kDefaultAmbMat(0.95f, 0.95f, 0.95f, 1.f);
 const Colour kDefaultDiffMat(0.95f, 0.95f, 0.95f, 1.f);
 const Colour kDefaultSpecMat(0.8f, 0.8f, 0.8f, 1.f);
 const GLfloat kNoShininess = 0.f;
-const GLfloat kDefaultShininess = 40.f;
+const GLfloat kDefaultShininess = 100.f;
 const GLfloat kMediumShininess = 50.f;
-const GLfloat kHighShininess = 100.f;
+const GLfloat kHighShininess = 120.f;
 
 class MaterialComp : public lnfw::Component
 {

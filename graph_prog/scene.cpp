@@ -150,7 +150,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(150.f, 150.f, 150.f, 1.0f); // Point light
+  light->setPosition(30.f, 30.f, 30.f, 1.0f); // Point light
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
