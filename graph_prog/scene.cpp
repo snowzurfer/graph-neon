@@ -30,7 +30,8 @@ Scene::Scene() :
   light0(GL_LIGHT0),
   //skyBox_(NULL),
   camera_(NULL),
-  lights_()
+  lights_(),
+  shadowingSys_(lights_)
   {
   
 };
@@ -258,75 +259,27 @@ void Scene::render(float interp) {
 
   }
 
-  glDisable(GL_LIGHT0);
+  // Disable lights
+  setLights_(false);
   // Render geometry
   renderingSystem_.update(entities_);
-  glEnable(GL_LIGHT0);
+  // Re-enable lights
+  setLights_(true);
 
   // Render shadows
   shadowingSys_.update(entities_);
 
-  // Save current matrix
-  /*glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-
-    // Translate to cam position
-    Vec3 camPos = camera_->getPos();
-    glTranslatef(camPos.getX(), camPos.getY(), camPos.getZ());
-
-    // Render the skybox
-    //skyBox_->draw();
-
-  glPopMatrix();
-
-
-  // Save current matrix
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();
-	// Translate cube
-	//glTranslatef(0.f, 0.f, 0.f);
-
-    // Rotate cube
-    //glRotatef(cubeRot, 0.f, 1.f, 0.f);
-
-	  // Set colour to transparent
-	  //glColor4f(0.f, 0.f, 1.f, 0.25f);
-	  // Activate blending
-	  //glEnable(GL_BLEND);
-
-    // Draw cube using display list
-    //glCallList(unitCubeDList_);
-    gluSphere(gluNewQuadric(), 0.20, 20,20);
-
-	  // Deactivate blending
-	  //glDisable(GL_BLEND);
-
-  glPopMatrix();
-  // Go back to previous matrix
-
-  // Save current matrix
-  glMatrixMode(GL_MODELVIEW);
-  glPushMatrix();   
-
-    // Translate cube
-    glTranslatef(2.f, 2.f, 2.f);
+  
+  glEnable(GL_STENCIL_TEST);
+  // Set the stencil to not change
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  // Set the stencil function
+  glStencilFunc(GL_EQUAL, 0, 1);
+  // Render lighted geometry
+  renderingSystem_.update(entities_);
+  // Disable stencil test
+  glDisable(GL_STENCIL_TEST);
     
-    // Rotate cube
-    glRotatef(cubeRot, 0.f, 1.f, 0.f);
-
-    //glScalef(5.f, 5.f, 5.f);
-
-	  // Activate blending
-	  glEnable(GL_BLEND);
-
-      // Draw cube
-	    drawTexturedUnitCube(crateTransparentTex_);
-
-	  // Deactivate blending
-	  glDisable(GL_BLEND);
-
-  glPopMatrix();*/
-  // Go back to previous matrix
 
 
   // Swap the frame buffers (back with front)
@@ -423,228 +376,11 @@ void Scene::initOpenGL(int w, int h) {
   resizeGLWindow(w, h);  
 }
 
-void Scene::drawTexturedUnitCube(GLuint texture) {
-  // Bind texture to the geometry
-  glBindTexture(GL_TEXTURE_2D, texture);
-
-  // Set ST parameters
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-
-
-  // Modify the texture
-  glMatrixMode(GL_TEXTURE);
-
-    glPushMatrix();
-
-    glTranslatef(txPos_.getX(), txPos_.getY(), txPos_.getZ()); 
-    glRotatef(txRot_.getX(), 1.f, 0.f, 0.f);
-    glRotatef(txRot_.getY(), 0.f, 1.f, 0.f);
-    glRotatef(txRot_.getZ(), 0.f, 0.f, 1.f);
-    glScalef(txScl_.getX(), txScl_.getY(), txScl_.getZ()); 
-
-  // Draw the shape and map texture
-  glMatrixMode(GL_MODELVIEW);
-
-  // Being the drawing state
-  glBegin (GL_TRIANGLES);
-
-    // FRONT FACE
-    glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);    // Red
-    glVertex3f(-1.0f, 1.0f, 1.0f);     // TLF
-    
-    glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(0.f, 1.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
-
-    glNormal3f(0.f, 0.f, 1.f);
-    glTexCoord2f(1.f, 1.f);
-    //glColor3f(0.0f, 0.0f, 1.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-
-    glNormal3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.f, 1.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-    
-    glNormal3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-    glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
-
-    glNormal3f(0.f, 0.f, 1.f);
-	glTexCoord2f(0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);    // TLF
-
-
-    // RIGHT SIDE FACE
-    glNormal3f(1.f, 0.f, 0.f);
-	glTexCoord2f(0.f, 1.f);
-    //glColor3f(0.5f, 0.0f, 0.0f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-    
-    glNormal3f(1.f, 0.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(1.0f, -1.0f, -1.0f);    // BRB
-
-    glNormal3f(1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(1.0f, 1.0f, -1.0f);    // TRB
-
-    glNormal3f(1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.f, 1.f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-
-    glNormal3f(1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(1.0f, 1.0f, -1.0f);    // TRB
-
-    glNormal3f(1.f, 0.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
-
-
-    // BOTTOM SIDE FACE
-    glNormal3f(0.f, -1.f, 0.f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-    
-    glNormal3f(0.f, -1.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
-
-    glNormal3f(0.f, -1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);  // BLB
-
-    glNormal3f(0.f, -1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, -1.0f, 1.0f);    // BRF
-
-    glNormal3f(0.f, -1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);  // BLB
-
-    glNormal3f(0.f, -1.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(0.f, 1.f);
-    glVertex3f(1.0f, -1.0f, -1.0f);    // BRB
-    
-
-    // TOP SIDE FACE
-    glNormal3f(0.f, 1.f, 0.f);
-    glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
-    
-    glNormal3f(0.f, 1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.f, 1.f);
-    glVertex3f(1.0f, 1.0f, -1.0f);    // TRB
-
-    glNormal3f(0.f, 1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
-
-    glNormal3f(0.f, 1.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, 1.0f, 1.0f);    // TRF
-    
-    glNormal3f(0.f, 1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
-
-    glNormal3f(0.f, 1.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);    // TLF
-
-
-    // LEFT SIDE FACE
-    glNormal3f(-1.f, 0.f, 0.f);
-    glTexCoord2f(0.f, 0.f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
-
-    glNormal3f(-1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);  // BLB
-
-    glNormal3f(-1.f, 0.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
-
-    glNormal3f(-1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
-
-    glNormal3f(-1.f, 0.f, 0.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, 1.0f);    // BLF
-
-    glNormal3f(-1.f, 0.f, 0.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(-1.0f, 1.0f, 1.0f);     // TLF
-
-
-    // BACK SIDE FACE
-    glNormal3f(0.f, 0.f, -1.f);
-    glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, 1.0f, -1.0f);    // TRB
-
-    glNormal3f(0.f, 0.f, -1.f);
-    //glColor3f(0.0f, 1.0f, 0.0f);
-	glTexCoord2f(0.f, 1.f);
-    glVertex3f(1.0f, -1.0f, -1.0f);    // BRB
-
-    glNormal3f(0.f, 0.f, -1.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);  // BLB
-
-    glNormal3f(0.f, 0.f, -1.f);
-    //glColor3f(0.0f, 0.0f, 0.5f);
-	glTexCoord2f(0.f, 0.f);
-    glVertex3f(1.0f, 1.0f, -1.0f);    // TRB
-
-    glNormal3f(0.f, 0.f, -1.f);
-    //glColor3f(1.0f, 0.0f, 0.0f);
-	glTexCoord2f(1.f, 1.f);
-    glVertex3f(-1.0f, -1.0f, -1.0f);  // BLB
-
-    glNormal3f(0.f, 0.f, -1.f);
-    //glColor3f(0.0f, 0.0f, 1.0f);
-	glTexCoord2f(1.f, 0.f);
-    glVertex3f(-1.0f, 1.0f, -1.0f);    // TLB
-
-  glEnd();
-  // End drawing
-
-  // Modify the texture
-  glMatrixMode(GL_TEXTURE);
-    glPopMatrix();
-
-  glMatrixMode(GL_MODELVIEW);
-
+void Scene::setLights_(const bool setting) {
+  for (int i = 0; i < lights_.size(); ++i) {
+    lights_[i]->setEnabled(setting);
+    lights_[i]->apply();
+  }
 }
 
 }

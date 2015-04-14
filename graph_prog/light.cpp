@@ -24,7 +24,12 @@ void Light::apply() {
   glLightf (lightNum_, GL_LINEAR_ATTENUATION,    linAtt_);
   glLightf (lightNum_, GL_QUADRATIC_ATTENUATION,  quadAtt_);
 
-  glEnable(lightNum_);
+  if(enabled_) {
+    glEnable(lightNum_);
+  }
+  else if(!enabled_) {
+    glDisable(lightNum_);
+  }
 }
 
 void Light::setAmbient(const GLfloat r, const GLfloat g, const GLfloat b, const GLfloat a) {

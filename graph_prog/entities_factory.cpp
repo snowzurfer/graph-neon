@@ -181,6 +181,7 @@ namespace winapp {
     material->setSpecular(1.f, 1.f, 1.f, 1.0f);
     material->setShininess(kHighShininess);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    ShadowComp *shadowComp = new ShadowComp(lights);
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();

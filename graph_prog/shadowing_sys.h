@@ -22,6 +22,13 @@ namespace winapp {
   class ShadowingSys : public lnfw::System
   {
   public:
+    // Ctor
+    ShadowingSys(std::vector<Light *> &lights) :
+      lights_(lights) {
+      
+    };
+
+
     // Render shadows for the entities which have a shadow component
     void update(const std::list<lnfw::Entity *> &entities);
 
@@ -34,7 +41,8 @@ namespace winapp {
     // Render shadow polys
     void doShadowPass_(const ShapeComp &shapeComp, const Light &light);
     
-
+    // Lights in the scene
+    std::vector<Light *> &lights_;
   };
   // EO Class
 

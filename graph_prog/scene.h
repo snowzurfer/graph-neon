@@ -70,15 +70,9 @@ protected:
   // Set the buffers depending on device context
   void setBuffers();
 
-  // Draw an unit cube at the centre of the screen
-  void drawUnitCube();
-  // Draw a textured unit cube
-  void drawTexturedUnitCube(GLuint texture);
-  // Generate a unit cube in a display list
-  GLuint createCubeInDList();
 
-  // Draw a plane composed of 2 triangles on the x-z plane
-  void drawPlane(const float r, const float g, const float b);
+  // Disable/Enable lights, but not lighting
+  void setLights_(const bool setting);
 
   // HDC Used with the drawsprite function to manipulate/use the sprite
   HDC bitmapHDC_;
