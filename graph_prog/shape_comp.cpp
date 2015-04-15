@@ -63,7 +63,7 @@ namespace winapp {
           // If the current edge doesn't already have a neighbour
           if(!faces_[i].neighIndices_[edgeA]) {
             // For each other face in the shape
-            for(unsigned int j = 0; j < faces_.size(); ++j) {
+            for(unsigned int j = i + 1; j < faces_.size(); ++j) {
               // If the face is the same (i)
               if(j == i) {
                 continue;

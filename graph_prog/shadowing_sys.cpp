@@ -191,11 +191,11 @@ namespace winapp {
       // If the current face is visible
       if(face.visible_) {
         // Render the face
-        glBegin(GL_TRIANGLES);
+        /*glBegin(GL_TRIANGLES);
           glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
             shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
             shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
-        glEnd();
+        glEnd();*/
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -243,11 +243,11 @@ namespace winapp {
     }
 
     // Render the back of the shadow volume
-    glBegin(GL_TRIANGLE_STRIP);
+   /* glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < backFacesVertices_.size(); ++i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
-    glEnd();
+    glEnd();*/
 
     // Clear the work vector
     backFacesVertices_.clear();

@@ -175,9 +175,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   entities_.push_back(entitiesFactory.createBoxRoom());
   entities_.push_back(entitiesFactory.createTeapot());
-  entities_.push_back(entitiesFactory.createMetallicDisk());
-  entities_.push_back(entitiesFactory.createSandTimer());
-  entities_.push_back(entitiesFactory.createRotatingArchane());
+  //entities_.push_back(entitiesFactory.createMetallicDisk());
+  //entities_.push_back(entitiesFactory.createSandTimer());
+  //entities_.push_back(entitiesFactory.createRotatingArchane());
 
   
 

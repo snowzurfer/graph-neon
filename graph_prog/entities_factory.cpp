@@ -468,7 +468,7 @@ namespace winapp {
     // Create a models loader
     ModelsLoader modelsLoader;
 
-	  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/SmallSphere.obj");
     //ptrToShape->invertNormals();
     //ptrToShape->setRenderingDir(GL_CW);
 
