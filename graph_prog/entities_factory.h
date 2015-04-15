@@ -32,6 +32,9 @@ namespace winapp {
    
     // Create the rotating archane
     lnfw::Entity *createRotatingArchane();
+
+    // Create a teapot
+    lnfw::Entity *createTeapot();
   };
 
 }

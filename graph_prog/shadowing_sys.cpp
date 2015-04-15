@@ -42,7 +42,7 @@ namespace winapp {
             // same way as in the rendering system
             setupRendering(&transform, shapeComp); 
 
-            glDisable(GL_NORMALIZE);
+           
               
             // Work variables
             GLmatrix16f Minv;
@@ -156,6 +156,7 @@ namespace winapp {
 
             glPopAttrib();
 
+            glDisable(GL_NORMALIZE);
 
             // If the entity has children
             if((*entityitor)->getChildrenList().size() > 0) {

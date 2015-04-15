@@ -168,12 +168,13 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   //entities_.push_back(entitiesFactory.createMainRoom(lights_));
 
-  lnfw::Entity *cone = entitiesFactory.createCone(lights_);
-  cone->transform.position.set(10.f, 10.f, 10.f);
+  //lnfw::Entity *cone = entitiesFactory.createCone(lights_);
+  //cone->transform.position.set(10.f, 10.f, 10.f);
   //cone->transform.rotation.set(5.f, 5.f, 5.f);
-  entities_.push_back(cone);
+  //entities_.push_back(cone);
 
   entities_.push_back(entitiesFactory.createBoxRoom());
+  entities_.push_back(entitiesFactory.createTeapot());
   entities_.push_back(entitiesFactory.createMetallicDisk());
   entities_.push_back(entitiesFactory.createSandTimer());
   entities_.push_back(entitiesFactory.createRotatingArchane());
