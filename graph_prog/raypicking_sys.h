@@ -8,6 +8,7 @@
 #include <camera.h>
 #include <aabb_comp.h>
 #include <lnfw\physics\transform.h>
+#include <input.h>
 
 namespace winapp {
 
@@ -15,7 +16,7 @@ namespace winapp {
   {
   public:
     //Ctor
-    RaypickingSys(const Camera *camera);
+    RaypickingSys(const Camera *camera, Input *input);
 
     // Update the entities if they have a movement component
     void update(const std::list<lnfw::Entity *> &entities);
@@ -23,6 +24,9 @@ namespace winapp {
   private:
     // Reference to the camera to obtain the ray
     const Camera *cam_;
+
+    // Reference to the input system
+    Input *input_;
 
     // Check intersection of ray with AABB
     const bool testRayOOBB_(const Vec3 &rOrigin, const Vec3 &rDir, const lnfw::AABBComp *aabbComp,

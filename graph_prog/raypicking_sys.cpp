@@ -18,39 +18,43 @@
 
 namespace winapp {
 
-  RaypickingSys::RaypickingSys(const Camera *camera) :
-    System(), cam_(camera)
+  RaypickingSys::RaypickingSys(const Camera *camera, Input *input) :
+    System(), cam_(camera), input_(input)
   {
 
   }
 
   void RaypickingSys::update(const std::list<lnfw::Entity *> &entities) {
-    // Retrieve ray's position vector
-    const Vec3 &rOrigin = cam_->getPos();
-    // Retrieve ray's direction vector
-    const Vec3 &rDir    = cam_->getForward();
+    // If the mouse has been clicked
+    if(input_->isLPressed()) {
+      // Retrieve ray's position vector
+      const Vec3 &rOrigin = cam_->getPos();
+      // Retrieve ray's direction vector
+      const Vec3 &rDir    = cam_->getForward();
     
-    // Iterate through the entities and update them
-    for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
-      // If the entity has the required component(s)
-      if((*entityitor)->hasComp(abfw::CRC::GetICRC("AABBComp"))) {
-        // Retrieve the component(s)
-        lnfw::AABBComp *aabbComp = (lnfw::AABBComp *)(*entityitor)->
-          getComp(abfw::CRC::GetICRC("AABBComp"));
+      // Iterate through the entities and update them
+      for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
+        // If the entity has the required component(s)
+        if((*entityitor)->hasComp(abfw::CRC::GetICRC("AABBComp"))) {
+          // Retrieve the component(s)
+          lnfw::AABBComp *aabbComp = (lnfw::AABBComp *)(*entityitor)->
+            getComp(abfw::CRC::GetICRC("AABBComp"));
         
-        // Read the distance in case of collision
-        float intersectionDist;
+          // Read the distance in case of collision
+          float intersectionDist;
 
-        // If the ray is intersecting with the AABB
-        if(testRayOOBB_(rOrigin, rDir, aabbComp, &(*entityitor)->transform, intersectionDist)) {
-          // Do something
-          std::cout << "Picked object!" << std::endl;
-        }
-        else {
-          std::cout << std::endl;
+          // If the ray is intersecting with the AABB
+          if(testRayOOBB_(rOrigin, rDir, aabbComp, &(*entityitor)->transform, intersectionDist)) {
+            // Do something
+            std::cout << "Picked object!" << std::endl;
+          }
+          /*else {
+            std::cout << std::endl;
+          }*/
         }
       }
     }
+    
   }
 
   const bool RaypickingSys::testRayOOBB_(const Vec3 &rOrigin, const Vec3 &rDir, 

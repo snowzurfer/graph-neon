@@ -151,61 +151,66 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
 // Handles window messages      
 LRESULT CALLBACK WndProc (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
   // Depending on the message received
-    switch (message){
-  case WM_CLOSE: {
-	  // Show cursor again
-	  ShowCursor(TRUE);
+  switch (message){
+    case WM_CLOSE: {
+	    // Show cursor again
+	    ShowCursor(TRUE);
 
-      // Ask user if he wants to proceed in closing the window  
-      int msgBoxResult = MessageBox(hwnd,                      // Handle to parent window
-                    (LPCSTR)"Are you sure you want to quit?",    // Text
-                    (LPCSTR)"Take your final, ultimate decision.",  // Caption
-                    MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2);    // Aspect and behaviour
+        // Ask user if he wants to proceed in closing the window  
+        int msgBoxResult = MessageBox(hwnd,                      // Handle to parent window
+                      (LPCSTR)"Are you sure you want to quit?",    // Text
+                      (LPCSTR)"Take your final, ultimate decision.",  // Caption
+                      MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2);    // Aspect and behaviour
 
-      // Handle user decision
-      switch(msgBoxResult) {
-        case IDYES: {
-          DestroyWindow(hwnd);
-          break;
-        }
-        case IDNO: {
-			    // Hide cursor again
-			    ShowCursor(FALSE);
-          return true;
-          break;
-        }
+        // Handle user decision
+        switch(msgBoxResult) {
+          case IDYES: {
+            DestroyWindow(hwnd);
+            break;
+          }
+          case IDNO: {
+			      // Hide cursor again
+			      ShowCursor(FALSE);
+            return true;
+            break;
+          }
         
+        }
+
+        break;
       }
+      case WM_KEYDOWN: {
+        input.setKeyDown(wParam);      // Pass key
 
-      break;
-    }
-    case WM_KEYDOWN: {
-      input.setKeyDown(wParam);      // Pass key
+        break;
+      }
+      case WM_KEYUP: {
+        input.setKeyUp(wParam);        // Pass key
 
-      break;
-    }
-    case WM_KEYUP: {
-      input.setKeyUp(wParam);        // Pass key
+        break;
+      }
+      case WM_MOUSEMOVE: {
+        input.setMouseX(LOWORD (lParam));  // Pass X position
+        input.setMouseY(HIWORD (lParam));  // Pass Y position
 
-      break;
-    }
-    case WM_MOUSEMOVE: {
-      input.setMouseX(LOWORD (lParam));  // Pass X position
-      input.setMouseY(HIWORD (lParam));  // Pass Y position
+        break;
+      }
+      case WM_LBUTTONDOWN: 
+      case WM_LBUTTONUP:  {
+        input.setLMouseBtn(message);
+        break;
+      }
+      case WM_CREATE:                      
+        break;
 
-      break;
-    }
-    case WM_CREATE:                      
-      break;
-
-    case WM_SIZE:
+      case WM_SIZE:
       
-      break;  
+        break;  
 
-    case WM_DESTROY:  
-      PostQuitMessage(0);  
-      break;        
-  }                          
+      case WM_DESTROY:  
+        PostQuitMessage(0);  
+        break;        
+    }                          
 
   return DefWindowProc (hwnd, message, wParam, lParam);                    
 }

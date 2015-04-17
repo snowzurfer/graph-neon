@@ -112,7 +112,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
 
   // Create the raypicking system
-  raypickingSys_ = new RaypickingSys(camera_);
+  raypickingSys_ = new RaypickingSys(camera_, input_);
 
   // Load crate texture
   crateSolidTex_ = SOIL_load_OGL_texture  (
@@ -219,6 +219,9 @@ void Scene::update() {
   if(cubeRot > 360.f) {
     cubeRot = 0.f;
   };
+
+  // Update input
+  input_->update();
 
   // Update camera
   camera_->update();
