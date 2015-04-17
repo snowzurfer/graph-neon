@@ -43,6 +43,7 @@ namespace winapp {
                                 textureComp,
                                 materialComp);
 
+          #ifdef _DEBUG
           // If it has an aabb
           if((*entityitor)->hasComp(abfw::CRC::GetICRC("AABBComp"))) {
             // Retrieve the component(s)
@@ -72,7 +73,8 @@ namespace winapp {
             glEnd();
             
           }
-      
+          #endif
+
           glDisable(GL_NORMALIZE);
 
           // If the entity has children
