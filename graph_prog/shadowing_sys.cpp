@@ -126,8 +126,6 @@ namespace winapp {
             glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
             // Setup the stencil buffer
             glEnable(GL_STENCIL_TEST);
-            // Enable writing to stencil
-            glStencilMask(GL_TRUE);
             // Set the stencil function
             glStencilFunc(GL_ALWAYS, 0, 0);
 
@@ -190,11 +188,20 @@ namespace winapp {
 
       // If the current face is visible
       if(face.visible_) {
+
+
         // Render the face
         /*glBegin(GL_TRIANGLES);
-          glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
-            shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
-            shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
+          shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
+          shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
+        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
+          shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
+          shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
+        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
+          shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
+          shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+
         glEnd();*/
 
         // For each edge of the face
@@ -203,8 +210,8 @@ namespace winapp {
           int neighbourIndex = face.neighIndices_[e];
 
           // If there isn't a neighbour, or the neighbour isn't visible
-          if((!neighbourIndex) || 
-            shapeComp.getFaces()[neighbourIndex].visible_ == false) 
+          if((neighbourIndex  == 0) || 
+            shapeComp.getFaces()[neighbourIndex - 1].visible_ == false) 
           {
             // Get the vertices of the edge
             const Vec3 &vA = shapeComp.getVertices()[face.vertexIndices_[e]];
@@ -240,14 +247,30 @@ namespace winapp {
           }
         } 
       }
+      //else {
+      //  // Render the face
+      //  glBegin(GL_TRIANGLES);
+      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
+      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
+      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
+      //    shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+
+      //  glEnd();
+
+      //}
     }
 
     // Render the back of the shadow volume
-   /* glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < backFacesVertices_.size(); ++i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
-    glEnd();*/
+    glEnd();
 
     // Clear the work vector
     backFacesVertices_.clear();
