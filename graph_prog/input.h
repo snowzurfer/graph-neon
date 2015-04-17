@@ -33,6 +33,9 @@ public:
   // Destructor
   ~Input();
 
+  // Update
+  void update();
+
   // Keyboard related
   void setKeyDown(WPARAM k);
   void setKeyUp(WPARAM k);
@@ -44,23 +47,31 @@ public:
   void setMouseY(int Y);
   int getMouseX();
   int getMouseY();
-  void setLMouseBtn(WPARAM btn);
-  void setRMouseBtn(WPARAM btn);
+  bool isLDown();
+  bool isLPressed();
+  void setLMouseBtn(UINT btn);
+  void setRMouseBtn(UINT btn);
 
 private:
-  // Array of pressed keys
+  // Array of current read
   bool keys_[KeysNum];
 
-  // Array of just pressed keys
-  bool justPressedKeys_[KeysNum];
+  // Array of previous read
+  bool prevKeys_[KeysNum];
+
+  // Array of real-time pressed keys
+  bool realTimeKeys_[KeysNum];
 
   // Define a structure to hold mouse data
   struct Mouse 
   {
     int x, y;
-    bool left, right;
+    bool left, right, prevLeft, prevRight, realTimeLeft, realTimeRight;
 
-    Mouse(): x(0), y(0), left(false), right(false) {};
+    Mouse(): x(0), y(0), left(false), right(false),
+    prevLeft(false), prevRight(false),
+    realTimeLeft(false), realTimeRight(false)
+    {};
   } _mouse; // Also define an instance of the mouse struct
 
 };

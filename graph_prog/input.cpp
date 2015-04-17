@@ -5,7 +5,8 @@
 
 // Includes
 #include "input.h"
-
+#include <iostream>
+#include <algorithm>
 
 namespace winapp {
 
@@ -13,8 +14,7 @@ namespace winapp {
 Input::Input() {
   // Initialise keys array
   for(int i = 0; i < KeysNum; i ++) {
-    keys_[i] = 0;
-    justPressedKeys_[i] = 0;
+    keys_[i] = prevKeys_[i] = realTimeKeys_[i] = 0;
   }
 }
 
@@ -22,25 +22,25 @@ Input::~Input() {
 
 }
 
-void Input::setKeyDown(WPARAM k) {
-  // If the key has just been pressed
-  if(keys_[k] == false) {
-    // Set the just pressed key too
-    justPressedKeys_[k] = true;
-  }
-  else {
-    // Set the just pressed key too
-    justPressedKeys_[k] = false;
-  }
-  
-  keys_[k] = true;
+void Input::update() {
+  // Read from the real time keyboard
+  std::copy(keys_, keys_ + KeysNum, prevKeys_);
+  std::copy(realTimeKeys_, realTimeKeys_ + KeysNum, keys_);
+
+  // Read mouse from the real time buttons feed
+  _mouse.prevLeft = _mouse.left;
+  _mouse.left = _mouse.realTimeLeft;
+  _mouse.prevRight = _mouse.right;
+  _mouse.right = _mouse.realTimeRight;
+
+}
+
+void Input::setKeyDown(WPARAM k) { 
+  realTimeKeys_[k] = true;
 }
 
 void Input::setKeyUp(WPARAM k) {
-  keys_[k] = false;
-
-  // Set the just pressed key too
-  justPressedKeys_[k] = false;
+  realTimeKeys_[k] = false;
 }
 
 bool Input::isKeyDown(int k) {
@@ -48,7 +48,7 @@ bool Input::isKeyDown(int k) {
 }
 
 bool Input::isKeyPressed(int k) {
-  return justPressedKeys_[k];
+  return ( (!prevKeys_[k]) && (keys_[k]) );
 }
 
 void Input::setMouseX(int X) {
@@ -67,19 +67,26 @@ int Input::getMouseY() {
   return _mouse.y;
 }
 
-void Input::setLMouseBtn(WPARAM btn) {
+bool Input::isLDown() {
+  return _mouse.left;
+}
+
+bool Input::isLPressed() {
+  return ((_mouse.prevLeft ^ _mouse.left) & _mouse.left);
+}
+
+
+void Input::setLMouseBtn(UINT btn) {
   // Depending on btn state
   switch(btn) {
     // Down
     case WM_LBUTTONDOWN: {
-      _mouse.left = true;
-
+      _mouse.realTimeLeft = true;
       break;
     }
     // Up
     case WM_LBUTTONUP: {
-      _mouse.left = false;
-
+      _mouse.realTimeLeft = false;
       break;
     }
   }
