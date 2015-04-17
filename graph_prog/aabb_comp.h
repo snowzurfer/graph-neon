@@ -4,6 +4,7 @@
 // Includes
 #include <lnfw\components\component.h>
 #include <lnfw\physics\Vector3\Vec3.h>
+#include <vector>
 
 
 namespace lnfw {
@@ -16,6 +17,8 @@ namespace lnfw {
 
     // Ctor
     AABBComp(const Vec3 &minLeft, const Vec3 &maxRight);
+    // Second ctor
+    AABBComp(const std::vector<Vec3> &vertices);
 
     // Dtor
     ~AABBComp() {};
