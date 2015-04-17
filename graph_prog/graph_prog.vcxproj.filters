@@ -139,6 +139,12 @@
     <Filter Include="Source Files\Materials\Maths">
       <UniqueIdentifier>{b03ec535-56de-47f6-a895-4f9a84ef9161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Collision">
+      <UniqueIdentifier>{71b8262f-d1d6-4af6-9717-d485c36c0bee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Components\Collision">
+      <UniqueIdentifier>{f63df63b-eaa2-4bce-8d45-682e8f518164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -242,6 +248,9 @@
     </ClCompile>
     <ClCompile Include="tools\shadow_comp.cpp">
       <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="aabb_comp.cpp">
+      <Filter>Source Files\Components\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="shadow_comp.h">
       <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="aabb_comp.h">
+      <Filter>Header Files\Components\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

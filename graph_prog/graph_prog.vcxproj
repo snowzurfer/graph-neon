@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="aabb_comp.cpp" />
     <ClCompile Include="animated_texture_comp.cpp" />
     <ClCompile Include="animated_texture_sys.cpp" />
     <ClCompile Include="base_renderer_comp.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="aabb_comp.h" />
     <ClInclude Include="animated_textures_sys.h" />
     <ClInclude Include="animated_texture_comp.h" />
     <ClInclude Include="app_globals.h" />
