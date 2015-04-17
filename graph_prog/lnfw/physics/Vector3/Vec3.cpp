@@ -168,3 +168,15 @@ const bool Vec3::operator== (const Vec3 &rhs) const {
           (this->getY() == rhs.getY()) &&
           (this->getZ() == rhs.getZ()));
 }
+
+const bool Vec3::operator <(const Vec3 &rhs) const {
+  return ((this->getX() < rhs.getX()) &&
+          (this->getY() < rhs.getZ()) &&
+          (this->getZ() < rhs.getZ()));
+}
+
+const bool Vec3::operator >(const Vec3 &rhs) const {
+  return ((this->getX() > rhs.getX()) &&
+          (this->getY() > rhs.getZ()) &&
+          (this->getZ() > rhs.getZ()));
+}
