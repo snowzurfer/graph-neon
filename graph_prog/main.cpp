@@ -44,6 +44,10 @@ int WINAPI WinMain (HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR szCmdLine
   // Create a message handler
   MSG         msg;  
 
+  AllocConsole() ;
+  AttachConsole( GetCurrentProcessId() ) ;
+  freopen( "CON", "w", stdout ) ;
+
   // Define the behaviour and characteristics of the window to be created
   RegisterMyWindow(hInstance);
 

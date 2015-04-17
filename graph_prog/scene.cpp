@@ -41,6 +41,9 @@ Scene::~Scene() {
   delete camera_;
   camera_ = NULL;
 
+  delete raypickingSys_;
+  raypickingSys_ = NULL;
+
   // Free up the entities list
   for(entityItor_ itor = entities_.begin(); itor != entities_.end(); ++itor) {
     lnfw::Entity *deleteThis = *itor;
@@ -66,6 +69,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Init openGL
   initOpenGL(screenRect_.right, screenRect_.bottom); // initialise openGL
+
+  // Allocate a console to the application
+ // AllocConsole();
+  //freopen("CONOUT$", "w", stdout);
 
   // OpenGL settings
   glShadeModel(GL_SMOOTH);										                  // Enable Smooth Shading
@@ -102,6 +109,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   camera_->setUp(Vec3(0.f, 1.f, 0.f));
   camera_->setForward(Vec3(0.f, 0.f, -1.f));
   camera_->updateVectors();
+
+
+  // Create the raypicking system
+  raypickingSys_ = new RaypickingSys(camera_);
 
   // Load crate texture
   crateSolidTex_ = SOIL_load_OGL_texture  (
@@ -215,6 +226,7 @@ void Scene::update() {
   // Update systems
   animatedTextureSys_.update(entities_);
   movementSys_.update(entities_);
+  raypickingSys_->update(entities_);
 }
 
 void Scene::procInput() {

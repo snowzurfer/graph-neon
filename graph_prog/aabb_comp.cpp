@@ -14,7 +14,8 @@ namespace lnfw {
   }
 
   AABBComp::AABBComp(const std::vector<Vec3> &vertices) :
-    Component(), minLeft_(), maxRight_()
+    Component(), minLeft_(1000.f, 1000.f, 1000.f), 
+    maxRight_(-1000.f, -1000.f, -1000.f)
   {
     // For each vertex
     for(int i = 0; i < vertices.size(); ++i) {
@@ -23,7 +24,7 @@ namespace lnfw {
         maxRight_ = vertices[i];
       }
 
-      // If it is smaller than the current smallest
+      // If it is larger than the current smallest
       if(minLeft_ > vertices[i]) {
         minLeft_ = vertices[i];
       }

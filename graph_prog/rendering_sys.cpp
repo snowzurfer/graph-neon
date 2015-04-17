@@ -9,6 +9,9 @@
 #include <shadow_comp.h>
 #include <shadowing_sys.h>
 #include <light.h>
+#include <aabb_comp.h>
+#include <gl\GL.h>
+#include <gl/GLU.h>
 
 namespace winapp {
 
@@ -20,6 +23,8 @@ namespace winapp {
         // Retrieve the renderer component
         BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
           getComp(abfw::CRC::GetICRC("BaseRendererComp"));
+
+        
 
         // Retrieve the other necessary components
         TextureComp *textureComp = (TextureComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("TextureComp"));
@@ -37,6 +42,36 @@ namespace winapp {
                                 shapeComp,
                                 textureComp,
                                 materialComp);
+
+          // If it has an aabb
+          if((*entityitor)->hasComp(abfw::CRC::GetICRC("AABBComp"))) {
+            // Retrieve the component(s)
+            lnfw::AABBComp *aabbComp = (lnfw::AABBComp *)(*entityitor)->
+              getComp(abfw::CRC::GetICRC("AABBComp"));
+
+            // Render a line between the two extremes
+            glBegin(GL_LINES);
+            glVertex3f(aabbComp->getMinL().getX(),
+              aabbComp->getMinL().getY(),
+              aabbComp->getMinL().getZ());
+            glVertex3f(aabbComp->getMaxR().getX(),
+              aabbComp->getMaxR().getY(),
+              aabbComp->getMaxR().getZ());
+            glVertex3f(aabbComp->getMaxR().getX(),
+              aabbComp->getMaxR().getY(),
+              aabbComp->getMaxR().getZ());
+            glVertex3f(aabbComp->getMinL().getX(),
+              aabbComp->getMaxR().getY(),
+              aabbComp->getMaxR().getZ());
+            glVertex3f(aabbComp->getMinL().getX(),
+              aabbComp->getMaxR().getY(),
+              aabbComp->getMaxR().getZ());
+            glVertex3f(aabbComp->getMinL().getX(),
+              aabbComp->getMinL().getY(),
+              aabbComp->getMaxR().getZ());
+            glEnd();
+            
+          }
       
           glDisable(GL_NORMALIZE);
 

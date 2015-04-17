@@ -145,6 +145,12 @@
     <Filter Include="Source Files\Components\Collision">
       <UniqueIdentifier>{f63df63b-eaa2-4bce-8d45-682e8f518164}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Systems\Collision">
+      <UniqueIdentifier>{277e1345-d92f-439a-b694-37b3fff9e109}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems\Collision">
+      <UniqueIdentifier>{52ce6008-c8f8-4cf6-9a4f-7c6b4f3744cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -251,6 +257,9 @@
     </ClCompile>
     <ClCompile Include="aabb_comp.cpp">
       <Filter>Source Files\Components\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="raypicking_sys.cpp">
+      <Filter>Source Files\Systems\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -373,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="aabb_comp.h">
       <Filter>Header Files\Components\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="raypicking_sys.h">
+      <Filter>Header Files\Systems\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

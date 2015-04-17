@@ -6,7 +6,8 @@
 #include <lnfw/systems/system.h>
 #include <list>
 #include <camera.h>
-
+#include <aabb_comp.h>
+#include <lnfw\physics\transform.h>
 
 namespace winapp {
 
@@ -22,6 +23,10 @@ namespace winapp {
   private:
     // Reference to the camera to obtain the ray
     const Camera *cam_;
+
+    // Check intersection of ray with AABB
+    const bool testRayOOBB_(const Vec3 &rOrigin, const Vec3 &rDir, const lnfw::AABBComp *aabbComp,
+      const lnfw::Transform<Vec3> *transform, float &intersectionDist);
   };
   // EO Class
 

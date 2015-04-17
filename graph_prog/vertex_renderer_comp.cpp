@@ -47,12 +47,6 @@ namespace winapp {
         texels[counter++] = shape->getTexels()[i].y;
       }
 
-      /*const GLushort *indices = shape->getIndices().data();
-      GLushort *indicesPtr = new GLushort[shape->getIndices().size()];
-
-      for(int i = 0; i < shape->getIndices().size(); i++) {
-        indicesPtr[i] = indices[i];
-      }*/
 
       glEnable(GL_BLEND);
 

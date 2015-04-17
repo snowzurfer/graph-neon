@@ -26,6 +26,7 @@
 #include <animated_textures_sys.h>
 #include <movement_sys.h>
 #include <shadowing_sys.h>
+#include <raypicking_sys.h>
 
 
 namespace winapp {
@@ -118,6 +119,7 @@ protected:
   AnimatedTextureSys animatedTextureSys_;
   MovementSys movementSys_;
   ShadowingSys shadowingSys_;
+  RaypickingSys *raypickingSys_;
 
   // For moving object
   unsigned int xpos, ypos;

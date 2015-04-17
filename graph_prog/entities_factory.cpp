@@ -17,6 +17,7 @@
 #include <SOIL.h>
 #include <cassert>
 #include <winapp_colour.h>
+#include <aabb_comp.h>
 
 namespace winapp {
 
@@ -468,12 +469,12 @@ namespace winapp {
     // Create a models loader
     ModelsLoader modelsLoader;
 
-	  ShapeComp *ptrToShape = modelsLoader.load("media/models/SmallSphere.obj");
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/teapot.obj");
     //ptrToShape->invertNormals();
     //ptrToShape->setRenderingDir(GL_CW);
 
     // Load skybox texture
-    GLuint roomTexture = 0;
+    /*GLuint roomTexture = 0;
     roomTexture = SOIL_load_OGL_texture  (
                         "media/Models/wizard_house/wizardohouseTempTex1024.png",
                         SOIL_LOAD_AUTO,
@@ -481,33 +482,35 @@ namespace winapp {
                         SOIL_FLAG_MIPMAPS | 
                         SOIL_FLAG_NTSC_SAFE_RGB | 
                         SOIL_FLAG_COMPRESS_TO_DXT
-    );
+    );*/
 
     // If the texture has been loaded
-    assert(roomTexture != 0);
+    //assert(roomTexture != 0);
 
-    TextureComp *testTextComp = new TextureComp(roomTexture);
+    //TextureComp *testTextComp = new TextureComp(roomTexture);
     lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-    testTransform->scale.set(0.2f, 0.2f, 0.2f);
+    testTransform->scale.set(0.5f, 0.5f, 0.5f);
     testTransform->position.set(5.f, 5.f, 5.f);
     MaterialComp *testMaterial = new MaterialComp();
-    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
-    testMaterial->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setDiffuse(1.f, 1.f, 0.f, 1.f);
+    testMaterial->setSpecular(1.f, 1.f, 0.f, 1.f);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
     ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
     entity->attachComp(testMaterial);
     entity->attachComp(ptrToShape);
-    entity->attachComp(testTextComp);
+    //entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
     entity->attachComp(shadowComp);
+    entity->attachComp(aabbComp);
     //entity->attachComp(velComp);
 
 

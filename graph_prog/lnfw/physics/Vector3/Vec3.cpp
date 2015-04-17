@@ -163,6 +163,15 @@ const Vec3 Vec3::operator *(const float rhs) const {
   return this->scale(rhs);
 }
 
+const Vec3 Vec3::operator *(const Vec3 &rhs) const {
+  Vec3 scaled(
+          (this->elements[0]*rhs.getX()),
+          (this->elements[1]*rhs.getY()),
+          (this->elements[2]*rhs.getZ())
+          );
+  return scaled;
+}
+
 const bool Vec3::operator== (const Vec3 &rhs) const {
   return ((this->getX() == rhs.getX()) && 
           (this->getY() == rhs.getY()) &&
@@ -170,13 +179,9 @@ const bool Vec3::operator== (const Vec3 &rhs) const {
 }
 
 const bool Vec3::operator <(const Vec3 &rhs) const {
-  return ((this->getX() < rhs.getX()) &&
-          (this->getY() < rhs.getZ()) &&
-          (this->getZ() < rhs.getZ()));
+  return (this->lengthSquared() < rhs.lengthSquared());
 }
 
 const bool Vec3::operator >(const Vec3 &rhs) const {
-  return ((this->getX() > rhs.getX()) &&
-          (this->getY() > rhs.getZ()) &&
-          (this->getZ() > rhs.getZ()));
+  return (this->lengthSquared() > rhs.lengthSquared());
 }
