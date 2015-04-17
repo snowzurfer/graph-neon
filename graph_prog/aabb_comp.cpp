@@ -19,14 +19,26 @@ namespace lnfw {
   {
     // For each vertex
     for(int i = 0; i < vertices.size(); ++i) {
-      // If it is larger than the current largest
-      if(maxRight_ < vertices[i]) {
-        maxRight_ = vertices[i];
+      // If it is larger than the current largest, for each component
+      if(maxRight_.getX() < vertices[i].getX()) {
+        maxRight_.setX(vertices[i].getX());
+      }
+      if(maxRight_.getY() < vertices[i].getY()) {
+        maxRight_.setY(vertices[i].getY());
+      }
+      if(maxRight_.getZ() < vertices[i].getZ()) {
+        maxRight_.setZ(vertices[i].getZ());
       }
 
-      // If it is larger than the current smallest
-      if(minLeft_ > vertices[i]) {
-        minLeft_ = vertices[i];
+      // If it is smaller than the current smallest
+      if(minLeft_.getX() > vertices[i].getX()) {
+        minLeft_.setX(vertices[i].getX());
+      }
+      if(minLeft_.getY() > vertices[i].getY()) {
+        minLeft_.setY(vertices[i].getY());
+      }
+      if(minLeft_.getZ() > vertices[i].getZ()) {
+        minLeft_.setZ(vertices[i].getZ());
       }
     }
   }
