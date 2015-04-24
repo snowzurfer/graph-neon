@@ -12,12 +12,16 @@
 
 namespace winapp {
 
-  typedef float GLvector4f[4];							// Typedef's For vMatMult_ function
-  typedef float GLmatrix16f[16];						// Typedef's For vMatMult_ function
+  typedef float GLvector4f[4];
+  typedef float GLmatrix16f[16];
 
   
   // Multiply a vector by a matrix, 4 by 4
   void vMat4Mult_(GLmatrix16f M, GLvector4f v);
+
+  // Generate a shadow matrix to cast a cap for the shadow volume
+  void generateShadowMatrix_(GLmatrix16f matrix, GLvector4f light_pos, 
+    const Vec3 &normal, const Vec3 &planePt);
 
   class ShadowingSys : public lnfw::System
   {

@@ -189,9 +189,12 @@ namespace winapp {
       // If the current face is visible
       if(face.visible_) {
 
+        glPushMatrix();
+
+        glScalef(0.99f, 0.99f, 0.99f);
 
         // Render the face
-        /*glBegin(GL_TRIANGLES);
+        glBegin(GL_TRIANGLES);
         glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
           shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
           shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
@@ -202,7 +205,8 @@ namespace winapp {
           shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
           shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
 
-        glEnd();*/
+        glEnd();
+        glPopMatrix();
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -245,7 +249,22 @@ namespace winapp {
             backFacesVertices_.push_back(vC);
             backFacesVertices_.push_back(vD);
           }
-        } 
+        }
+
+        // Render the face
+        
+        glBegin(GL_TRIANGLES);
+        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[0]].getX() - light.getPosition()[0]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[0]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[0]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
+        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[1]].getX()- light.getPosition()[0]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[1]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[1]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
+        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[2]].getX()- light.getPosition()[0]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[2]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
+          (shapeComp.getVertices()[face.vertexIndices_[2]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
+        
+        glEnd();
       }
       //else {
       //  // Render the face
@@ -266,7 +285,7 @@ namespace winapp {
     }
 
     // Render the back of the shadow volume
-    glBegin(GL_TRIANGLE_STRIP);
+    glBegin(GL_TRIANGLE_FAN);
     for(int i = 0; i < backFacesVertices_.size(); ++i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
@@ -286,6 +305,47 @@ namespace winapp {
     v[1]=res[1];
     v[2]=res[2];
     v[3]=res[3];										// Homogenous Coordinate
+  }
+
+  void generateShadowMatrix_(GLmatrix16f matrix, GLvector4f light_pos, const Vec3 &normal, const Vec3 &planePt) {
+
+    //Equation of plane is ax + by + cz = d
+    //a, b and c are the coefficients of the normal to the plane (i.e. normal = ai + bj + ck)
+    //If (x0, y0, z0) is any point on the plane, d = a*x0 + b*y0 + c*z0
+    //i.e. d is the dot product of any point on the plane (using P here) and the normal to the plane
+    float a, b, c, d;
+    a = normal.getX();
+    b = normal.getY();
+    c = normal.getZ();
+    d = normal.dot(planePt);
+
+    //Origin of projection is at x, y, z. Projection here originating from the light source's position
+    float x, y, z;
+
+    x = light_pos[0];
+    y = light_pos[1];
+    z = light_pos[2];
+
+    //This is the general perspective transformation matrix from a point (x, y, z) onto the plane ax + by + cz = d
+    matrix[0] = d - (b * y + c * z);
+    matrix[1] = a * y;
+    matrix[2] = a * z;
+    matrix[3] = a;
+
+    matrix[4] = b * x;
+    matrix[5] = d - (a * x + c * z);
+    matrix[6] = b * z;
+    matrix[7] = b;
+
+    matrix[8] = c * x;
+    matrix[9] = c * y;
+    matrix[10] = d - (a * x + b * y);
+    matrix[11] = c;
+
+    matrix[12] = -d * x;
+    matrix[13] = -d * y;
+    matrix[14] = -d * z;
+    matrix[15] = -(a * x + b * y + c * z);
   }
 }
 // EO Namespace
