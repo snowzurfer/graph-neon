@@ -147,7 +147,7 @@ namespace winapp {
     int numFacesElements = (int)faces.size();
     std::vector<Vec3> newVerts, newNorms;
     std::vector<Texel> newTex;
-    std::vector<GLushort> indices;
+    std::vector<GLuint> indices;
     std::vector<Face> shapeFaces;
 
     for(int i = 0; i < numFacesElements; i += 3) {
@@ -155,7 +155,7 @@ namespace winapp {
       Texel texel(texC[faces[i + 1] - 1].getX(), texC[faces[i + 1] - 1].getY());
       newTex.push_back(texel);
       newNorms.push_back(norms[faces[i + 2] - 1]);
-      indices.push_back((GLushort)(i / 3));
+      indices.push_back((GLuint)(i / 3));
     }
     
     shapeFaces = buildFacesVector(indices);

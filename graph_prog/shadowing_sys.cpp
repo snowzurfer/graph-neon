@@ -189,24 +189,24 @@ namespace winapp {
       // If the current face is visible
       if(face.visible_) {
 
-        glPushMatrix();
+        //glPushMatrix();
 
-        glScalef(0.99f, 0.99f, 0.99f);
+        //glScalef(0.99f, 0.99f, 0.99f);
 
-        // Render the face
-        glBegin(GL_TRIANGLES);
-        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
-          shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
-          shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
-        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
-          shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
-          shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
-        glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
-          shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
-          shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+        //// Render the face
+        //glBegin(GL_TRIANGLES);
+        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
+        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
+        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
+        //  shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
 
-        glEnd();
-        glPopMatrix();
+        //glEnd();
+        //glPopMatrix();
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -214,8 +214,8 @@ namespace winapp {
           int neighbourIndex = face.neighIndices_[e];
 
           // If there isn't a neighbour, or the neighbour isn't visible
-          if((neighbourIndex  == 0) || 
-            shapeComp.getFaces()[neighbourIndex - 1].visible_ == false) 
+          if((neighbourIndex  == -1) || 
+            shapeComp.getFaces()[neighbourIndex].visible_ == false) 
           {
             // Get the vertices of the edge
             const Vec3 &vA = shapeComp.getVertices()[face.vertexIndices_[e]];

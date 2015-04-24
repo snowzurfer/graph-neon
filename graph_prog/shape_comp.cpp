@@ -11,7 +11,7 @@ namespace winapp {
 
   REGISTER_COMPONENT_IMPL(ShapeComp);
 
-  ShapeComp::ShapeComp(const std::vector<GLushort> &indices, 
+  ShapeComp::ShapeComp(const std::vector<GLuint> &indices, 
                       const std::vector<Vec3> &vertices, 
                       const std::vector<Vec3> &normals,
                       const std::vector<Texel> &texels,
@@ -24,7 +24,7 @@ namespace winapp {
       computePlanes_();
     }
 
-    ShapeComp::ShapeComp(const std::vector<GLushort> &indices, 
+    ShapeComp::ShapeComp(const std::vector<GLuint> &indices, 
       const std::vector<Vec3> &vertices, 
       const std::vector<Vec3> &normals,
       const std::vector<Texel> &texels) :
@@ -57,31 +57,41 @@ namespace winapp {
     void ShapeComp::computePlanes_() {
       // For each face in the shape minus the next one which this will be 
       // checked against
-      for(unsigned int i = 0; i < faces_.size(); ++i) {
+      unsigned int facesSize = faces_.size();
+      for(unsigned int i = 0; i < facesSize; ++i) {
         // For each one of the edges in A
         for(unsigned int edgeA = 0; edgeA < 3; ++edgeA) {
           // If the current edge doesn't already have a neighbour
-          if(!faces_[i].neighIndices_[edgeA]) {
+          if(faces_[i].neighIndices_[edgeA] == -1) {
             // For each other face in the shape
-            for(unsigned int j = i + 1; j < faces_.size(); ++j) {
+            for(unsigned int j = 0; j < facesSize; ++j) {
               // If the face is the same (i)
               if(j == i) {
                 continue;
               }
 
+              // Retrieve the index of the vertices of the edges
+              GLuint faceIedgeA = faces_[i].vertexIndices_[edgeA];
+              GLuint faceIedgeB = faces_[i].vertexIndices_[(edgeA + 1) 
+                % 3];
+
+              // Retrieve the vertices themselves
+              const Vec3 &faceIvertxA = vertices_[faceIedgeA];
+              const Vec3 &faceIvertxB = vertices_[faceIedgeB];
+
               // For each edge in B
               for(unsigned int edgeB = 0; edgeB < 3; ++edgeB) {
-                // Retrieve the index of the vertices of the edges
-                GLushort faceIedgeA = faces_[i].vertexIndices_[edgeA];
-                GLushort faceIedgeB = faces_[i].vertexIndices_[(edgeA + 1) 
-                  % 3];
-                GLushort faceJedgeA = faces_[j].vertexIndices_[edgeB];
-                GLushort faceJedgeB = faces_[j].vertexIndices_[(edgeB + 1) 
+                GLuint faceJedgeA = faces_[j].vertexIndices_[edgeB];
+                GLuint faceJedgeB = faces_[j].vertexIndices_[(edgeB + 1) 
                   % 3];
 
+                // Retrieve the vertices themselves
+                const Vec3 &faceJvertxA = vertices_[faceJedgeA];
+                const Vec3 &faceJvertxB = vertices_[faceJedgeB];
+
                 // If the two edges are neighbours
-                if((faceIedgeA == faceJedgeA && faceIedgeB == faceJedgeB) || 
-                  faceIedgeA == faceJedgeB && faceIedgeB == faceJedgeA) {
+                if((faceIvertxA == faceJvertxA && faceIvertxB == faceJvertxB) || 
+                  faceIvertxA == faceJvertxB && faceIvertxB == faceJvertxA) {
                     // Set the neighbours
                     faces_[i].neighIndices_[edgeA] = j;
                     faces_[j].neighIndices_[edgeB] = i;

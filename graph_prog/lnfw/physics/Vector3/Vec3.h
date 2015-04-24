@@ -4,6 +4,9 @@
 #include <cmath>
 #include <iostream>
  
+//Tolerance used in floating-point comparisons
+#define EPSILON 0.001f
+
 class Vec3{
 private:
     float elements[3];

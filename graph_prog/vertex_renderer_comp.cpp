@@ -61,7 +61,7 @@ namespace winapp {
 
       // Deference
       glDrawElements(GL_TRIANGLES, shape->getIndices().size(), 
-                     GL_UNSIGNED_SHORT, shape->getIndices().data());
+                     GL_UNSIGNED_INT, shape->getIndices().data());
 
       // Disable client states
       glDisableClientState(GL_VERTEX_ARRAY);

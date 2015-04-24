@@ -25,7 +25,7 @@ namespace winapp {
     Face() :
         vertexIndices_(),
           normalIndices_(),
-          neighIndices_(3, 0),
+          neighIndices_(3, -1),
           planeEq_(),
           visible_(false)
         {
@@ -37,9 +37,9 @@ namespace winapp {
         // vertices
         void calcPlane(const std::vector<Vec3> &vertices); 
 
-        std::vector<GLushort> vertexIndices_;
-        std::vector<GLushort> normalIndices_;
-        std::vector<GLushort> neighIndices_;
+        std::vector<GLuint> vertexIndices_;
+        std::vector<GLuint> normalIndices_;
+        std::vector<GLint> neighIndices_;
         sPlaneEq planeEq_;
         bool visible_;
 
@@ -50,7 +50,7 @@ namespace winapp {
   // Utility function.
   // Loads a vector of faces with correctly initialised faces
   // using a vector of indices as input
-  std::vector<Face> buildFacesVector(const std::vector<GLushort> &indices);
+  std::vector<Face> buildFacesVector(const std::vector<GLuint> &indices);
 
 }
 // EO Namespace

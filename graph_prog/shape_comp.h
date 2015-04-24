@@ -17,13 +17,13 @@ namespace winapp {
     REGISTER_COMPONENT(ShapeComp);
 
     // Ctors
-    ShapeComp(const std::vector<GLushort> &indices, 
+    ShapeComp(const std::vector<GLuint> &indices, 
               const std::vector<Vec3> &vertices, 
               const std::vector<Vec3> &normals,
               const std::vector<Texel> &texels,
               const std::vector<Face> &faces);
 
-    ShapeComp(const std::vector<GLushort> &indices, 
+    ShapeComp(const std::vector<GLuint> &indices, 
       const std::vector<Vec3> &vertices, 
       const std::vector<Vec3> &normals,
       const std::vector<Texel> &texels);
@@ -35,7 +35,7 @@ namespace winapp {
     inline const std::vector<Vec3> &getNormals() const {
       return normals_;
     }
-    inline const std::vector<GLushort> &getIndices() const {
+    inline const std::vector<GLuint> &getIndices() const {
       return indices_;
     }
     inline const std::vector<Texel> &getTexels() const {
@@ -60,7 +60,7 @@ namespace winapp {
     inline void setNormals(const std::vector<Vec3> &vect) {
       normals_ = vect;
     }
-    inline void setIndices(const std::vector<GLushort> &vect) {
+    inline void setIndices(const std::vector<GLuint> &vect) {
       indices_ = vect;
     }
     inline void setTexels(const std::vector<Texel> &vect) {
@@ -89,7 +89,7 @@ namespace winapp {
     // Vertices, normals and indices for the shape
     std::vector<Vec3> vertices_;
     std::vector<Vec3> normals_;
-    std::vector<GLushort> indices_;
+    std::vector<GLuint> indices_;
     // Texture coordinates
     std::vector<Texel> texels_;
 

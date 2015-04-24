@@ -173,9 +173,9 @@ const Vec3 Vec3::operator *(const Vec3 &rhs) const {
 }
 
 const bool Vec3::operator== (const Vec3 &rhs) const {
-  return ((this->getX() == rhs.getX()) && 
-          (this->getY() == rhs.getY()) &&
-          (this->getZ() == rhs.getZ()));
+  return ( (fabs(this->getX() - rhs.getX()) < EPSILON) && 
+    (fabs(this->getY() - rhs.getY()) < EPSILON) &&
+    (fabs(this->getZ() - rhs.getZ()) < EPSILON) );
 }
 
 const bool Vec3::operator <(const Vec3 &rhs) const {
