@@ -27,12 +27,12 @@ namespace winapp {
   {
   public:
     // Ctor
-    ShadowingSys(std::vector<Light *> &lights) :
-      lights_(lights) {
-      
-    };
+    ShadowingSys(std::vector<Light *> &lights);
 
 
+    // Dtor
+    ~ShadowingSys();
+  
     // Render shadows for the entities which have a shadow component
     void update(const std::list<lnfw::Entity *> &entities);
 
@@ -40,7 +40,11 @@ namespace winapp {
 
   private:
     // Vector used to store temporary back of shadow volume
-    std::vector<Vec3> backFacesVertices_;
+    std::vector<float> backFacesVertices_;
+    std::vector<GLuint> backFacesIndices_;
+    // Vector used to store temporary front of shadow volume
+    std::vector<float> frontFacesVertices_;
+    std::vector<GLuint> frontFacesIndices_;
 
     // Render shadow polys
     void doShadowPass_(const ShapeComp &shapeComp, const Light &light);

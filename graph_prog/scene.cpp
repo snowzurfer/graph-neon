@@ -362,7 +362,7 @@ void Scene::resizeGLWindow(int w, int h) {
   glLoadIdentity();
 
   // Calculate aspect ratio and set the frustum for clipping
-  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.001, 150.0);
+  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.001, 300.0);
   //glFrustum(screenRect_.left, screenRect_.right, screenRect_.bottom, screenRect_.top, 1.0f, 150.0f);
   //glFrustum(-2, 2, -2, 2, 1, 100);
 

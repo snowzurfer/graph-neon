@@ -10,9 +10,18 @@
 #include <tools/face.h>
 #include <base_renderer_comp.h>
 
-#define PROJ_INFINITY 100.f
+#define PROJ_INFINITY 50.f
 
 namespace winapp {
+
+  ShadowingSys::ShadowingSys(std::vector<Light *> &lights)  :
+    lights_(lights), backFacesVertices_(),
+    frontFacesVertices_(){
+  };
+
+  ShadowingSys::~ShadowingSys() {
+  
+  }
 
   void ShadowingSys::update(const std::list<lnfw::Entity *> &entities) {
     // For each light in the scene
@@ -178,35 +187,39 @@ namespace winapp {
   }
 
   void ShadowingSys::doShadowPass_(const ShapeComp &shapeComp, const Light &light) {
-    // Create a temporary vector containing the 
+    // Number of faces to be processed
+    const unsigned int facesTotNum = shapeComp.getFaces().size();
 
-    // For each face in the shape
-    for(int faceNum = 0; faceNum < shapeComp.getFaces().size(); ++faceNum) {
+    // Counter to keep track of the number of visible faces. Also
+    // used to save the index of front faces.
+    unsigned int visibleFaces = 0;
+    // Same but for back faces
+    unsigned int unvisibleFaces = 0;
+
+    // Closest extruded vector
+    Vec3 closest(PROJ_INFINITY * 1000, PROJ_INFINITY * 1000, PROJ_INFINITY * 1000);
+
+
+    // Normal vector indicating the direction from the light to the shape
+    Vec3 normalLightShape(-light.getPosition()[0], -light.getPosition()[1], -light.getPosition()[2]);
+    normalLightShape.normalize();
+
+     // For each face in the shape
+    for(int faceNum = 0; faceNum < facesTotNum; ++faceNum) {
       // Retrieve the current face
       const Face &face = shapeComp.getFaces()[faceNum];
       
 
       // If the current face is visible
       if(face.visible_) {
+        for(unsigned int i = 3; i > 0; --i) {
+          // Add its vertices to the list which will be deferenced
+          frontFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getX());
+          frontFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getY());
+          frontFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getZ());
+          frontFacesIndices_.push_back(visibleFaces ++);
+        }
 
-        //glPushMatrix();
-
-        //glScalef(0.99f, 0.99f, 0.99f);
-
-        //// Render the face
-        //glBegin(GL_TRIANGLES);
-        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
-        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
-        //glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
-        //  shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
-
-        //glEnd();
-        //glPopMatrix();
 
         // For each edge of the face
         for(int e = 0; e < 3; ++e) {
@@ -226,13 +239,29 @@ namespace winapp {
             Vec3 vC, vD;
 
             // Calculate the projections
-            vC.setX((vA.getX() - light.getPosition()[0]) * PROJ_INFINITY);
-            vC.setY((vA.getY() - light.getPosition()[1]) * PROJ_INFINITY);
-            vC.setZ((vA.getZ() - light.getPosition()[2]) * PROJ_INFINITY);
+            vC.setX((vA.getX() - light.getPosition()[0]));
+            vC.setY((vA.getY() - light.getPosition()[1]));
+            vC.setZ((vA.getZ() - light.getPosition()[2]));
+            vC.normalize(); 
+            vC = vC.scale(PROJ_INFINITY);
 
-            vD.setX((vB.getX() - light.getPosition()[0]) * PROJ_INFINITY);
-            vD.setY((vB.getY() - light.getPosition()[1]) * PROJ_INFINITY);
-            vD.setZ((vB.getZ() - light.getPosition()[2]) * PROJ_INFINITY);
+            // If vC is closer than the currently closest
+            if(vC.lengthSquared() < closest.lengthSquared()) {
+              // Make it the closest
+              closest = vC;
+            }
+
+            vD.setX((vB.getX() - light.getPosition()[0]));
+            vD.setY((vB.getY() - light.getPosition()[1]));
+            vD.setZ((vB.getZ() - light.getPosition()[2]));
+            vD.normalize(); 
+            vD = vD.scale(PROJ_INFINITY);
+
+            // If vD is closer than the currently closest
+            if(vD.lengthSquared() < closest.lengthSquared()) {
+              // Make it the closest
+              closest = vD;
+            }
 
             // Render the shadows as a quadrilateral 
             // (as a triangle strip poly)
@@ -245,54 +274,89 @@ namespace winapp {
                 vB.getZ() + vD.getZ());
             glEnd();
 
-            // Add the newly created extruded vertices to the vector
-            backFacesVertices_.push_back(vC);
-            backFacesVertices_.push_back(vD);
           }
         }
-
-        // Render the face
-        
-        glBegin(GL_TRIANGLES);
-        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[0]].getX() - light.getPosition()[0]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[0]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[0]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
-        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[1]].getX()- light.getPosition()[0]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[1]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[1]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
-        glVertex3f((shapeComp.getVertices()[face.vertexIndices_[2]].getX()- light.getPosition()[0]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[2]].getY()- light.getPosition()[1]) * PROJ_INFINITY, 
-          (shapeComp.getVertices()[face.vertexIndices_[2]].getZ()- light.getPosition()[2]) * PROJ_INFINITY);
-        
-        glEnd();
       }
-      //else {
-      //  // Render the face
-      //  glBegin(GL_TRIANGLES);
-      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[0]].getX(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[0]].getY(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[0]].getZ());
-      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[1]].getX(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[1]].getY(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[1]].getZ());
-      //  glVertex3f(shapeComp.getVertices()[face.vertexIndices_[2]].getX(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[2]].getY(), 
-      //    shapeComp.getVertices()[face.vertexIndices_[2]].getZ());
+      // If the face is not visible
+      else {
+        // Add its vertices to the list which will be deferenced
+        for(unsigned int i = 3; i > 0; --i) {
+          
+          backFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getX());
+          backFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getY());
+          backFacesVertices_.push_back(shapeComp.getVertices()[face.vertexIndices_[3 - i]].getZ());
+          backFacesIndices_.push_back(unvisibleFaces ++);
+        }
 
-      //  glEnd();
-
-      //}
+      }
     }
+
+    // Deference front faces
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, frontFacesVertices_.data());
+
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+
+      //glTranslatef(-10, -10, -10);
+      // Make the front shadow slightly smaller than the actual front faces
+      glScalef(0.993f, 0.993f, 0.993f);
+
+      //glFrontFace(GL_CW);
+      //glCullFace(GL_BACK);
+
+      // Deference
+      glDrawElements(GL_TRIANGLES, frontFacesIndices_.size(), 
+        GL_UNSIGNED_INT, frontFacesIndices_.data());
+
+      //glFrontFace(GL_CCW);
+      //glCullFace(GL_FRONT);;
+
+    glPopMatrix();
+
+    // Disable client states
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+    // Deference back faces
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, backFacesVertices_.data());
+
+    glPushMatrix();
+
+      // Move to the closest extrusion point
+      normalLightShape = normalLightShape.scale(PROJ_INFINITY);
+      glTranslatef(-15, -15, -15);
+      //glTranslatef(normalLightShape.getX(), normalLightShape.getY(), normalLightShape.getZ());
+      //glScalef(3.f, 3.f, 3.f);
+
+      glDrawElements(GL_TRIANGLES, backFacesIndices_.size(), 
+        GL_UNSIGNED_INT, backFacesIndices_.data());
+
+
+    glPopMatrix();
+
+    // Disable client states
+    glDisableClientState(GL_VERTEX_ARRAY);
+
+    
 
     // Render the back of the shadow volume
-    glBegin(GL_TRIANGLE_FAN);
-    for(int i = 0; i < backFacesVertices_.size(); ++i) {
+
+    //
+
+    /*glBegin(GL_TRIANGLE_STRIP);
+    for(int i = backFacesVertices_.size() - 1; i >= 0; --i) {
       glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
     }
-    glEnd();
+    glEnd();*/
 
-    // Clear the work vector
+    //
+
+    // Clear the work vectors
     backFacesVertices_.clear();
+    backFacesIndices_.clear();
+    frontFacesIndices_.clear();
+    frontFacesVertices_.clear();
   }
 
   void vMat4Mult_(GLmatrix16f M, GLvector4f v) {
