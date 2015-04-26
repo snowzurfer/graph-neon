@@ -15,13 +15,14 @@ namespace winapp {
   typedef float GLvector4f[4];
   typedef float GLmatrix16f[16];
 
-  
-  // Multiply a vector by a matrix, 4 by 4
+  // Multiply a vector by a 4 by 4 matrix
   void vMat4Mult_(GLmatrix16f M, GLvector4f v);
 
-  // Generate a shadow matrix to cast a cap for the shadow volume
+  // Generate a shadow matrix to extrude a capping for the
+  // back of the shadow volume
   void generateShadowMatrix_(GLmatrix16f matrix, GLvector4f light_pos, 
     const Vec3 &normal, const Vec3 &planePt);
+
 
   class ShadowingSys : public lnfw::System
   {
@@ -29,14 +30,11 @@ namespace winapp {
     // Ctor
     ShadowingSys(std::vector<Light *> &lights);
 
-
     // Dtor
     ~ShadowingSys();
   
     // Render shadows for the entities which have a shadow component
     void update(const std::list<lnfw::Entity *> &entities);
-
-    
 
   private:
     // Vector used to store temporary back of shadow volume
@@ -46,10 +44,10 @@ namespace winapp {
     std::vector<float> frontFacesVertices_;
     std::vector<GLuint> frontFacesIndices_;
 
-    // Render shadow polys
+    // Render shadow volume
     void doShadowPass_(const ShapeComp &shapeComp, const Light &light);
     
-    // Lights in the scene
+    // Ref to the lights in the scene
     std::vector<Light *> &lights_;
   };
   // EO Class

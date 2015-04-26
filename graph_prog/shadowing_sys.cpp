@@ -58,7 +58,7 @@ namespace winapp {
             glPushMatrix();
             glLoadIdentity();
 
-            // Apply transformations in inverse order
+            ////////////// Apply transformations in inverse order
             glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
 				    glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
             glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
@@ -84,6 +84,8 @@ namespace winapp {
             lp[1] += wlp[1];									// Position Of The Light Relative To
             lp[2] += wlp[2];									// The Local Coordinate System
             glPopMatrix();
+            //////////////
+
 
             // Create a light with position in the object's local coordinates
             Light workLight(0);
@@ -180,7 +182,7 @@ namespace winapp {
 
 
       // Clear the stencil buffer
-      //glClear(GL_STENCIL_BUFFER_BIT);
+      glClear(GL_STENCIL_BUFFER_BIT);
     }
 
     
@@ -197,9 +199,6 @@ namespace winapp {
     unsigned int visibleFaces = 0;
     // Same but for back faces
     unsigned int unvisibleFaces = 0;
-
-    // Closest extruded vector
-    Vec3 closest(PROJ_INFINITY * 1000, PROJ_INFINITY * 1000, PROJ_INFINITY * 1000);
 
 
     // Normal vector indicating the direction from the light to the shape
@@ -248,23 +247,11 @@ namespace winapp {
             vC.normalize(); 
             vC = vC.scale(PROJ_INFINITY);
 
-            // If vC is closer than the currently closest
-            if(vC.lengthSquared() < closest.lengthSquared()) {
-              // Make it the closest
-              closest = vC;
-            }
-
             vD.setX((vB.getX() - light.getPosition()[0]));
             vD.setY((vB.getY() - light.getPosition()[1]));
             vD.setZ((vB.getZ() - light.getPosition()[2]));
             vD.normalize(); 
             vD = vD.scale(PROJ_INFINITY);
-
-            // If vD is closer than the currently closest
-            if(vD.lengthSquared() < closest.lengthSquared()) {
-              // Make it the closest
-              closest = vD;
-            }
 
             // Render the shadows as a quadrilateral 
             // (as a triangle strip poly)
@@ -294,14 +281,13 @@ namespace winapp {
       }
     }
 
-    // Deference front faces
+    // Setup front faces deferencing
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, frontFacesVertices_.data());
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
 
-      //glTranslatef(-10, -10, -10);
       // Make the front shadow slightly smaller than the actual front faces
       glScalef(0.993f, 0.993f, 0.993f);
 
@@ -314,10 +300,14 @@ namespace winapp {
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);
 
-    // Deference back faces
+
+    // Setup back faces deferencing
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, backFacesVertices_.data());
 
+    // Define a temporary vector to hold the position
+    // of the light passed to the generateShadowMatrix
+    // function
     GLvector4f lightPos = { 
       light.getPosition()[0],
       light.getPosition()[1],
@@ -327,51 +317,23 @@ namespace winapp {
     // Matrix to store the projection matrix
     GLmatrix16f projMatrix;
 
-    // Compute the projection matrix
+    // Compute the projection matrix, LOCALLY to the object
     generateShadowMatrix_(projMatrix, lightPos, normalLightShape, normalLightShape.scale(PROJ_INFINITY));
 
     glPushMatrix();
 
-     
-
-
-      //normalLightShape = normalLightShape.scale(-3);
-
-      //glTranslatef(normalLightShape.getX(), normalLightShape.getY(), normalLightShape.getZ());
-      //glScalef(1.f, 1.f, 1.f);
-
+      // Apply projection matrix
       glMultMatrixf((GLfloat *) projMatrix);
-      //glMultMatrixf((GLfloat *) projMatrix);
-
+      
+      // Draw back of shadow volume
       glDrawElements(GL_TRIANGLES, backFacesIndices_.size(), 
         GL_UNSIGNED_INT, backFacesIndices_.data());
-
-      //gluSphere(gluNewQuadric(), 3.f, 10.f, 10.f);
-
-
-
-
-     
-
-    
 
     glPopMatrix();
 
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);
 
-
-    // Render the back of the shadow volume
-
-    //
-
-    /*glBegin(GL_TRIANGLE_STRIP);
-    for(int i = backFacesVertices_.size() - 1; i >= 0; --i) {
-      glVertex3f(backFacesVertices_[i].getX(), backFacesVertices_[i].getY(), backFacesVertices_[i].getZ());
-    }
-    glEnd();*/
-
-    //
 
     // Clear the work vectors
     backFacesVertices_.clear();
