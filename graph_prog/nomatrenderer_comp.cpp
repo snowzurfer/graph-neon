@@ -1,0 +1,95 @@
+
+// Includes
+#include <nomatrenderer_comp.h>
+
+namespace winapp {
+
+
+
+  const void NoMatRendererComp::render(const lnfw::Transform<Vec3> *transform, 
+    const ShapeComp *shape, const TextureComp *texture /*= NULL*/, 
+    const MaterialComp *material /*= NULL*/)
+  {
+    setupRendering(transform, shape, texture, material);
+
+    
+
+    //////////RENDER
+
+      // If there is a shape
+      if(shape) {
+
+        glPushAttrib(GL_LIGHTING_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
+
+        // Disable lighting
+        glDisable(GL_LIGHTING);
+
+        // Specify data for the arrays
+        float *vertices = new float[shape->getVertices().size() * 3];
+
+        int counter = 0;
+        for(unsigned int i = 0; i < shape->getVertices().size(); ++i) {
+          vertices[counter++] = shape->getVertices()[i].getX();
+          vertices[counter++] = shape->getVertices()[i].getY();
+          vertices[counter++] = shape->getVertices()[i].getZ();
+        }
+
+        counter = 0;
+        float *normals = new float[shape->getNormals().size() * 3];
+        for(unsigned int i = 0; i < shape->getNormals().size(); ++i) {
+          normals[counter++] = shape->getNormals()[i].getX();
+          normals[counter++] = shape->getNormals()[i].getY();
+          normals[counter++] = shape->getNormals()[i].getZ();
+        }
+
+        counter = 0;
+        float *texels = new float[shape->getTexels().size() * 2];
+        for(unsigned int i = 0; i < shape->getTexels().size(); ++i) {
+          texels[counter++] = shape->getTexels()[i].x;
+          texels[counter++] = shape->getTexels()[i].y;
+        }
+
+
+        //glEnable(GL_BLEND);
+
+        // Enable client states
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        glVertexPointer(3, GL_FLOAT, 0, vertices);
+        glNormalPointer(GL_FLOAT, 0, normals);
+        glTexCoordPointer(2, GL_FLOAT, 0, texels);
+
+        // Use colour specified by material comp
+        glColor4f(material->getAmbient()->r,
+          material->getAmbient()->g,
+          material->getAmbient()->b,
+          material->getAmbient()->a);
+
+        // Deference
+        glDrawElements(GL_TRIANGLES, shape->getIndices().size(), 
+          GL_UNSIGNED_INT, shape->getIndices().data());
+
+        // Disable client states
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+        // Deactivate blending
+        //glDisable(GL_BLEND);
+
+        delete[] vertices;
+        delete[] normals;
+        delete[] texels;
+
+        glPopAttrib();
+    }
+
+
+    cleanUpTextures(texture);
+
+  }
+
+}
+// EO Namespace

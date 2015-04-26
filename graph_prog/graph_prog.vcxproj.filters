@@ -261,6 +261,9 @@
     <ClCompile Include="raypicking_sys.cpp">
       <Filter>Source Files\Systems\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="nomatrenderer_comp.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="raypicking_sys.h">
       <Filter>Header Files\Systems\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="nomatrenderer_comp.h">
+      <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -150,6 +150,7 @@ namespace winapp {
     std::vector<GLuint> indices;
     std::vector<Face> shapeFaces;
 
+    
     for(int i = 0; i < numFacesElements; i += 3) {
       newVerts.push_back(verts[faces[i] - 1]);
       Texel texel(texC[faces[i + 1] - 1].getX(), texC[faces[i + 1] - 1].getY());

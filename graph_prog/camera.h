@@ -12,7 +12,7 @@
 
 namespace winapp {
 
-const float kCameraMovementSpeed = 5.f;
+const float kCameraMovementSpeed = 30.f;
 
 
 class Camera

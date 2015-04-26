@@ -25,7 +25,7 @@ namespace winapp {
     lnfw::Entity *createTexturedCube(std::vector<Light *> &lights);
 
     // Create one of the two metallic disks
-    lnfw::Entity *createMetallicDisk();
+    lnfw::Entity *createMetallicDisk(const Vec3 &col, const float scale);
 
     // Create the sandtimer
     lnfw::Entity *createSandTimer();
@@ -35,6 +35,9 @@ namespace winapp {
 
     // Create a teapot
     lnfw::Entity *createTeapot();
+
+    // Create a sandcone from the model
+    lnfw::Entity *createSandCone();
   };
 
 }

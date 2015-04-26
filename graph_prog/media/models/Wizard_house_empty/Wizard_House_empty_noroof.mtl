@@ -1,0 +1,42 @@
+# Blender MTL File: 'cobblebrick_collumns_walls.blend'
+# Material Count: 4
+
+newmtl Material.002
+Ns 76.470588
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.421397 0.421397 0.421397
+Ni 1.000000
+d 0.096639
+illum 0
+map_Kd blueishwindow.png
+
+newmtl deska2
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textura_deskaPalik.png
+
+newmtl deska2_NONE
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd textura_deskaPalik.png
+
+newmtl deska2_blueishwindow.png
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd blueishwindow.png

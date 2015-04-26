@@ -29,6 +29,9 @@ namespace winapp {
     for(unsigned int lightNum = 0; 
       lightNum < lights_.size(); ++lightNum) {
 
+      // Clear the stencil buffer
+      glClear(GL_STENCIL_BUFFER_BIT);
+
       // Iterate through the entities and render them
       for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
         // If the entity has a renderer component and a shadow component
@@ -41,6 +44,8 @@ namespace winapp {
           
           // Retrieve the light
           const Light &light = *lights_[lightNum];
+
+          
 
           // Push the modelview matrix
           glMatrixMode(GL_MODELVIEW);
@@ -58,33 +63,34 @@ namespace winapp {
             glPushMatrix();
             glLoadIdentity();
 
-            ////////////// Apply transformations in inverse order
-            glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
-				    glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
-            glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
+              ////////////// Apply transformations in inverse order
+              glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+				      glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+              glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);
 
-            glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
-            lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
-            lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]
-            lp[2] = light.getPosition()[2];								// Store Light Position Z In lp[2]
-            lp[3] = light.getPosition()[3];								// Store Light Direction In lp[3]
-            vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
+              glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
+              lp[0] = light.getPosition()[0];								// Store Light Position X In lp[0]
+              lp[1] = light.getPosition()[1];								// Store Light Position Y In lp[1]
+              lp[2] = light.getPosition()[2];								// Store Light Position Z In lp[2]
+              lp[3] = light.getPosition()[3];								// Store Light Direction In lp[3]
+              vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
           
-            glTranslatef(-transform.position.getX(),
-              -transform.position.getY(),
-              -transform.position.getZ());
-            glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
-            wlp[0] = 0.0f;										// World Local Coord X To 0
-            wlp[1] = 0.0f;										// World Local Coord Y To 0
-            wlp[2] = 0.0f;										// World Local Coord Z To 0
-            wlp[3] = 1.0f;
-            vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
-                                                  // Local Coord. System In 'wlp' Array
-            lp[0] += wlp[0];									// Adding These Two Gives Us The
-            lp[1] += wlp[1];									// Position Of The Light Relative To
-            lp[2] += wlp[2];									// The Local Coordinate System
+              glTranslatef(-transform.position.getX(),
+                -transform.position.getY(),
+                -transform.position.getZ());
+              glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
+              wlp[0] = 0.0f;										// World Local Coord X To 0
+              wlp[1] = 0.0f;										// World Local Coord Y To 0
+              wlp[2] = 0.0f;										// World Local Coord Z To 0
+              wlp[3] = 1.0f;
+              vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
+                                                    // Local Coord. System In 'wlp' Array
+              lp[0] += wlp[0];									// Adding These Two Gives Us The
+              lp[1] += wlp[1];									// Position Of The Light Relative To
+              lp[2] += wlp[2];									// The Local Coordinate System
+              //////////////
+
             glPopMatrix();
-            //////////////
 
 
             // Create a light with position in the object's local coordinates
@@ -126,7 +132,7 @@ namespace winapp {
             // Push the attributes to easily retrieve them after the passes
             glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
               GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT |
-              GL_LIGHTING_BIT);
+              GL_LIGHTING_BIT | GL_TEXTURE_BIT);
             // Enable face culling
             glEnable(GL_CULL_FACE);
             // Turn off lighting
@@ -141,6 +147,8 @@ namespace winapp {
             glEnable(GL_STENCIL_TEST);
             // Set the stencil function
             glStencilFunc(GL_ALWAYS, 0, 0);
+            // Disable texturing
+            glDisable(GL_TEXTURE_2D);
 
             // First pass. Increase the stencil values where there are
             // shadows
@@ -175,14 +183,64 @@ namespace winapp {
               update((*entityitor)->getChildrenList());        
             }
 
+            // Cleanup
+            cleanUpTextures();
+
           // Pop modelview matrix
           glPopMatrix();
+
+          
         }        
       }
 
+      //glEnable(GL_STENCIL_TEST);
+      //// Set the stencil to not change
+      //glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+      //// Set the stencil function
+      //glStencilFunc(GL_EQUAL, 0, 1);
 
-      // Clear the stencil buffer
-      glClear(GL_STENCIL_BUFFER_BIT);
+      //// Iterate through the entities and render them
+      //for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
+      //  // If the entity has a renderer component
+      //  if((*entityitor)->hasComp(abfw::CRC::GetICRC("BaseRendererComp"))) { 
+      //    // Retrieve the renderer component
+      //    BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+      //      getComp(abfw::CRC::GetICRC("BaseRendererComp"));
+
+      //    // Retrieve the other necessary components
+      //    TextureComp *textureComp = (TextureComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("TextureComp"));
+      //    MaterialComp *materialComp = (MaterialComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("MaterialComp"));
+      //    ShapeComp *shapeComp = (ShapeComp *)(*entityitor)->getComp(abfw::CRC::GetICRC("ShapeComp"));
+
+      //    // Push the modelview matrix
+      //    glMatrixMode(GL_MODELVIEW);
+      //    glPushMatrix();
+
+      //      glEnable(GL_NORMALIZE);
+
+      //      // Render the object
+      //      rendererComp->render(&(*entityitor)->transform,
+      //        shapeComp,
+      //        textureComp,
+      //        materialComp);
+
+
+      //      glDisable(GL_NORMALIZE);
+
+      //      // If the entity has children
+      //      if((*entityitor)->getChildrenList().size() > 0) {
+      //        // Obtain the children structure and Render recursively
+      //        update((*entityitor)->getChildrenList());        
+      //      }
+
+      //    // Pop modelview matrix
+      //    glPopMatrix();
+
+      //  }
+      //}
+
+      //// Disable stencil test
+      //glDisable(GL_STENCIL_TEST);
     }
 
     

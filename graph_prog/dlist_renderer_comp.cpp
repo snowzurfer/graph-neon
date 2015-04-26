@@ -18,21 +18,24 @@ namespace winapp {
     setupRendering(transform, shape, texture, material);
 
     // If there is a shape
-    if(shape) {}
+    if(shape) {
       // Activate blending
-      glEnable(GL_BLEND);
+      //glEnable(GL_BLEND);
 
       //////////RENDER
-    
+      
       // If the shape doesn't have a display list
-      assert(shape->getDList() == -1);
+      assert(shape->getDList() != -1);
 
       glCallList(shape->getDList());
 
       // Deactivate blending
-      glDisable(GL_BLEND);
+      //glDisable(GL_BLEND);
 
     }
 
+    // Cleanup
+    cleanUpTextures(texture);
+  }
 }
 // EO Namespace

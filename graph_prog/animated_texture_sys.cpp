@@ -27,11 +27,27 @@ namespace winapp {
           animatedTextureComp->getTransform() * kSecPerUpdate;
 
         lnfw::Transform<Texel> textureTransform = textureComp->getTransform();
-        textureComp->setTransform(textureTransform + velocityStep);
+
+        textureTransform = textureTransform + velocityStep;
 
         // Check for overflows
+        if(textureTransform.rotation.x > 360.f) {
+          textureTransform.rotation.x = 0.f;
+        }
+        if(textureTransform.rotation.y > 360.f) {
+          textureTransform.rotation.x = 0.f;
+        }
 
+        textureComp->setTransform(textureTransform );
 
+        
+        
+      }
+
+      // If the entity has children
+      if((*entityitor)->getChildrenList().size() > 0) {
+        // Obtain the children structure and Render recursively
+        update((*entityitor)->getChildrenList());        
       }
     }
   }

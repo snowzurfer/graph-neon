@@ -1,13 +1,14 @@
 
 // Includes
 #include "light.h"
+#include <gl/GLU.h>
 
 namespace winapp {
 
   Light::Light(const int lightNum) :
     lightNum_(lightNum), ambient_(kDefaultAmbLight),
     diffuse_(kDefaultDiffLight), specular_(kBaseSpecularLight),
-    constAtt_(1.f), linAtt_(0.01f),
+    constAtt_(1.f), linAtt_(0.001f),
     quadAtt_(0.f), enabled_(true) 
 {
   setPosition(BasePos);
@@ -74,6 +75,22 @@ void Light::setPosition(const GLfloat x, const GLfloat y, const GLfloat z, const
 
 void Light::setPosition(const GLfloat *params) {
   setPosition(params[0], params[1], params[2], params[3]);
+}
+
+
+void Light::draw() {
+  glPushAttrib(GL_LIGHTING_BIT);
+
+  glDisable(GL_LIGHTING);
+
+  glTranslatef(position_[0], position_[1], position_[2]);
+
+  glColor3f(1.f, 0.5f, 0.f);
+  gluSphere(gluNewQuadric(), 1.f, 6.f, 6.f);
+  glColor3f(1.f, 1.f, 1.f);
+
+  glPopAttrib();
+
 }
 
 }

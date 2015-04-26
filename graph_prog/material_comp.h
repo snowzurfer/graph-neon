@@ -45,6 +45,9 @@ public:
   inline void setShininess(const GLfloat val) {
     shininess_ = val;
   };
+  inline const Colour *getAmbient() const {
+    return &ambient_;
+  };
 
 private:
   // Ambient

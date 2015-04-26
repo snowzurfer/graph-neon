@@ -57,6 +57,8 @@ public:
   // Apply the members of the class to the GL state machine
   void apply();
 
+  // Draw a sphere at the light's position
+  void draw();
 private:
   // Light number
   int lightNum_;

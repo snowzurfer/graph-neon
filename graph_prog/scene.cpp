@@ -162,7 +162,12 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(30.f, 30.f, 30.f, 1.0f); // Point light
+  light->setPosition(150.f, 150.f, 150.f, 0.0f); // Directional light
+  lights_.push_back(light);
+  light = new Light(GL_LIGHT1);
+  light->setPosition(5.f, 40.f, 10.f, 1.0f); // Point light
+  light->setLinAttenuation(1.f);
+  light->setDiffuse(0.9f, 0.f, 0.f, 1.f);
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -181,14 +186,34 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   lnfw::Entity *cone = entitiesFactory.createCone(lights_);
   cone->transform.position.set(10.f, 10.f, 10.f);
-  cone->transform.rotation.set(5.f, 5.f, 5.f);
+  //cone->transform.rotation.set(5.f, 5.f, 5.f);
   entities_.push_back(cone);
 
-  entities_.push_back(entitiesFactory.createBoxRoom());
+  /*lnfw::Entity *scone = entitiesFactory.createSandCone();
+  scone->transform.position.set(-50.f, 40.f, 10.f);
+  entities_.push_back(scone);
+*/
+  //entities_.push_back(entitiesFactory.createBoxRoom());
   //entities_.push_back(entitiesFactory.createTeapot());
-  //entities_.push_back(entitiesFactory.createMetallicDisk());
-  //entities_.push_back(entitiesFactory.createSandTimer());
-  //entities_.push_back(entitiesFactory.createRotatingArchane());
+  lnfw::Entity *mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.7f), 15.f);
+  mDisk->transform.position.set(60.f, 25.f, -45.3f);
+  entities_.push_back(mDisk);
+  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.9f), 15.f);
+  mDisk->transform.position.set(70.f, 25.f, -45.2f);
+  entities_.push_back(mDisk);
+  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.9f, 0.9f), 15.f);
+  mDisk->transform.position.set(80.f, 25.f, -45.0f);
+  entities_.push_back(mDisk);
+  // Create a sand timer and place it
+  lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
+  sandTimer->transform.position.set(42.5f, 18.f, 88.f);
+  sandTimer->transform.rotation.set(0.f, 180.f, 0.f);
+  entities_.push_back(sandTimer);
+
+  lnfw::Entity *archane = entitiesFactory.createRotatingArchane();
+  archane->transform.position.set(-16.f, -2.f, -28.f);
+  archane->transform.scale.set(0.88f, 0.88f, 0.88f);
+  entities_.push_back(archane);
 
   
 
@@ -275,167 +300,181 @@ void Scene::render(float interp) {
 
   }
 
+  
+
+    for(int i = 0; i < lights_.size(); ++i) {
+      // Render position of lights
+      glPushMatrix();
+
+      lights_[i]->draw();
+
+      glPopMatrix();
+    }
+
+  
+
+
   // Disable lights
-  setLights_(false);
+  //setLights_(false);
   // Render geometry
   renderingSystem_.update(entities_);
   // Re-enable lights
-  setLights_(true);
+  /*setLights_(true);*/
 
-  // Render shadows
-  shadowingSys_.update(entities_);
+  //// Render shadows
+  //shadowingSys_.update(entities_);
 
-  
-  glEnable(GL_STENCIL_TEST);
-  // Set the stencil to not change
-  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-  // Set the stencil function
-  glStencilFunc(GL_EQUAL, 0, 1);
-  // Render lighted geometry
-  renderingSystem_.update(entities_);
-  // Disable stencil test
-  glDisable(GL_STENCIL_TEST);
+  //
+  //glEnable(GL_STENCIL_TEST);
+  //// Set the stencil to not change
+  //glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  //// Set the stencil function
+  //glStencilFunc(GL_EQUAL, 0, 1);
+  //// Render lighted geometry
+  //renderingSystem_.update(entities_);
+  //// Disable stencil test
+  //glDisable(GL_STENCIL_TEST);
     
 
 
 
   // Save the position of the light
-  GLvector4f lightPos = { 
-    6,
-    6,
-    0,
-    1};
+  //GLvector4f lightPos = { 
+  //  6,
+  //  6,
+  //  0,
+  //  1};
 
-        // Work variables
-        GLmatrix16f Minv;
-        GLvector4f wlp, lp;
+  //      // Work variables
+  //      GLmatrix16f Minv;
+  //      GLvector4f wlp, lp;
 
-        // Compute the position with respect to the entity's local
-        // coordinates system
-        glMatrixMode(GL_MODELVIEW);
-        glPushMatrix();
-        glLoadIdentity();
+  //      // Compute the position with respect to the entity's local
+  //      // coordinates system
+  //      glMatrixMode(GL_MODELVIEW);
+  //      glPushMatrix();
+  //      glLoadIdentity();
 
-        // Apply transformations in inverse order
-       /* glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
-    glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
-        glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);*/
+  //      // Apply transformations in inverse order
+  //     /* glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+  //  glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+  //      glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);*/
 
-        glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
-        lp[0] = lightPos[0];								// Store Light Position X In lp[0]
-        lp[1] = lightPos[1];								// Store Light Position Y In lp[1]
-        lp[2] = lightPos[2];								// Store Light Position Z In lp[2]
-        lp[3] = lightPos[3];								// Store Light Direction In lp[3]
-        vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
-      
-        glTranslatef(0.f,
-          -4.f,
-          0.f);
-        glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
-        wlp[0] = 0.0f;										// World Local Coord X To 0
-        wlp[1] = 0.0f;										// World Local Coord Y To 0
-        wlp[2] = 0.0f;										// World Local Coord Z To 0
-        wlp[3] = 1.0f;
-        vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
-                                              // Local Coord. System In 'wlp' Array
-        lp[0] += wlp[0];									// Adding These Two Gives Us The
-        lp[1] += wlp[1];									// Position Of The Light Relative To
-        lp[2] += wlp[2];									// The Local Coordinate System
-        glPopMatrix();
+  //      glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
+  //      lp[0] = lightPos[0];								// Store Light Position X In lp[0]
+  //      lp[1] = lightPos[1];								// Store Light Position Y In lp[1]
+  //      lp[2] = lightPos[2];								// Store Light Position Z In lp[2]
+  //      lp[3] = lightPos[3];								// Store Light Direction In lp[3]
+  //      vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
+  //    
+  //      glTranslatef(0.f,
+  //        -4.f,
+  //        0.f);
+  //      glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
+  //      wlp[0] = 0.0f;										// World Local Coord X To 0
+  //      wlp[1] = 0.0f;										// World Local Coord Y To 0
+  //      wlp[2] = 0.0f;										// World Local Coord Z To 0
+  //      wlp[3] = 1.0f;
+  //      vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
+  //                                            // Local Coord. System In 'wlp' Array
+  //      lp[0] += wlp[0];									// Adding These Two Gives Us The
+  //      lp[1] += wlp[1];									// Position Of The Light Relative To
+  //      lp[2] += wlp[2];									// The Local Coordinate System
+  //      glPopMatrix();
 
-        // Create a light with position in the object's local coordinates
-        Light workLight(0);
-        workLight.setPosition(lp);
-
-
-
-    // Matrix to store the projection matrix
-    GLmatrix16f projMatrix;
+  //      // Create a light with position in the object's local coordinates
+  //      Light workLight(0);
+  //      workLight.setPosition(lp);
 
 
 
-
-    Vec3 normalLightShape(lp[0], 
-      lp[1], 
-      lp[2]);
-    normalLightShape.normalize();
-    normalLightShape = normalLightShape.scale(-1);
-
-    // Compute the projection matrix
-    generateShadowMatrix_(projMatrix, lp, normalLightShape, normalLightShape.scale(50));
-
-   // //glDisable(GL_DEPTH_TEST);
-   // glDisable(GL_LIGHTING);
-   // glDisable(GL_TEXTURE_2D);
-   // glColor3f(0.3f, 0.3f, 0.3f); // Shadow's color
-
-   // // Apply the projection
-   // //glMultMatrixf((GLfloat *) projMatrix);
-
-   ///* GLvector4f testPt = {
-   //   shapeComp->getVertices()[0].getX(),
-   //   shapeComp->getVertices()[0].getY(),
-   //   shapeComp->getVertices()[0].getZ(),
-   //   1.f
-   // };*/
-
-   // //vMat4Mult_(projMatrix, testPt);
-
-   // // Apply the projection
-   // //glMultMatrixf((GLfloat *) projMatrix);
+  //  // Matrix to store the projection matrix
+  //  GLmatrix16f projMatrix;
 
 
-   // // Read matrix after the multiplication
-   // GLmatrix16f result;
-   // glGetFloatv(GL_MODELVIEW_MATRIX, result);
-
-   // glPushMatrix();
-
-   // //vMat4Mult_(result, testPt);
-
-   // // Apply the geometry transformations before to apply shadowing, as the
-   // // same way as in the rendering system
-   // //setupRendering(&transform, shapeComp); 
-
-   // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
-   // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
-
-   // glTranslatef(0.f, 4.f, 0.f);
-
-   // glMultMatrixf((GLfloat *) projMatrix);
-   // 
-
-   // // Render the object
-   // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
-
-   // glPopMatrix();
-
-   // glPushMatrix();
-
-   // //vMat4Mult_(result, testPt);
-
-   // // Apply the geometry transformations before to apply shadowing, as the
-   // // same way as in the rendering system
-   // //setupRendering(&transform, shapeComp); 
-
-   // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
-   // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
-
-   // glTranslatef(0.f, 4.f, 0.f);
-
-   // //glMultMatrixf((GLfloat *) projMatrix);
-   // 
-
-   // // Render the object
-   // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
-
-   // glPopMatrix();
 
 
-   // glColor3f(1.0f, 1.0f, 1.0f);
-   // //glEnable(GL_DEPTH_TEST);
-   // glEnable(GL_LIGHTING);
-   // glEnable(GL_TEXTURE_2D);
+  //  Vec3 normalLightShape(lp[0], 
+  //    lp[1], 
+  //    lp[2]);
+  //  normalLightShape.normalize();
+  //  normalLightShape = normalLightShape.scale(-1);
+
+  //  // Compute the projection matrix
+  //  generateShadowMatrix_(projMatrix, lp, normalLightShape, normalLightShape.scale(50));
+
+  // // //glDisable(GL_DEPTH_TEST);
+  // // glDisable(GL_LIGHTING);
+  // // glDisable(GL_TEXTURE_2D);
+  // // glColor3f(0.3f, 0.3f, 0.3f); // Shadow's color
+
+  // // // Apply the projection
+  // // //glMultMatrixf((GLfloat *) projMatrix);
+
+  // ///* GLvector4f testPt = {
+  // //   shapeComp->getVertices()[0].getX(),
+  // //   shapeComp->getVertices()[0].getY(),
+  // //   shapeComp->getVertices()[0].getZ(),
+  // //   1.f
+  // // };*/
+
+  // // //vMat4Mult_(projMatrix, testPt);
+
+  // // // Apply the projection
+  // // //glMultMatrixf((GLfloat *) projMatrix);
+
+
+  // // // Read matrix after the multiplication
+  // // GLmatrix16f result;
+  // // glGetFloatv(GL_MODELVIEW_MATRIX, result);
+
+  // // glPushMatrix();
+
+  // // //vMat4Mult_(result, testPt);
+
+  // // // Apply the geometry transformations before to apply shadowing, as the
+  // // // same way as in the rendering system
+  // // //setupRendering(&transform, shapeComp); 
+
+  // // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+  // // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
+
+  // // glTranslatef(0.f, 4.f, 0.f);
+
+  // // glMultMatrixf((GLfloat *) projMatrix);
+  // // 
+
+  // // // Render the object
+  // // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
+
+  // // glPopMatrix();
+
+  // // glPushMatrix();
+
+  // // //vMat4Mult_(result, testPt);
+
+  // // // Apply the geometry transformations before to apply shadowing, as the
+  // // // same way as in the rendering system
+  // // //setupRendering(&transform, shapeComp); 
+
+  // // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+  // // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
+
+  // // glTranslatef(0.f, 4.f, 0.f);
+
+  // // //glMultMatrixf((GLfloat *) projMatrix);
+  // // 
+
+  // // // Render the object
+  // // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
+
+  // // glPopMatrix();
+
+
+  // // glColor3f(1.0f, 1.0f, 1.0f);
+  // // //glEnable(GL_DEPTH_TEST);
+  // // glEnable(GL_LIGHTING);
+  // // glEnable(GL_TEXTURE_2D);
 
 
 
@@ -463,6 +502,7 @@ bool Scene::createPixelFormat(HDC hdc) {
   pfd.cDepthBits = COLOUR_DEPTH;        // Ignored for RBA
   pfd.cAccumBits = 0;              // nothing for accumulation
   pfd.cStencilBits = COLOUR_DEPTH;            // 8 Bits for stencil
+  pfd.cAccumBits = COLOUR_DEPTH;
  
   // Gets a best match on the pixel format as passed in from device
   // and store it into a variable

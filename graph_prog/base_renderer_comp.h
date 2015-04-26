@@ -35,7 +35,7 @@ namespace winapp {
   void applyTextureTransform(const TextureComp *texture);
 
   // Clean up matrix stack for textures
-  void cleanUpTextures(const TextureComp *tcomp);
+  void cleanUpTextures(const TextureComp *tcomp = NULL);
 
 }
 // EO Namespace

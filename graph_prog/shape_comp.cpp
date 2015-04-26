@@ -1,7 +1,7 @@
 
 // Includes
 #include <shape_comp.h>
-#include <vertex_renderer_comp.h>
+#include <classic_renderer_comp.h>
 #include <lnfw/physics/transform.h>
 #include <material_comp.h>
 #include <texture_comp.h>
@@ -44,11 +44,11 @@ namespace winapp {
       // Create a name for the dlist
       dList_ = glGenLists(1);
       // Create a renderer to render into the dlist
-      VertexRendererComp vertRenderer;
+      ClassicRendererComp renderer;
 
       // Start compiling the list
       glNewList(dList_, GL_COMPILE);
-        vertRenderer.render(&lnfw::Transform<Vec3>(),
+        renderer.render(&lnfw::Transform<Vec3>(),
           this);
       glEndList();
       
@@ -103,14 +103,16 @@ namespace winapp {
       }
 
       // Also compute the equation of the plane for each face
-      for(unsigned int i = 0; i < faces_.size(); ++i) {
+      #pragma omp parallel for
+      for(int i = 0; i < faces_.size(); ++i) {
         faces_[i].calcPlane(vertices_);
       }
     }
 
     void ShapeComp::invertNormals() {
       // For each normal in the shape
-      for(unsigned int i = 0; i < normals_.size(); ++i) {
+      #pragma omp parallel for
+      for(int i = 0; i < normals_.size(); ++i) {
         normals_[i] = normals_[i].scale(-1);
       }
     }
