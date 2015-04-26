@@ -169,7 +169,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
     lights_[i]->apply();
   }
 
-  // Create a entities factory
+  // Create an entities factory
   EntitiesFactory entitiesFactory;
 
   // Create a shape builder
@@ -181,7 +181,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   lnfw::Entity *cone = entitiesFactory.createCone(lights_);
   cone->transform.position.set(10.f, 10.f, 10.f);
- cone->transform.rotation.set(5.f, 5.f, 5.f);
+  cone->transform.rotation.set(5.f, 5.f, 5.f);
   entities_.push_back(cone);
 
   entities_.push_back(entitiesFactory.createBoxRoom());
@@ -296,6 +296,148 @@ void Scene::render(float interp) {
   // Disable stencil test
   glDisable(GL_STENCIL_TEST);
     
+
+
+
+  // Save the position of the light
+  GLvector4f lightPos = { 
+    6,
+    6,
+    0,
+    1};
+
+        // Work variables
+        GLmatrix16f Minv;
+        GLvector4f wlp, lp;
+
+        // Compute the position with respect to the entity's local
+        // coordinates system
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+
+        // Apply transformations in inverse order
+       /* glRotatef(-transform.rotation.getZ(), 0.f, 0.f, 1.f);
+    glRotatef(-transform.rotation.getY(), 0.f, 1.f, 0.f);
+        glRotatef(-transform.rotation.getX(), 1.f, 0.f, 0.f);*/
+
+        glGetFloatv(GL_MODELVIEW_MATRIX,Minv);				// Retrieve ModelView Matrix From Minv
+        lp[0] = lightPos[0];								// Store Light Position X In lp[0]
+        lp[1] = lightPos[1];								// Store Light Position Y In lp[1]
+        lp[2] = lightPos[2];								// Store Light Position Z In lp[2]
+        lp[3] = lightPos[3];								// Store Light Direction In lp[3]
+        vMat4Mult_(Minv, lp);									// Store Rotated Light Vector In 'lp' Array
+      
+        glTranslatef(0.f,
+          -4.f,
+          0.f);
+        glGetFloatv(GL_MODELVIEW_MATRIX, Minv);				// Retrieve ModelView Matrix From Minv
+        wlp[0] = 0.0f;										// World Local Coord X To 0
+        wlp[1] = 0.0f;										// World Local Coord Y To 0
+        wlp[2] = 0.0f;										// World Local Coord Z To 0
+        wlp[3] = 1.0f;
+        vMat4Mult_(Minv, wlp);								// Store The Position Of The World Origin Relative To The
+                                              // Local Coord. System In 'wlp' Array
+        lp[0] += wlp[0];									// Adding These Two Gives Us The
+        lp[1] += wlp[1];									// Position Of The Light Relative To
+        lp[2] += wlp[2];									// The Local Coordinate System
+        glPopMatrix();
+
+        // Create a light with position in the object's local coordinates
+        Light workLight(0);
+        workLight.setPosition(lp);
+
+
+
+    // Matrix to store the projection matrix
+    GLmatrix16f projMatrix;
+
+
+
+
+    Vec3 normalLightShape(lp[0], 
+      lp[1], 
+      lp[2]);
+    normalLightShape.normalize();
+    normalLightShape = normalLightShape.scale(-1);
+
+    // Compute the projection matrix
+    generateShadowMatrix_(projMatrix, lp, normalLightShape, normalLightShape.scale(50));
+
+   // //glDisable(GL_DEPTH_TEST);
+   // glDisable(GL_LIGHTING);
+   // glDisable(GL_TEXTURE_2D);
+   // glColor3f(0.3f, 0.3f, 0.3f); // Shadow's color
+
+   // // Apply the projection
+   // //glMultMatrixf((GLfloat *) projMatrix);
+
+   ///* GLvector4f testPt = {
+   //   shapeComp->getVertices()[0].getX(),
+   //   shapeComp->getVertices()[0].getY(),
+   //   shapeComp->getVertices()[0].getZ(),
+   //   1.f
+   // };*/
+
+   // //vMat4Mult_(projMatrix, testPt);
+
+   // // Apply the projection
+   // //glMultMatrixf((GLfloat *) projMatrix);
+
+
+   // // Read matrix after the multiplication
+   // GLmatrix16f result;
+   // glGetFloatv(GL_MODELVIEW_MATRIX, result);
+
+   // glPushMatrix();
+
+   // //vMat4Mult_(result, testPt);
+
+   // // Apply the geometry transformations before to apply shadowing, as the
+   // // same way as in the rendering system
+   // //setupRendering(&transform, shapeComp); 
+
+   // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+   // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
+
+   // glTranslatef(0.f, 4.f, 0.f);
+
+   // glMultMatrixf((GLfloat *) projMatrix);
+   // 
+
+   // // Render the object
+   // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
+
+   // glPopMatrix();
+
+   // glPushMatrix();
+
+   // //vMat4Mult_(result, testPt);
+
+   // // Apply the geometry transformations before to apply shadowing, as the
+   // // same way as in the rendering system
+   // //setupRendering(&transform, shapeComp); 
+
+   // /*BaseRendererComp *rendererComp = (BaseRendererComp *)(*entityitor)->
+   // getComp(abfw::CRC::GetICRC("BaseRendererComp"))*/;
+
+   // glTranslatef(0.f, 4.f, 0.f);
+
+   // //glMultMatrixf((GLfloat *) projMatrix);
+   // 
+
+   // // Render the object
+   // gluSphere(gluNewQuadric(), 1.f, 10.f, 10.f);
+
+   // glPopMatrix();
+
+
+   // glColor3f(1.0f, 1.0f, 1.0f);
+   // //glEnable(GL_DEPTH_TEST);
+   // glEnable(GL_LIGHTING);
+   // glEnable(GL_TEXTURE_2D);
+
+
 
 
   // Swap the frame buffers (back with front)

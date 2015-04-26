@@ -28,10 +28,10 @@ namespace winapp {
     ShapeComp *shape = shapeBuilder.buildCylinder(30);
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(2.f, 2.f, 2.f);
+    transform->scale.set(1.f, 1.f, 1.f);
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp();
-    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    BaseRendererComp *vertexRendererComp = new ClassicRendererComp();
 	  VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
 
     // Add components to entity
@@ -56,11 +56,11 @@ namespace winapp {
 
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(10.f, 2.f, 10.f);
+    transform->scale.set(5.f, 2.f, 5.f);
     MaterialComp *material = new MaterialComp();
     material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
     material->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
-    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    BaseRendererComp *vertexRendererComp = new ClassicRendererComp();
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();

@@ -9,6 +9,7 @@
 #include <tools/abertay_framework.h>
 #include <tools/face.h>
 #include <base_renderer_comp.h>
+#include <gl/GLU.h>
 
 #define PROJ_INFINITY 50.f
 
@@ -47,12 +48,6 @@ namespace winapp {
 
             glEnable(GL_NORMALIZE);
 
-            // Apply the geometry transformations before to apply shadowing, as the
-            // same way as in the rendering system
-            setupRendering(&transform, shapeComp); 
-
-           
-              
             // Work variables
             GLmatrix16f Minv;
             GLvector4f wlp, lp;
@@ -118,6 +113,13 @@ namespace winapp {
                 shapeComp->setFaceVisibility(faceNum, false);
               }
             }
+
+            // Apply the geometry transformations before to apply shadowing, as the
+            // same way as in the rendering system
+            setupRendering(&transform, shapeComp);
+
+
+
 
             // Push the attributes to easily retrieve them after the passes
             glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
@@ -201,8 +203,9 @@ namespace winapp {
 
 
     // Normal vector indicating the direction from the light to the shape
-    Vec3 normalLightShape(-light.getPosition()[0], -light.getPosition()[1], -light.getPosition()[2]);
+    Vec3 normalLightShape(light.getPosition()[0], light.getPosition()[1], light.getPosition()[2]);
     normalLightShape.normalize();
+    normalLightShape = normalLightShape.scale(-1);
 
      // For each face in the shape
     for(int faceNum = 0; faceNum < facesTotNum; ++faceNum) {
@@ -302,15 +305,9 @@ namespace winapp {
       // Make the front shadow slightly smaller than the actual front faces
       glScalef(0.993f, 0.993f, 0.993f);
 
-      //glFrontFace(GL_CW);
-      //glCullFace(GL_BACK);
-
       // Deference
       glDrawElements(GL_TRIANGLES, frontFacesIndices_.size(), 
         GL_UNSIGNED_INT, frontFacesIndices_.data());
-
-      //glFrontFace(GL_CCW);
-      //glCullFace(GL_FRONT);;
 
     glPopMatrix();
 
@@ -321,24 +318,48 @@ namespace winapp {
     glEnableClientState(GL_VERTEX_ARRAY);
     glVertexPointer(3, GL_FLOAT, 0, backFacesVertices_.data());
 
+    GLvector4f lightPos = { 
+      light.getPosition()[0],
+      light.getPosition()[1],
+      light.getPosition()[2],
+      light.getPosition()[3]};
+
+    // Matrix to store the projection matrix
+    GLmatrix16f projMatrix;
+
+    // Compute the projection matrix
+    generateShadowMatrix_(projMatrix, lightPos, normalLightShape, normalLightShape.scale(PROJ_INFINITY));
+
     glPushMatrix();
 
-      // Move to the closest extrusion point
-      normalLightShape = normalLightShape.scale(PROJ_INFINITY);
-      glTranslatef(-15, -15, -15);
+     
+
+
+      //normalLightShape = normalLightShape.scale(-3);
+
       //glTranslatef(normalLightShape.getX(), normalLightShape.getY(), normalLightShape.getZ());
-      //glScalef(3.f, 3.f, 3.f);
+      //glScalef(1.f, 1.f, 1.f);
+
+      glMultMatrixf((GLfloat *) projMatrix);
+      //glMultMatrixf((GLfloat *) projMatrix);
 
       glDrawElements(GL_TRIANGLES, backFacesIndices_.size(), 
         GL_UNSIGNED_INT, backFacesIndices_.data());
 
+      //gluSphere(gluNewQuadric(), 3.f, 10.f, 10.f);
+
+
+
+
+     
+
+    
 
     glPopMatrix();
 
     // Disable client states
     glDisableClientState(GL_VERTEX_ARRAY);
 
-    
 
     // Render the back of the shadow volume
 

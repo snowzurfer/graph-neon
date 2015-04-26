@@ -48,7 +48,7 @@ namespace winapp {
       }
 
 
-      glEnable(GL_BLEND);
+      //glEnable(GL_BLEND);
 
       // Enable client states
       glEnableClientState(GL_VERTEX_ARRAY);
@@ -69,7 +69,7 @@ namespace winapp {
       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 
       // Deactivate blending
-      glDisable(GL_BLEND);
+      //glDisable(GL_BLEND);
 
       delete[] vertices;
       delete[] normals;

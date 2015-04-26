@@ -13,15 +13,16 @@ namespace winapp {
     glTranslatef(transform->position.getX(),
                  transform->position.getY(),
                  transform->position.getZ());
-    // Scale
-    glScalef(transform->scale.getX(),
-             transform->scale.getY(),
-             transform->scale.getZ());
 
     // Rotate
     glRotatef(transform->rotation.getX(), 1.f, 0.f, 0.f);
     glRotatef(transform->rotation.getY(), 0.f, 1.f, 0.f);
     glRotatef(transform->rotation.getZ(), 0.f, 0.f, 1.f);
+
+    // Scale
+    glScalef(transform->scale.getX(),
+             transform->scale.getY(),
+             transform->scale.getZ());
   }
 
   void applyTextureTransform
@@ -66,6 +67,9 @@ namespace winapp {
       // Texturing had been disabled; enable it again
       glEnable(GL_TEXTURE_2D);
     }
+
+    // Deactivate blending
+    glDisable(GL_BLEND);
   }
 
   void setupRendering(const lnfw::Transform<Vec3> *transform, 
