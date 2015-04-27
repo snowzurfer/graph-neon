@@ -1,0 +1,13 @@
+# Blender MTL File: 'chest02OGA_GPL.blend'
+# Material Count: 1
+
+newmtl chest02
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd ..\..\..\..\..\..\..\..\..\..\Users\seldon\Documents\My Games\Design\GOLD\models\chest2\chest02D.png
+map_Bump ..\\chest02N.png
