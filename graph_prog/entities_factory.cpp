@@ -626,7 +626,9 @@ namespace winapp {
     transform->scale.set(radius, radius, radius);
     MaterialComp *testMaterial = new MaterialComp();
     testMaterial->setDiffuse(colour.getX(), colour.getY(), colour.getZ(), 1.f);
-    testMaterial->setSpecular(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    testMaterial->setAmbient(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    testMaterial->setSpecular(kBlackColourNoAlpha);
+    testMaterial->setShininess(kNoShininess);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
     //VelocityComp *velComp = new VelocityComp();
     //lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();

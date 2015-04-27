@@ -92,6 +92,7 @@
     <ClCompile Include="movement_sys.cpp" />
     <ClCompile Include="nomatrenderer_comp.cpp" />
     <ClCompile Include="plane_shape.cpp" />
+    <ClCompile Include="prev_material_comp.cpp" />
     <ClCompile Include="raypicking_sys.cpp" />
     <ClCompile Include="rendering_sys.cpp" />
     <ClCompile Include="shadowing_sys.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="movement_sys.h" />
     <ClInclude Include="nomatrenderer_comp.h" />
     <ClInclude Include="plane_shape.h" />
+    <ClInclude Include="prev_material_comp.h" />
     <ClInclude Include="raypicking_sys.h" />
     <ClInclude Include="rendering_sys.h" />
     <ClInclude Include="shadowing_sys.h" />

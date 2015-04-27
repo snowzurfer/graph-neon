@@ -162,15 +162,15 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(150.f, 150.f, 150.f, 0.0f); // Directional light
+  light->setPosition(1.f, 1.f, 1.f, 0.f); // Directional light
   light->setLinAttenuation(100.f);
   light->setConstAttenuation(100.f);
   lights_.push_back(light);
   light = new Light(GL_LIGHT1);
-  light->setPosition(5.f, 40.f, 10.f, 1.0f); // Point light
-  //light->setLinAttenuation(1.f);
+  light->setPosition(30.f, 40.f, 30.f, 1.0f); // Point light
+  //light->setLinAttenuation(0.001f);
   light->setDiffuse(1.f, 0.f, 0.f, 1.f);
-  light->setAmbient(1.f, 0.f, 0.f, 1.f);
+  light->setAmbient(0.3f, 0.f, 0.f, 1.f);
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -218,7 +218,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   archane->transform.scale.set(0.88f, 0.88f, 0.88f);
   entities_.push_back(archane);
 
-  lnfw::Entity *testSphere = entitiesFactory.createMaterialSphere(Vec3(1.f, 1.f, 1.f), 10.f);
+  lnfw::Entity *testSphere = entitiesFactory.createMaterialSphere(Vec3(0.9f, 0.f, 0.f), 10.f);
   testSphere->transform.position.setY(50.f);
   entities_.push_back(testSphere);
 
@@ -295,6 +295,9 @@ void Scene::render(float interp) {
   // ... And load the identity to clear the matrix
   glLoadIdentity();
   
+  // Apply light modifications
+  
+
   {
     // Get vectors for gluLookAt from camera
     Vec3 camPos = camera_->getPos();
@@ -308,16 +311,22 @@ void Scene::render(float interp) {
 
   }
 
-  
+  // Apply the lights every frame after the viewing transform
+  // multiplication
+  for(int i = 0; i < lights_.size(); ++i) {
+    lights_[i]->apply();
+  }
 
-    for(int i = 0; i < lights_.size(); ++i) {
-      // Render position of lights
-      glPushMatrix();
+  #ifdef _DEBUG
+  for(int i = 0; i < lights_.size(); ++i) {
+    // Render position of lights
+    glPushMatrix();
 
-      lights_[i]->draw();
+    lights_[i]->draw();
 
-      glPopMatrix();
-    }
+    glPopMatrix();
+  }
+  #endif // _DEBUG
 
   
 

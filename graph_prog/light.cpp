@@ -86,7 +86,7 @@ void Light::draw() {
   glTranslatef(position_[0], position_[1], position_[2]);
 
   glColor3f(1.f, 0.5f, 0.f);
-  gluSphere(gluNewQuadric(), 1.f, 6.f, 6.f);
+  gluSphere(gluNewQuadric(), 0.5f, 6.f, 6.f);
   glColor3f(1.f, 1.f, 1.f);
 
   glPopAttrib();

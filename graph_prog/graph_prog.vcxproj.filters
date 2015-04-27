@@ -276,6 +276,9 @@
     <ClCompile Include="skybox.cpp">
       <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="prev_material_comp.cpp">
+      <Filter>Source Files\Components\Material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -415,6 +418,9 @@
     </ClInclude>
     <ClInclude Include="plane_shape.h">
       <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="prev_material_comp.h">
+      <Filter>Header Files\Components\Material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
