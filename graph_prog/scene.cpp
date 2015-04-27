@@ -163,11 +163,14 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
   light->setPosition(150.f, 150.f, 150.f, 0.0f); // Directional light
+  light->setLinAttenuation(100.f);
+  light->setConstAttenuation(100.f);
   lights_.push_back(light);
   light = new Light(GL_LIGHT1);
   light->setPosition(5.f, 40.f, 10.f, 1.0f); // Point light
-  light->setLinAttenuation(1.f);
-  light->setDiffuse(0.9f, 0.f, 0.f, 1.f);
+  //light->setLinAttenuation(1.f);
+  light->setDiffuse(1.f, 0.f, 0.f, 1.f);
+  light->setAmbient(1.f, 0.f, 0.f, 1.f);
   lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
@@ -214,6 +217,11 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   archane->transform.position.set(-16.f, -2.f, -28.f);
   archane->transform.scale.set(0.88f, 0.88f, 0.88f);
   entities_.push_back(archane);
+
+  lnfw::Entity *testSphere = entitiesFactory.createMaterialSphere(Vec3(1.f, 1.f, 1.f), 10.f);
+  testSphere->transform.position.setY(50.f);
+  entities_.push_back(testSphere);
+
 
   
 

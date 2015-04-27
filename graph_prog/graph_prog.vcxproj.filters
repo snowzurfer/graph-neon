@@ -151,6 +151,9 @@
     <Filter Include="Header Files\Systems\Collision">
       <UniqueIdentifier>{52ce6008-c8f8-4cf6-9a4f-7c6b4f3744cb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components\Type">
+      <UniqueIdentifier>{ac47e718-e754-4a1f-a820-522b371373c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -262,6 +265,15 @@
       <Filter>Source Files\Systems\Collision</Filter>
     </ClCompile>
     <ClCompile Include="nomatrenderer_comp.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="cube_shape.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="plane_shape.cpp">
+      <Filter>Source Files\Components\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="skybox.cpp">
       <Filter>Source Files\Components\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -390,6 +402,18 @@
       <Filter>Header Files\Systems\Collision</Filter>
     </ClInclude>
     <ClInclude Include="nomatrenderer_comp.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="entity_type_comp.h">
+      <Filter>Header Files\Components\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="skybox.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cube_shape.h">
+      <Filter>Header Files\Components\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="plane_shape.h">
       <Filter>Header Files\Components\Rendering</Filter>
     </ClInclude>
   </ItemGroup>

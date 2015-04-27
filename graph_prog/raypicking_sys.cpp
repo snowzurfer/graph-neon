@@ -14,6 +14,7 @@
 #include <aabb_comp.h>
 #include <cmath>
 #include <iostream>
+#include <material_comp.h>
 
 
 namespace winapp {
@@ -47,12 +48,63 @@ namespace winapp {
           if(testRayOOBB_(rOrigin, rDir, aabbComp, &(*entityitor)->transform, intersectionDist)) {
             // Do something
             std::cout << "Picked object!" << std::endl;
+
+            // Depending on the object's type
+            if((*entityitor)->getID() == abfw::CRC::GetICRC("Disk")) {
+              // Change its colour
+              MaterialComp *matComp = (MaterialComp *)(*entityitor)->
+                getComp(abfw::CRC::GetICRC("MaterialComp"));
+
+              // If it had not already been clicked
+              if(!aabbComp->isClicked()) {
+                aabbComp->setClicked(true);
+
+                matComp->setEmission(0.f, 0.f, 0.95f, 1.f);
+                //matComp->setDiffuse(0.f, 0.f, 0.7f, 1.f);
+              }
+              else if(aabbComp->isClicked()) {
+                aabbComp->setClicked(false);
+
+                matComp->setEmission(0.f, 0.f, 0.0f, 1.f);
+                //matComp->setDiffuse(0.f, 0.f, 0.7f, 1.f);
+              }
+            }
+            if((*entityitor)->getID() == abfw::CRC::GetICRC("Cylinder")) {
+              // Change its colour
+              MaterialComp *matComp = (MaterialComp *)(*entityitor)->
+                getComp(abfw::CRC::GetICRC("MaterialComp"));
+
+              // If it had not already been clicked
+              if(!aabbComp->isClicked()) {
+                aabbComp->setClicked(true);
+
+                //matComp->setEmission(0.f, 0.f, 0.95f, 1.f);
+                matComp->setDiffuse(0.580392f, 0.5f, 0.827451f, 1.0f);
+              }
+              else if(aabbComp->isClicked()) {
+                aabbComp->setClicked(false);
+
+                //matComp->setEmission(0.f, 0.f, 0.0f, 1.f);
+                matComp->setDiffuse(0.5f, 0.647059f, 0.5f, 1.0f);
+              }
+            }
+
+            // Change colour of object
           }
           /*else {
             std::cout << std::endl;
           }*/
         }
+
+        // If the entity has children
+        //if((*entityitor)->getChildrenList().size() > 0) {
+        //  // Obtain the children structure and Render recursively
+        //  update((*entityitor)->getChildrenList());        
+        //}
       }
+
+      
+
     }
     
   }

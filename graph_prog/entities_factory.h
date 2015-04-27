@@ -38,6 +38,9 @@ namespace winapp {
 
     // Create a sandcone from the model
     lnfw::Entity *createSandCone();
+
+    // Create a cubemapped-sphere of the given colour of the given radius
+    lnfw::Entity *createMaterialSphere(const Vec3 &colour, const float radius);
   };
 
 }

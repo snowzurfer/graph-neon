@@ -20,6 +20,8 @@
 #include <winapp_colour.h>
 #include <aabb_comp.h>
 #include <nomatrenderer_comp.h>
+#include <tools/abertay_framework.h>
+#include <tools/crc.h>
 
 namespace winapp {
 
@@ -237,18 +239,19 @@ namespace winapp {
     MaterialComp *material = new MaterialComp();
     material->setAmbient(col.getX(), col.getY(), col.getZ(), 1.0f);
     material->setDiffuse(col.getX(), col.getY(), col.getZ(), 1.0f);
-    material->setSpecular(1.f, 1.f, 1.f, 1.0f);
-    material->setShininess(kHighShininess);
+    material->setSpecular(0.0f, 0.0f, 0.0f, 1.0f);
+    //material->setShininess(k);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
     //ShadowComp *shadowComp = new ShadowComp();
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(shape->getVertices());
 
     // Add components to entity
-    lnfw::Entity *entity = new lnfw::Entity();
+    lnfw::Entity *entity = new lnfw::Entity(abfw::CRC::GetICRC("Disk"));
     entity->attachComp(material);
     entity->attachComp(shape);
     entity->transform = *transform;
     entity->attachComp(vertexRendererComp);
-    //entity->attachComp(shadowComp);
+    entity->attachComp(aabbComp);
 
     delete transform;
 
@@ -465,12 +468,14 @@ namespace winapp {
     material->setSpecular(1.f, 1.f, 1.f, 1.0f);
     //material->setShininess(kHighShininess);
     vertexRendererComp = new NoMatRendererComp();
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(shape->getVertices());
     // Add components to entity
-    lnfw::Entity *armDisk = new lnfw::Entity();
+    lnfw::Entity *armDisk = new lnfw::Entity(abfw::CRC::GetICRC("Cylinder"));
     armDisk->attachComp(material);
     armDisk->attachComp(shape);
     armDisk->transform = *transform;
     armDisk->attachComp(vertexRendererComp);
+    armDisk->attachComp(aabbComp);
     pivot->addChild(armDisk);
 
 
@@ -489,14 +494,16 @@ namespace winapp {
     velTransform = new lnfw::Transform<Vec3>();
     velTransform->rotation.setZ(180.f);
     velComp->setTransform(*velTransform);
+    //aabbComp = new lnfw::AABBComp(shape->getVertices());
     delete velTransform;
     // Add components to entity
-    lnfw::Entity *disk = new lnfw::Entity();
+    lnfw::Entity *disk = new lnfw::Entity(abfw::CRC::GetICRC("Cylinder"));
     disk->attachComp(material);
     disk->attachComp(shape);
     disk->transform = *transform;
     disk->attachComp(vertexRendererComp);
     disk->attachComp(velComp);
+   // disk->attachComp(aabbComp);
     pivot->addChild(disk);
 
     // Rotating disk
@@ -606,6 +613,34 @@ namespace winapp {
     // Return it
     return entity;
 
+  }
+
+  lnfw::Entity *EntitiesFactory::createMaterialSphere(const Vec3 &colour, const float radius) {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    // Main entity
+    lnfw::Entity *ent = new lnfw::Entity(abfw::CRC::GetICRC("MatSphere"));
+    ShapeComp *shape = shapeBuilder.buildCubeSphere(3);
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->scale.set(radius, radius, radius);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setDiffuse(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    testMaterial->setSpecular(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    //VelocityComp *velComp = new VelocityComp();
+    //lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    //velComp->setTransform(*velTransform);
+    //delete velTransform;
+    // Add components to entity
+    ent->transform = *transform;
+    ent->attachComp(vertexRendererComp);
+    ent->attachComp(testMaterial);
+    ent->attachComp(shape);
+    //ent->attachComp(velComp);
+
+
+    return ent;
   }
 }
 // EO Namespace

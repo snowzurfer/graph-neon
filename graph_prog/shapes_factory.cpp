@@ -494,5 +494,28 @@ namespace winapp {
     return new ShapeComp(indices, vertices, normals, texels, shapeFaces);
   }
 
+  // Create a sphere mappede to a cube
+  ShapeComp * ShapesFactory::buildCubeSphere(unsigned int detail) {
+    // Create a cube first
+    ShapeComp *cube = buildCube(detail);
+
+    // Create a copy of the cube's vertices and normals
+    std::vector<Vec3> normVertices = cube->getVertices();
+    std::vector<Vec3> normals = cube->getNormals();
+
+    // Normalise all of its vertices and assign the normals to be
+    // as the same as the vertices
+    int numVertices = normVertices.size();
+    #pragma omp parallel for
+    for (int i = 0; i < numVertices; ++i) {
+      normVertices[i].normalize();
+      normals[i] = normVertices[i];
+    }
+
+    cube->setVertices(normVertices);
+    cube->setNormals(normals);
+
+    return cube;
+  }
 }
 // EO Namespace

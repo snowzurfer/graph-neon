@@ -15,7 +15,7 @@ namespace lnfw {
     parent_(NULL) {
   }
 
-  Entity::Entity(const int ID) :  transform(),
+  Entity::Entity(const int ID) : transform(),
     comps_(), 
     ID_(ID),
     children_(),

@@ -27,6 +27,8 @@ namespace winapp {
     // Create a plane with a given level of detail (in power of 2)
     ShapeComp *buildPlane(unsigned int detail);
 
+    // Create a sphere mapped to a cube
+    ShapeComp * buildCubeSphere(unsigned int detail);
 
   };
 

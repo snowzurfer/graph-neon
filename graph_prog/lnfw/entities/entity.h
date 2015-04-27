@@ -53,6 +53,10 @@ public:
     return children_;
   }
 
+  inline const int getID() const {
+    return ID_;
+  }
+
   // Retrieve the parent of this entity
   inline Entity *getParent() {
     return parent_; 

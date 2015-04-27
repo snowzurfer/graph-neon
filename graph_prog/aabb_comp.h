@@ -31,10 +31,21 @@ namespace lnfw {
       return maxRight_;
     }
 
+    inline const bool isClicked() const {
+      return clicked_;
+    }
+
+    inline void setClicked(const bool val) {
+      clicked_ = val;
+    }
+
   private:
     // Top right and bottom left of the AABB
     Vec3 minLeft_;
     Vec3 maxRight_;
+
+    // Whether the object has been clicked
+    bool clicked_;
 	};
   // EO Class
 
