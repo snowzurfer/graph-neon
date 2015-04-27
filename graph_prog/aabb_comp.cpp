@@ -8,14 +8,16 @@ namespace lnfw {
 
   AABBComp::AABBComp(const Vec3 &minLeft, const Vec3 &maxRight) :
     Component(),
-    minLeft_(minLeft), maxRight_(maxRight)
+    minLeft_(minLeft), maxRight_(maxRight),
+    clicked_(false)
   {
 
   }
 
   AABBComp::AABBComp(const std::vector<Vec3> &vertices) :
     Component(), minLeft_(1000.f, 1000.f, 1000.f), 
-    maxRight_(-1000.f, -1000.f, -1000.f)
+    maxRight_(-1000.f, -1000.f, -1000.f),
+    clicked_(false)
   {
     // For each vertex
     for(int i = 0; i < vertices.size(); ++i) {

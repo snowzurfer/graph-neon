@@ -89,7 +89,7 @@ namespace winapp {
     // Load skybox texture
     GLuint roomTexture = 0;
     roomTexture = SOIL_load_OGL_texture  (
-                        "media/Models/wizard_house/wizardohouseTempTex1024.png",
+                        "media/models/wizard_house/wizardohouseTempTex1024.png",
                         SOIL_LOAD_AUTO,
                         SOIL_CREATE_NEW_ID,
                         SOIL_FLAG_MIPMAPS | 
@@ -194,7 +194,7 @@ namespace winapp {
     // Load skybox texture
     GLuint roomTexture = 0;
     roomTexture = SOIL_load_OGL_texture  (
-      "media/Models/wizard_house/wizardohouseTempTex1024.png",
+      "media/models/wizard_house/wizardohouseTempTex1024.png",
       SOIL_LOAD_AUTO,
       SOIL_CREATE_NEW_ID,
       SOIL_FLAG_MIPMAPS | 

@@ -15,6 +15,7 @@
 #include <cmath>
 #include <iostream>
 #include <material_comp.h>
+#include <prev_material_comp.h>
 
 
 namespace winapp {
@@ -59,14 +60,26 @@ namespace winapp {
               if(!aabbComp->isClicked()) {
                 aabbComp->setClicked(true);
 
-                matComp->setEmission(0.f, 0.f, 0.95f, 1.f);
-                //matComp->setDiffuse(0.f, 0.f, 0.7f, 1.f);
+				        // Save the current material
+				        PrevMaterialComp *pMat = new PrevMaterialComp(*matComp);
+                (*entityitor)->attachComp(pMat);
+
+                matComp->setEmission(0.f, 0.f, 1.f, 1.f);
+				        matComp->setAmbient(0.f, 0.f, 0.f, 1.f); 
+                matComp->setDiffuse(0.1f, 0.1f, 0.1f, 1.f);
+				        matComp->setSpecular(0.f, 0.f, 0.f, 1.f);
               }
               else if(aabbComp->isClicked()) {
                 aabbComp->setClicked(false);
 
-                matComp->setEmission(0.f, 0.f, 0.0f, 1.f);
-                //matComp->setDiffuse(0.f, 0.f, 0.7f, 1.f);
+                // Restore the previous material
+				        PrevMaterialComp *pMatComp = (PrevMaterialComp *)(*entityitor)->
+                getComp(abfw::CRC::GetICRC("PrevMaterialComp"));
+
+				        *matComp = pMatComp->mat;
+
+                // Remove the component
+                (*entityitor)->detachComp(abfw::CRC::GetICRC("PrevMaterialComp"));
               }
             }
             if((*entityitor)->getID() == abfw::CRC::GetICRC("Cylinder")) {
