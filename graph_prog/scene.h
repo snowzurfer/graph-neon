@@ -85,14 +85,6 @@ protected:
   HGLRC hrc_;            // Hardware rendering context
   HDC  hdc_;            // Device context for window being used
 
-  // Tutorial variables
-  int s_wdith, s_height;
-  float rot0_, rot1_, rot2_, speed_, cubeRot;
-  Light light0;
-  GLuint crateSolidTex_; // Texture
-  GLuint crateTransparentTex_;
-  Vec3 txPos_, txRot_, txScl_; // Texture position, rotation, scaling
-
   // Unit cube disp list
   GLuint unitCubeDList_;
 
@@ -100,7 +92,7 @@ protected:
   // cubeShape_;
 
   // Skybox
-  //Skybox *skyBox_;
+  Skybox *skyBox_;
 
   // Camera
   Camera *camera_;
@@ -120,52 +112,6 @@ protected:
   MovementSys movementSys_;
   ShadowingSys shadowingSys_;
   RaypickingSys *raypickingSys_;
-
-  // For moving object
-  unsigned int xpos, ypos;
-
-
-  void DrawGLRoom()                           // Draw The Room (Box)
-{
-    glBegin(GL_QUADS);                      // Begin Drawing Quads
-        // Floor
-        glNormal3f(0.0f, 1.0f, 0.0f);               // Normal Pointing Up
-        glVertex3f(-10.0f,-10.0f,-20.0f);           // Back Left
-        glVertex3f(-10.0f,-10.0f, 20.0f);           // Front Left
-        glVertex3f( 10.0f,-10.0f, 20.0f);           // Front Right
-        glVertex3f( 10.0f,-10.0f,-20.0f);           // Back Right
-        // Ceiling
-        glNormal3f(0.0f,-1.0f, 0.0f);               // Normal Point Down
-        glVertex3f(-10.0f, 10.0f, 20.0f);           // Front Left
-        glVertex3f(-10.0f, 10.0f,-20.0f);           // Back Left
-        glVertex3f( 10.0f, 10.0f,-20.0f);           // Back Right
-        glVertex3f( 10.0f, 10.0f, 20.0f);           // Front Right
-        // Front Wall
-        glNormal3f(0.0f, 0.0f, 1.0f);               // Normal Pointing Away From Viewer
-        glVertex3f(-10.0f, 10.0f,-20.0f);           // Top Left
-        glVertex3f(-10.0f,-10.0f,-20.0f);           // Bottom Left
-        glVertex3f( 10.0f,-10.0f,-20.0f);           // Bottom Right
-        glVertex3f( 10.0f, 10.0f,-20.0f);           // Top Right
-        // Back Wall
-        glNormal3f(0.0f, 0.0f,-1.0f);               // Normal Pointing Towards Viewer
-        glVertex3f( 10.0f, 10.0f, 20.0f);           // Top Right
-        glVertex3f( 10.0f,-10.0f, 20.0f);           // Bottom Right
-        glVertex3f(-10.0f,-10.0f, 20.0f);           // Bottom Left
-        glVertex3f(-10.0f, 10.0f, 20.0f);           // Top Left
-        // Left Wall
-        glNormal3f(1.0f, 0.0f, 0.0f);               // Normal Pointing Right
-        glVertex3f(-10.0f, 10.0f, 20.0f);           // Top Front
-        glVertex3f(-10.0f,-10.0f, 20.0f);           // Bottom Front
-        glVertex3f(-10.0f,-10.0f,-20.0f);           // Bottom Back
-        glVertex3f(-10.0f, 10.0f,-20.0f);           // Top Back
-        // Right Wall
-        glNormal3f(-1.0f, 0.0f, 0.0f);              // Normal Pointing Left
-        glVertex3f( 10.0f, 10.0f,-20.0f);           // Top Back
-        glVertex3f( 10.0f,-10.0f,-20.0f);           // Bottom Back
-        glVertex3f( 10.0f,-10.0f, 20.0f);           // Bottom Front
-        glVertex3f( 10.0f, 10.0f, 20.0f);           // Top Front
-    glEnd();                            // Done Drawing Quads
-}
 
 };
 // EO Class
