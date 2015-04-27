@@ -30,7 +30,7 @@ namespace winapp {
       lightNum < lights_.size(); ++lightNum) {
 
       // Clear the stencil buffer
-      glClear(GL_STENCIL_BUFFER_BIT);
+      //glClear(GL_STENCIL_BUFFER_BIT);
 
       // Iterate through the entities and render them
       for(constEntitiesItor_ entityitor = entities.begin(); entityitor != entities.end(); ++entityitor) {
@@ -239,8 +239,8 @@ namespace winapp {
       //  }
       //}
 
-      //// Disable stencil test
-      //glDisable(GL_STENCIL_TEST);
+      // Disable stencil test
+      glDisable(GL_STENCIL_TEST);
     }
 
     

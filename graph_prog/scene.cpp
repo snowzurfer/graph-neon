@@ -22,13 +22,8 @@
 
 namespace winapp {
 
-Scene::Scene() : 
-  rot0_(0.f),
-  rot1_(0.f),
-  rot2_(0.f),
-  speed_(0.f),
-  light0(GL_LIGHT0),
-  //skyBox_(NULL),
+Scene::Scene() :
+  skyBox_(NULL),
   camera_(NULL),
   lights_(),
   shadowingSys_(lights_)
@@ -37,6 +32,9 @@ Scene::Scene() :
 };
 
 Scene::~Scene() {
+  delete skyBox_;
+  skyBox_ = NULL;
+
   // Free memory
   delete camera_;
   camera_ = NULL;
@@ -95,13 +93,6 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
 
   // Initialise other variables
-  rot0_ = 0;
-  rot1_ = 0;
-  rot2_ = 20;
-  speed_ = 0.05* (1000 / 40);
-  txPos_.set(0.f, 0.f, 0.f);
-  txRot_.set(0.f, 0.f, 0.f);
-  txScl_.set(1.f, 1.f, 1.f);
 
   // Create a default camera
   camera_ = new Camera(hwnd_, &screenRect_);
@@ -114,38 +105,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create the raypicking system
   raypickingSys_ = new RaypickingSys(camera_, input_);
 
-  // Load crate texture
-  crateSolidTex_ = SOIL_load_OGL_texture  (
-                      "media/crate.png",
-                      SOIL_LOAD_AUTO,
-                      SOIL_CREATE_NEW_ID,
-                      SOIL_FLAG_MIPMAPS | 
-                      SOIL_FLAG_NTSC_SAFE_RGB | 
-                      SOIL_FLAG_COMPRESS_TO_DXT
-  );
-
-  crateTransparentTex_ = SOIL_load_OGL_texture  (
-                      "media/crateTrans.png",
-                      SOIL_LOAD_AUTO,
-                      SOIL_CREATE_NEW_ID,
-                      SOIL_FLAG_MIPMAPS | 
-                      SOIL_FLAG_NTSC_SAFE_RGB | 
-                      SOIL_FLAG_COMPRESS_TO_DXT
-  );
-
-  if(crateSolidTex_ == 0) {
-	  printf("ERROR LOADING");
-  }
-
-  if(crateTransparentTex_ == 0) {
-	  printf("ERROR LOADING");
-  }
-
-
   // Load skybox texture
-  GLuint roomTexture = 0;
-  roomTexture = SOIL_load_OGL_texture  (
-                      "media/Models/wizard_house/wizardohouseTempTex2048.png",
+  GLuint skyboxTxt = 0;
+  skyboxTxt = SOIL_load_OGL_texture  (
+                      "media/skybox_img.png",
                       SOIL_LOAD_AUTO,
                       SOIL_CREATE_NEW_ID,
                       SOIL_FLAG_MIPMAPS | 
@@ -154,10 +117,11 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   );
 
   // If the texture has been loaded
-  if(roomTexture != 0) {
+  if(skyboxTxt != 0) {
 	  printf("SKYBOX TEXTURE LOADED");
+
     // Create the skybox
-    //skyBox_ = new Skybox(skyboxTexture);
+    skyBox_ = new Skybox(skyboxTxt);
   }
 
   // Setup lights
@@ -166,12 +130,16 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   light->setLinAttenuation(100.f);
   light->setConstAttenuation(100.f);
   lights_.push_back(light);
-  light = new Light(GL_LIGHT1);
-  light->setPosition(30.f, 40.f, 30.f, 1.0f); // Point light
-  //light->setLinAttenuation(0.001f);
-  light->setDiffuse(1.f, 0.f, 0.f, 1.f);
-  light->setAmbient(0.3f, 0.f, 0.f, 1.f);
-  lights_.push_back(light);
+  //light = new Light(GL_LIGHT1);
+  //light->setPosition(80.f, 80.f, 80.f, 1.0f); // Point light
+  //light->setLinAttenuation(0.01f);
+  //lights_.push_back(light);
+  //light = new Light(GL_LIGHT2);
+  //light->setPosition(-30.f, 80.f, 20.f, 1.0f); // Point light, red
+  //light->setLinAttenuation(0.1f);
+  //light->setAmbient(0.3f, 0.f, 0.f, 1.f);
+  //light->setDiffuse(1.f, 0.f, 0.f, 1.f);
+  //lights_.push_back(light);
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
     lights_[i]->apply();
@@ -185,46 +153,62 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Create a models loader
   ModelsLoader modelsLoader;
 
-  //entities_.push_back(entitiesFactory.createMainRoom(lights_));
+  entities_.push_back(entitiesFactory.createMainRoom(lights_));
+  std::cout << "Loaded main room" << std::endl;
 
   lnfw::Entity *cone = entitiesFactory.createCone(lights_);
   cone->transform.position.set(10.f, 10.f, 10.f);
-  //cone->transform.rotation.set(5.f, 5.f, 5.f);
   entities_.push_back(cone);
 
-  /*lnfw::Entity *scone = entitiesFactory.createSandCone();
-  scone->transform.position.set(-50.f, 40.f, 10.f);
-  entities_.push_back(scone);
-*/
-  //entities_.push_back(entitiesFactory.createBoxRoom());
+
+  entities_.push_back(entitiesFactory.createBoxRoom());
   //entities_.push_back(entitiesFactory.createTeapot());
   lnfw::Entity *mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.7f), 15.f);
   mDisk->transform.position.set(60.f, 25.f, -45.3f);
   entities_.push_back(mDisk);
-  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.9f), 15.f);
-  mDisk->transform.position.set(70.f, 25.f, -45.2f);
+  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.6f, 0.6f, 0.9f), 15.f);
+  mDisk->transform.position.set(80.f, 25.f, -45.2f);
   entities_.push_back(mDisk);
-  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.9f, 0.9f), 15.f);
-  mDisk->transform.position.set(80.f, 25.f, -45.0f);
+  mDisk = entitiesFactory.createMetallicDisk(Vec3(0.6f, 0.9f, 0.9f), 15.f);
+  mDisk->transform.position.set(100.f, 25.f, -45.0f);
   entities_.push_back(mDisk);
+
+  //lnfw::Entity *pillar = entitiesFactory.createStonePillar();
+  ////pillar->transform.position.set(42.5f, 18.f, 88.f);
+  //pillar->transform.scale.set(35.f, 70.f, 35.f);
+  //entities_.push_back(pillar);
+
   // Create a sand timer and place it
-  lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
+ /* lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
   sandTimer->transform.position.set(42.5f, 18.f, 88.f);
   sandTimer->transform.rotation.set(0.f, 180.f, 0.f);
-  entities_.push_back(sandTimer);
+  entities_.push_back(sandTimer);*/
 
   lnfw::Entity *archane = entitiesFactory.createRotatingArchane();
   archane->transform.position.set(-16.f, -2.f, -28.f);
   archane->transform.scale.set(0.88f, 0.88f, 0.88f);
   entities_.push_back(archane);
 
-  lnfw::Entity *testSphere = entitiesFactory.createMaterialSphere(Vec3(0.9f, 0.f, 0.f), 10.f);
+  /*lnfw::Entity *testSphere = entitiesFactory.createMaterialSphere(Vec3(0.9f, 0.f, 0.f), 10.f);
   testSphere->transform.position.setY(50.f);
-  entities_.push_back(testSphere);
+  entities_.push_back(testSphere);*/
 
 
-  
+  lnfw::Entity *chair = entitiesFactory.createChair();
+  chair->transform.position.set(0.f, 30.f, 0.f);
+  chair->transform.scale.set(10.f, 10.f, 10.f);
+  entities_.push_back(chair);
 
+
+  lnfw::Entity *ottoman = entitiesFactory.createOttoman();
+  ottoman->transform.position.set(0.f, 20.f, 0.f);
+  ottoman->transform.scale.set(10.f, 10.f, 10.f);
+  entities_.push_back(ottoman);
+
+  lnfw::Entity *desk = entitiesFactory.createDesk();
+  desk->transform.position.set(50.f, 20.f, 0.f);
+  desk->transform.scale.set(10.f, 10.f, 10.f);
+  entities_.push_back(desk);
   
 
 
@@ -245,14 +229,6 @@ void Scene::resize() {
 }
 
 void Scene::update() {
-  rot0_ += speed_;
-  rot1_ += (speed_ * 2.f);
-  rot2_ += (speed_ * 0.8f);
-  cubeRot += speed_;
-  if(cubeRot > 360.f) {
-    cubeRot = 0.f;
-  };
-
   // Update input
   input_->update();
 
@@ -293,10 +269,7 @@ void Scene::render(float interp) {
   // Clear the screen and depth buffer to render a new frame
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
   // ... And load the identity to clear the matrix
-  glLoadIdentity();
-  
-  // Apply light modifications
-  
+  glLoadIdentity();  
 
   {
     // Get vectors for gluLookAt from camera
@@ -310,6 +283,19 @@ void Scene::render(float interp) {
           up.getX(),   up.getY(),    up.getZ()); 
 
   }
+
+  // Save current matrix
+  glMatrixMode(GL_MODELVIEW);
+  glPushMatrix();
+
+    // Translate to cam position
+    Vec3 camPos = camera_->getPos();
+    glTranslatef(camPos.getX(), camPos.getY(), camPos.getZ());
+
+    // Render the skybox
+    skyBox_->draw();
+
+  glPopMatrix();
 
   // Apply the lights every frame after the viewing transform
   // multiplication
@@ -332,25 +318,25 @@ void Scene::render(float interp) {
 
 
   // Disable lights
-  //setLights_(false);
+  setLights_(false);
   // Render geometry
   renderingSystem_.update(entities_);
   // Re-enable lights
-  /*setLights_(true);*/
+  setLights_(true);
 
   //// Render shadows
-  //shadowingSys_.update(entities_);
+  shadowingSys_.update(entities_);
 
-  //
-  //glEnable(GL_STENCIL_TEST);
-  //// Set the stencil to not change
-  //glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-  //// Set the stencil function
-  //glStencilFunc(GL_EQUAL, 0, 1);
-  //// Render lighted geometry
-  //renderingSystem_.update(entities_);
-  //// Disable stencil test
-  //glDisable(GL_STENCIL_TEST);
+  
+  glEnable(GL_STENCIL_TEST);
+  // Set the stencil to not change
+  glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+  // Set the stencil function
+  glStencilFunc(GL_EQUAL, 0, 1);
+  // Render lighted geometry
+  renderingSystem_.update(entities_);
+  // Disable stencil test
+  glDisable(GL_STENCIL_TEST);
     
 
 
