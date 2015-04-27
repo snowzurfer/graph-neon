@@ -36,7 +36,7 @@ namespace winapp {
     transform->scale.set(1.f, 1.f, 1.f);
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp();
-    BaseRendererComp *vertexRendererComp = new DListRendererComp();
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
 	  VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
 
     // Add components to entity
@@ -82,9 +82,9 @@ namespace winapp {
     // Create a models loader
     ModelsLoader modelsLoader;
 
-	  ShapeComp *ptrToShape = modelsLoader.load("media/models/wizard_house/wizardhouse_base_thickness.obj");
-    ptrToShape->invertNormals();
-    ptrToShape->setRenderingDir(GL_CW);
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/wizard_house/wizardhouse_lowpoly.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
 
     // Load skybox texture
     GLuint roomTexture = 0;
@@ -110,7 +110,7 @@ namespace winapp {
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
-    ShadowComp *shadowComp = new ShadowComp();
+    //ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
   
     // Add components to entity
@@ -120,7 +120,7 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    entity->attachComp(shadowComp);
+    //entity->attachComp(shadowComp);
     //entity->attachComp(velComp);
 
     
@@ -583,11 +583,11 @@ namespace winapp {
 
     //TextureComp *testTextComp = new TextureComp(roomTexture);
     lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
-    testTransform->scale.set(0.5f, 0.5f, 0.5f);
-    testTransform->position.set(5.f, 5.f, 5.f);
+    testTransform->scale.set(1.f, 1.f, 1.f);
     MaterialComp *testMaterial = new MaterialComp();
-    testMaterial->setDiffuse(1.f, 1.f, 0.f, 1.f);
-    testMaterial->setSpecular(1.f, 1.f, 0.f, 1.f);
+    testMaterial->setAmbient(0.8f, 0.2f, 0.f, 1.f);
+    testMaterial->setDiffuse(0.8f, 0.2f, 0.f, 1.f);
+    testMaterial->setSpecular(1.f, 1.f, 1.f, 1.f);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
@@ -597,7 +597,7 @@ namespace winapp {
     lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
-    lnfw::Entity *entity = new lnfw::Entity();
+    lnfw::Entity *entity = new lnfw::Entity(abfw::CRC::GetICRC("Teapot"));
     entity->attachComp(testMaterial);
     entity->attachComp(ptrToShape);
     //entity->attachComp(testTextComp);
@@ -615,6 +615,393 @@ namespace winapp {
 
   }
 
+  lnfw::Entity *EntitiesFactory::createStonePillar() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/stone_fillars/stone_fillars.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/stone_fillars/handpaintedstonepillars.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.64f, 0.64f, 0.64f, 1.f);
+    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
+    testMaterial->setShininess(96.078431f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    //ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    //entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+  lnfw::Entity *EntitiesFactory::createChair() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/chair/chair.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/chair/mohogany_light.jpg",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
+    testMaterial->setShininess(96.078431f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+  lnfw::Entity *EntitiesFactory::createOttoman() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/ottoman/cassapanca.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/ottoman/cassapanca.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setSpecular(kBlackColourNoAlpha);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+  lnfw::Entity *EntitiesFactory::createDesk() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/desk/table_medieval_trestle_0.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/desk/med_table.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setSpecular(kBlackColourNoAlpha);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+
+  lnfw::Entity *EntitiesFactory::createBookShelf() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/bookshelf/bookshelf.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/bookshelf/mohogany_light.jpg",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
+    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
+    testMaterial->setShininess(96.078431f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+
+  lnfw::Entity *EntitiesFactory::createSkull() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/skull/skull_monster.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/skull/Skull_Monster_512.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.64f, 0.64f, 0.64f, 1.f);
+    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
+    testMaterial->setShininess(96.078431f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+
+  lnfw::Entity *EntitiesFactory::createPot() {
+    // Create a models loader
+    ModelsLoader modelsLoader;
+
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/cooking_pot/cooking_pot.obj");
+    //ptrToShape->invertNormals();
+    //ptrToShape->setRenderingDir(GL_CW);
+
+    // Load texture
+    GLuint roomTexture = 0;
+    roomTexture = SOIL_load_OGL_texture  (
+                        "media/models/cooking_pot/cooking_pot.png",
+                        SOIL_LOAD_AUTO,
+                        SOIL_CREATE_NEW_ID,
+                        SOIL_FLAG_MIPMAPS | 
+                        SOIL_FLAG_NTSC_SAFE_RGB | 
+                        SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    TextureComp *testTextComp = new TextureComp(roomTexture);
+    lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
+    testTransform->scale.set(1.f, 1.f, 1.f);
+    //testTransform->position.set(5.f, 5.f, 5.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setAmbient(kBlackColourNoAlpha);
+    testMaterial->setDiffuse(0.64f, 0.64f, 0.64f, 1.f);
+    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
+    testMaterial->setShininess(96.078431f);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);*/
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+  
+    // Add components to entity
+    lnfw::Entity *entity = new lnfw::Entity();
+    entity->attachComp(testMaterial);
+    entity->attachComp(ptrToShape);
+    entity->attachComp(testTextComp);
+    entity->transform = *testTransform;
+    entity->attachComp(vertexRendererComp);
+    entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    //entity->attachComp(velComp);
+
+
+    delete testTransform;
+
+    // Return it
+    return entity;
+
+  }
+
+
   lnfw::Entity *EntitiesFactory::createMaterialSphere(const Vec3 &colour, const float radius) {
     // Create a shapes factory to create the shapes required
     ShapesFactory shapeBuilder;
@@ -627,22 +1014,29 @@ namespace winapp {
     MaterialComp *testMaterial = new MaterialComp();
     testMaterial->setDiffuse(colour.getX(), colour.getY(), colour.getZ(), 1.f);
     testMaterial->setAmbient(colour.getX(), colour.getY(), colour.getZ(), 1.f);
-    testMaterial->setSpecular(kBlackColourNoAlpha);
-    testMaterial->setShininess(kNoShininess);
+    //testMaterial->setSpecular(kBlackColourNoAlpha);
+    //testMaterial->setShininess(kHighShininess);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(shape->getVertices());
     //VelocityComp *velComp = new VelocityComp();
     //lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
     //velComp->setTransform(*velTransform);
     //delete velTransform;
     // Add components to entity
+
     ent->transform = *transform;
     ent->attachComp(vertexRendererComp);
     ent->attachComp(testMaterial);
     ent->attachComp(shape);
+    ent->attachComp(shadowComp);
+    ent->attachComp(aabbComp);
     //ent->attachComp(velComp);
 
 
     return ent;
   }
+
 }
 // EO Namespace

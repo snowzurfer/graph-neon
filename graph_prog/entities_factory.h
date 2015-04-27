@@ -41,6 +41,27 @@ namespace winapp {
 
     // Create a cubemapped-sphere of the given colour of the given radius
     lnfw::Entity *createMaterialSphere(const Vec3 &colour, const float radius);
+
+    // Create a stone pillar
+    lnfw::Entity *createStonePillar();
+
+    // Create a chair
+    lnfw::Entity *createChair();
+
+    // Create 4 barrels
+    lnfw::Entity *createOttoman();
+
+    // Create a desk
+    lnfw::Entity *createDesk();
+
+    // Create a bookshelf
+    lnfw::Entity *createBookShelf();
+
+    // Create a skull
+    lnfw::Entity *createSkull();
+
+    // Create a cooking pot
+    lnfw::Entity *createPot();
   };
 
 }

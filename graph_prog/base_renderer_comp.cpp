@@ -70,6 +70,9 @@ namespace winapp {
 
     // Deactivate blending
     glDisable(GL_BLEND);
+
+    // Reset front face
+    glFrontFace(GL_CCW);
   }
 
   void setupRendering(const lnfw::Transform<Vec3> *transform, 
