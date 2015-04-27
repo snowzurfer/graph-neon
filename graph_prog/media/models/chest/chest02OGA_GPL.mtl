@@ -9,5 +9,5 @@ Ks 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 1
-map_Kd ..\..\..\..\..\..\..\..\..\..\Users\seldon\Documents\My Games\Design\GOLD\models\chest2\chest02D.png
-map_Bump ..\\chest02N.png
+map_Kd C:\Users\seldon\Documents\My Games\Design\GOLD\models\chest2\chest02D.png
+map_Bump M:\\Uni\\year_2\\sem_2\\graphics\\graph-neon\\graph_prog\\media\\models\\chest02N.png
