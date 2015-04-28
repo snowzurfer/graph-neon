@@ -10,6 +10,14 @@ Skybox::Skybox(GLuint skyboxTexture) :
  skyboxTexture_(skyboxTexture)
  {
  cubeShape_ = new CubeShape();
+
+ dList_ = glGenLists(1);
+
+ // Start compiling the list
+ glNewList(dList_, GL_COMPILE);
+  cubeShape_->drawShape();
+ glEndList();
+
 }
 
 Skybox::Skybox(const Skybox &ref) :
@@ -41,7 +49,7 @@ void Skybox::draw() {
   glDisable(GL_LIGHTING);
 
   // Render textured cube
-  cubeShape_->drawShape();
+  glCallList(dList_);
 
   // Enable depth test again
   glEnable(GL_DEPTH_TEST);

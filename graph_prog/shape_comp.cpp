@@ -48,8 +48,11 @@ namespace winapp {
 
       // Start compiling the list
       glNewList(dList_, GL_COMPILE);
+      glMatrixMode(GL_MODELVIEW);
+      glPushMatrix();
         renderer.render(&lnfw::Transform<Vec3>(),
           this);
+      glPopMatrix();
       glEndList();
       
     }

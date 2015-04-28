@@ -18,7 +18,7 @@ public:
 	Entity();
 
 	// Ctor
-	Entity(const int ID);
+	Entity(const unsigned int ID);
 
   // Dtor
   ~Entity();
@@ -67,7 +67,7 @@ private:
 	std::map<unsigned int, Component *> comps_;
 
 	// Unique ID of the entity
-	int ID_;
+	unsigned int ID_;
 
   // Children of the entity
   std::list<Entity *> children_;

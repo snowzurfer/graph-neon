@@ -27,6 +27,7 @@
 #include <movement_sys.h>
 #include <shadowing_sys.h>
 #include <raypicking_sys.h>
+#include <sphere_cap_sys.h>
 
 
 namespace winapp {
@@ -105,6 +106,48 @@ protected:
   typedef std::list<lnfw::Entity *>::iterator entityItor_;
   typedef std::list<lnfw::Entity *>::const_iterator constEntityItor_;
 
+  std::list<lnfw::Entity *> entitiesToDelete_;
+  // Define a functor to delete gameobjects
+  struct DeleteEntity_ 
+  {
+    DeleteEntity_(std::list<lnfw::Entity *> &entities) :
+    entities_(entities) {
+
+    }
+
+    void operator() (lnfw::Entity *entityToDelete) {
+      // If the pointer points to a valid address
+      if(entityToDelete != NULL) {
+        entities_.erase(std::find(entities_.begin(), entities_.end(), entityToDelete));
+        delete entityToDelete;
+        entityToDelete = NULL;
+      }
+    }
+
+    std::list<lnfw::Entity *> &entities_;
+
+  };
+
+  // List of entities to be added at the end of the frame
+  std::list<lnfw::Entity *> entitiesToAdd_;
+  struct AddEntity_ 
+  {
+    AddEntity_(std::list<lnfw::Entity *> &entities) :
+    entities_(entities) {
+
+    }
+
+    void operator() (lnfw::Entity *entityToAdd) {
+      // If the pointer points to a valid address
+      if(entityToAdd != NULL) {
+        entities_.push_back(entityToAdd);
+      }
+    }
+
+    std::list<lnfw::Entity *> &entities_;
+
+  };
+
 
   // Systems
   RenderingSys renderingSystem_;
@@ -112,6 +155,7 @@ protected:
   MovementSys movementSys_;
   ShadowingSys shadowingSys_;
   RaypickingSys *raypickingSys_;
+  SphereCapSys *sphereCapSys_;
 
 };
 // EO Class

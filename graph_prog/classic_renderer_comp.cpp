@@ -18,7 +18,7 @@ namespace winapp {
     // If there is a shape
     if(shape) {
       // Enable blending
-      glEnable(GL_BLEND);
+      //glEnable(GL_BLEND);
 
       // Begin drawing
       glBegin(GL_TRIANGLES);
@@ -40,7 +40,7 @@ namespace winapp {
       glEnd();
 
       // Deactivate blending
-      glDisable(GL_BLEND);
+      //glDisable(GL_BLEND);
     }
 
     cleanUpTextures(texture);

@@ -30,6 +30,9 @@ protected:
   // Skybox texture
   GLuint skyboxTexture_;
 
+  // Id of the skybox as a display list
+  GLuint dList_;
+
 };
 // EO Class
 

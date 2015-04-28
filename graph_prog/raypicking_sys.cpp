@@ -16,14 +16,16 @@
 #include <iostream>
 #include <material_comp.h>
 #include <prev_material_comp.h>
+#include <entities_factory.h>
 
 
 namespace winapp {
 
-  RaypickingSys::RaypickingSys(const Camera *camera, Input *input) :
-    System(), cam_(camera), input_(input)
+  RaypickingSys::RaypickingSys(const Camera *camera, Input *input, std::list<lnfw::Entity *> &entitiesToAdd) :
+    System(), cam_(camera), input_(input),
+    entitiesToAdd_(entitiesToAdd)
   {
-
+    srand(102156);
   }
 
   void RaypickingSys::update(const std::list<lnfw::Entity *> &entities) {
@@ -101,7 +103,21 @@ namespace winapp {
                 matComp->setDiffuse(0.5f, 0.647059f, 0.5f, 1.0f);
               }
             }
+            // Depending on the object's type
+            if((*entityitor)->getID() == abfw::CRC::GetICRC("Pot")) {
+              // Spawn a sphere
+              EntitiesFactory factory;
 
+              lnfw::Entity *sphere = factory.createMaterialSpherePot();
+
+              
+              int random = rand() % 3;
+
+              sphere->transform.position.set(-4.433f + (float)random, 14.f, 19.f + (float)random);
+
+              entitiesToAdd_.push_back(sphere);
+
+            }
             // Change colour of object
           }
           /*else {

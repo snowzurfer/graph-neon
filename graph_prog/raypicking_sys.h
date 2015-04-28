@@ -16,7 +16,7 @@ namespace winapp {
   {
   public:
     //Ctor
-    RaypickingSys(const Camera *camera, Input *input);
+    RaypickingSys(const Camera *camera, Input *input, std::list<lnfw::Entity *> &entitiesToAdd);
 
     // Update the entities if they have a movement component
     void update(const std::list<lnfw::Entity *> &entities);
@@ -31,6 +31,10 @@ namespace winapp {
     // Check intersection of ray with AABB
     const bool testRayOOBB_(const Vec3 &rOrigin, const Vec3 &rDir, const lnfw::AABBComp *aabbComp,
       const lnfw::Transform<Vec3> *transform, float &intersectionDist);
+
+
+    // Reference to the list of entities to be added
+    std::list<lnfw::Entity *> &entitiesToAdd_;
   };
   // EO Class
 

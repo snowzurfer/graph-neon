@@ -33,11 +33,11 @@ namespace winapp {
     shape->createDList();
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(1.f, 1.f, 1.f);
+    transform->scale.set(10.f, 10.f, 10.f);
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp();
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
-	  VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 0.f, 0.f), Vec3());
+	  VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(45.f, 25.f, 0.f), Vec3());
 
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity();
@@ -62,8 +62,8 @@ namespace winapp {
     //shape->invertNormals();
 
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
-    transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(5.f, 2.f, 5.f);
+    transform->position.set(23.f, 0.f, 0.f);
+    transform->scale.set(30.f, 2.f, 30.f);
     MaterialComp *material = new MaterialComp();
     material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
     material->setSpecular(0.8f, 0.8f, 0.8f, 1.f);
@@ -89,6 +89,7 @@ namespace winapp {
 	  ShapeComp *ptrToShape = modelsLoader.load("media/models/wizard_house/wizardhouse_lowpoly.obj");
     //ptrToShape->invertNormals();
     //ptrToShape->setRenderingDir(GL_CW);
+    ptrToShape->createDList();
 
     // Load skybox texture
     GLuint roomTexture = 0;
@@ -739,7 +740,7 @@ namespace winapp {
     testMaterial->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
     testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
     testMaterial->setShininess(96.078431f);
-    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    BaseRendererComp *vertexRendererComp = new ClassicRendererComp();
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
@@ -1021,17 +1022,17 @@ namespace winapp {
     animTextureComp->setTransform(animTextTransform);*/
     ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
-    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
-    lnfw::Entity *entity = new lnfw::Entity();
+    lnfw::Entity *entity = new lnfw::Entity(abfw::CRC::GetICRC("Pot"));
     entity->attachComp(testMaterial);
     entity->attachComp(ptrToShape);
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
     entity->attachComp(shadowComp);
-    //entity->attachComp(aabbComp);
+    entity->attachComp(aabbComp);
     //entity->attachComp(velComp);
 
 
@@ -1074,6 +1075,47 @@ namespace winapp {
     ent->attachComp(shadowComp);
     ent->attachComp(aabbComp);
     //ent->attachComp(velComp);
+
+
+    return ent;
+  }
+
+
+
+  lnfw::Entity *EntitiesFactory::createMaterialSpherePot() {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    const float radius = 1.f;
+    const Vec3 colour(0.f, 1.f, 0.f);
+
+    // Main entity
+    lnfw::Entity *ent = new lnfw::Entity(abfw::CRC::GetICRC("MatSpherePot"));
+    ShapeComp *shape = shapeBuilder.buildCubeSphere(3);
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->scale.set(radius, radius, radius);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setDiffuse(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    testMaterial->setAmbient(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    //testMaterial->setSpecular(kBlackColourNoAlpha);
+    //testMaterial->setShininess(kHighShininess);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    ShadowComp *shadowComp = new ShadowComp();
+    VelocityComp *velComp = new VelocityComp(Vec3(0.f, 5.f, 0.f), Vec3(), Vec3());
+    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(shape->getVertices());
+    //VelocityComp *velComp = new VelocityComp();
+    //lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    //velComp->setTransform(*velTransform);
+    //delete velTransform;
+    // Add components to entity
+
+    ent->transform = *transform;
+    ent->attachComp(vertexRendererComp);
+    ent->attachComp(testMaterial);
+    ent->attachComp(shape);
+    ent->attachComp(shadowComp);
+    ent->attachComp(aabbComp);
+    ent->attachComp(velComp);
 
 
     return ent;

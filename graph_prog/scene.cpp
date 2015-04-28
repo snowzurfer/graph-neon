@@ -32,6 +32,9 @@ Scene::Scene() :
 };
 
 Scene::~Scene() {
+  delete sphereCapSys_;
+  sphereCapSys_ = NULL;
+
   delete skyBox_;
   skyBox_ = NULL;
 
@@ -103,7 +106,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
 
   // Create the raypicking system
-  raypickingSys_ = new RaypickingSys(camera_, input_);
+  raypickingSys_ = new RaypickingSys(camera_, input_, entitiesToAdd_);
 
   // Load skybox texture
   GLuint skyboxTxt = 0;
@@ -125,21 +128,30 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   }
 
   // Setup lights
-  Light *light = new Light(GL_LIGHT0);
-  light->setPosition(-40.f, 44.f, -43.f, 1.f); // Directional light
+  Light *light = new Light(GL_LIGHT0, true);
+  light->setPosition(-40.f, 44.f, -43.f, 1.f); // Point light
   light->setLinAttenuation(0.01f);
   //light->setConstAttenuation(100.f);
   lights_.push_back(light);
-  //light = new Light(GL_LIGHT1);
-  //light->setPosition(80.f, 80.f, 80.f, 1.0f); // Point light
-  //light->setLinAttenuation(0.01f);
-  //lights_.push_back(light);
-  //light = new Light(GL_LIGHT2);
-  //light->setPosition(-30.f, 80.f, 20.f, 1.0f); // Point light, red
-  //light->setLinAttenuation(0.1f);
-  //light->setAmbient(0.3f, 0.f, 0.f, 1.f);
-  //light->setDiffuse(1.f, 0.f, 0.f, 1.f);
-  //lights_.push_back(light);
+  light = new Light(GL_LIGHT1, false);
+  light->setPosition(1.f, 1.f, 1.f, 1.0f); // Directional light
+  light->setLinAttenuation(10.f);
+  lights_.push_back(light);
+  light = new Light(GL_LIGHT2, false);
+  light->setPosition(108.f, 11.f, -3.f, 1.0f); // Point light, red
+  light->setLinAttenuation(0.005f);
+  light->setQuadAttenuation(0.001f);
+  light->setAmbient(0.3f, 0.f, 0.f, 1.f);
+  light->setDiffuse(1.f, 0.f, 0.f, 1.f);
+  lights_.push_back(light);
+  light = new Light(GL_LIGHT3, false);
+  light->setPosition(45.f, 18.f, 65.f, 1.0f); // Spot light, gold yellow
+  light->setSpotAngle(15.f);
+  light->setSpotDirection(0.f, -0.09f, -1.f);
+  light->setAmbient(0.4, 0.243137, 0.f, 1.f);
+  light->setDiffuse(1.f, 0.843137f, 0.f, 1.f);
+  lights_.push_back(light);
+
   // Apply light modifications
   for(int i = 0; i < lights_.size(); ++i) {
     lights_[i]->apply();
@@ -157,7 +169,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   std::cout << "Loaded main room" << std::endl;
 
   lnfw::Entity *cone = entitiesFactory.createCone(lights_);
-  cone->transform.position.set(10.f, 10.f, 10.f);
+  cone->transform.position.set(-4.f, 18.f, -17.f);
   entities_.push_back(cone);
 
 
@@ -181,7 +193,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Create a sand timer and place it
   lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
-  sandTimer->transform.position.set(42.5f, 25.f, 86.f);
+  sandTimer->transform.position.set(42.5f, 25.f, 89.f);
   sandTimer->transform.rotation.set(0.f, 180.f, 0.f);
   entities_.push_back(sandTimer);
 
@@ -241,6 +253,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   bookShelf->transform.scale.set(12.f, 12.f, 12.f);
   bookShelf->transform.rotation.set(0.f, 13.908f, 0.f);
   entities_.push_back(bookShelf);
+
+
+  sphereCapSys_ = new SphereCapSys(entitiesToDelete_);
 }
 
 void Scene::resize() {
@@ -268,6 +283,25 @@ void Scene::update() {
   animatedTextureSys_.update(entities_);
   movementSys_.update(entities_);
   raypickingSys_->update(entities_);
+  sphereCapSys_->update(entities_);
+
+  // If there are entities to be destroyed
+  if(!entitiesToDelete_.empty()) {
+    // Destroy entities
+    std::for_each(entitiesToDelete_.begin(), entitiesToDelete_.end(), DeleteEntity_(entities_));
+
+    // Empty the container
+    entitiesToDelete_.clear();
+  }
+
+  // If there are entitites to be added
+  if(!entitiesToAdd_.empty()) {
+    // Destroy entities
+    std::for_each(entitiesToAdd_.begin(), entitiesToAdd_.end(), AddEntity_(entities_));
+
+    // Empty the container
+    entitiesToAdd_.clear();
+  }
 }
 
 void Scene::procInput() {

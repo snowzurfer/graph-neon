@@ -9,12 +9,12 @@ namespace lnfw {
   Entity::Entity() : 
     transform(),
     comps_(), 
-	  ID_(-1),
+	  ID_(0),
     children_(),
     parent_(NULL) {
   }
 
-  Entity::Entity(const int ID) : transform(),
+  Entity::Entity(const unsigned int ID) : transform(),
     comps_(), 
     ID_(ID),
     children_(),

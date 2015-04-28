@@ -103,6 +103,7 @@
     <ClCompile Include="shadowing_sys.cpp" />
     <ClCompile Include="shapes_factory.cpp" />
     <ClCompile Include="skybox.cpp" />
+    <ClCompile Include="sphere_cap_sys.cpp" />
     <ClCompile Include="tools\face.cpp" />
     <ClCompile Include="tools\shadow_comp.cpp" />
     <ClCompile Include="tools\TokenStream.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="shadow_comp.h" />
     <ClInclude Include="shapes_factory.h" />
     <ClInclude Include="skybox.h" />
+    <ClInclude Include="sphere_cap_sys.h" />
     <ClInclude Include="tools\face.h" />
     <ClInclude Include="tools\TokenStream.h" />
     <ClInclude Include="velocity_comp.h" />

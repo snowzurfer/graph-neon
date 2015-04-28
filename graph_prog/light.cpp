@@ -5,13 +5,16 @@
 
 namespace winapp {
 
-  Light::Light(const int lightNum) :
+  Light::Light(const int lightNum, const bool isCaster) :
     lightNum_(lightNum), ambient_(kDefaultAmbLight),
     diffuse_(kDefaultDiffLight), specular_(kBaseSpecularLight),
     constAtt_(1.f), linAtt_(0.001f),
-    quadAtt_(0.f), enabled_(true) 
+    quadAtt_(0.f), enabled_(true) ,
+    castsShadow_(isCaster),
+    spotCutoff_(180.f)
 {
   setPosition(BasePos);
+  setSpotDirection(BaseDir);
   apply();
 }
 
@@ -20,10 +23,13 @@ void Light::apply() {
   glLightfv(lightNum_, GL_DIFFUSE,   diffuse_  );
   glLightfv(lightNum_, GL_POSITION,  position_ );
   glLightfv(lightNum_, GL_SPECULAR,  specular_ );
+  glLightfv(lightNum_, GL_SPOT_DIRECTION, spotDirection_);
 
   glLightf (lightNum_, GL_CONSTANT_ATTENUATION,  constAtt_);
   glLightf (lightNum_, GL_LINEAR_ATTENUATION,    linAtt_);
   glLightf (lightNum_, GL_QUADRATIC_ATTENUATION,  quadAtt_);
+  glLightf (lightNum_, GL_SPOT_CUTOFF,  spotCutoff_);
+  glLightf (lightNum_, GL_SPOT_EXPONENT, 6.0f);
 
   if(enabled_) {
     glEnable(lightNum_);
@@ -77,6 +83,15 @@ void Light::setPosition(const GLfloat *params) {
   setPosition(params[0], params[1], params[2], params[3]);
 }
 
+void Light::setSpotDirection(const GLfloat x, const GLfloat y, const GLfloat z) {
+  spotDirection_[0] = x;
+  spotDirection_[1] = y;
+  spotDirection_[2] = z;
+}
+
+void Light::setSpotDirection(const GLfloat *params) {
+  setSpotDirection(params[0], params[1], params[2]);
+}
 
 void Light::draw() {
   glPushAttrib(GL_LIGHTING_BIT);
@@ -86,12 +101,14 @@ void Light::draw() {
   glTranslatef(position_[0], position_[1], position_[2]);
 
   glColor3f(1.f, 0.5f, 0.f);
-  gluSphere(gluNewQuadric(), 0.5f, 6.f, 6.f);
+  gluSphere(gluNewQuadric(), 1.f, 6.f, 6.f);
   glColor3f(1.f, 1.f, 1.f);
 
   glPopAttrib();
 
 }
+
+
 
 }
 // EO Namespace

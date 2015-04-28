@@ -279,6 +279,9 @@
     <ClCompile Include="prev_material_comp.cpp">
       <Filter>Source Files\Components\Material</Filter>
     </ClCompile>
+    <ClCompile Include="sphere_cap_sys.cpp">
+      <Filter>Source Files\Systems\Movement</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -421,6 +424,9 @@
     </ClInclude>
     <ClInclude Include="prev_material_comp.h">
       <Filter>Header Files\Components\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere_cap_sys.h">
+      <Filter>Header Files\Systems\Movement</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

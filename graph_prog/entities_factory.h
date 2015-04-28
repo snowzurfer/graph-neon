@@ -68,6 +68,9 @@ namespace winapp {
 
     // Create a plane
     lnfw::Entity *createPlane(const Vec3 &col);
+
+    // Sphere for pot
+    lnfw::Entity *createMaterialSpherePot();
   };
 
 }
