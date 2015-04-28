@@ -33,6 +33,9 @@ namespace winapp {
     // Create the rotating archane
     lnfw::Entity *createRotatingArchane();
 
+    // Create the rotating books
+    lnfw::Entity *createRotatingBook();
+
     // Create a teapot
     lnfw::Entity *createTeapot();
 
@@ -62,6 +65,9 @@ namespace winapp {
 
     // Create a cooking pot
     lnfw::Entity *createPot();
+
+    // Create a plane
+    lnfw::Entity *createPlane(const Vec3 &col);
   };
 
 }

@@ -48,6 +48,8 @@ namespace winapp {
     entity->attachComp(shadowComp);
 	  entity->attachComp(velComp);
 
+    delete transform;
+
     // Return it
     return entity;
   }
@@ -73,6 +75,8 @@ namespace winapp {
     entity->attachComp(shape);
     entity->transform = *transform;
     entity->attachComp(vertexRendererComp);
+
+    delete transform;
     
     // Return it
     return entity;
@@ -123,10 +127,47 @@ namespace winapp {
     //entity->attachComp(shadowComp);
     //entity->attachComp(velComp);
 
-    
+    delete testTransform;
 
     // Return it
     return entity;
+  }
+
+  lnfw::Entity *EntitiesFactory::createPlane(const Vec3 &colour) {
+    // Create a shapes factory to create the shapes required
+    ShapesFactory shapeBuilder;
+
+    // Main entity
+    lnfw::Entity *ent = new lnfw::Entity(abfw::CRC::GetICRC("Plane"));
+    ShapeComp *shape = shapeBuilder.buildPlane(0);
+    lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
+    transform->scale.set(1.f, 1.f, 1.f);
+    MaterialComp *testMaterial = new MaterialComp();
+    testMaterial->setDiffuse(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    testMaterial->setAmbient(colour.getX(), colour.getY(), colour.getZ(), 1.f);
+    //testMaterial->setSpecular(kBlackColourNoAlpha);
+    testMaterial->setShininess(kHighShininess);
+    BaseRendererComp *vertexRendererComp = new VertexRendererComp();
+    //ShadowComp *shadowComp = new ShadowComp();
+    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(shape->getVertices());
+    //VelocityComp *velComp = new VelocityComp();
+    //lnfw::Transform<Vec3> *velTransform = new lnfw::Transform<Vec3>();
+    //velComp->setTransform(*velTransform);
+    //delete velTransform;
+    // Add components to entity
+
+    ent->transform = *transform;
+    ent->attachComp(vertexRendererComp);
+    ent->attachComp(testMaterial);
+    ent->attachComp(shape);
+    //ent->attachComp(shadowComp);
+    //ent->attachComp(aabbComp);
+    //ent->attachComp(velComp);
+
+    delete transform;
+
+    return ent;
   }
 
 
@@ -176,7 +217,7 @@ namespace winapp {
     entity->attachComp(animTextureComp);
     //entity->attachComp(shadowComp);
     //entity->attachComp(velComp);
-
+    delete testTransform;
     
 
     // Return it
@@ -263,7 +304,7 @@ namespace winapp {
     // Create a shapes factory to create the shapes required
     ShapesFactory shapeBuilder;
 
-    float sandTimerScale = 1.3f;
+    float sandTimerScale = 1.5f;
     float radiusBasis = 18.f;
     float heightCones = 14.f;
     float heightBasis = 3.f;
@@ -703,7 +744,7 @@ namespace winapp {
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
     ShadowComp *shadowComp = new ShadowComp();
-    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(25.f, 25.f, 0.f), Vec3());
     //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
@@ -715,7 +756,7 @@ namespace winapp {
     entity->attachComp(vertexRendererComp);
     entity->attachComp(shadowComp);
     //entity->attachComp(aabbComp);
-    //entity->attachComp(velComp);
+    entity->attachComp(velComp);
 
 
     delete testTransform;
@@ -810,7 +851,7 @@ namespace winapp {
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
-    ShadowComp *shadowComp = new ShadowComp();
+    //ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
     //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
@@ -821,7 +862,7 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    entity->attachComp(shadowComp);
+    //entity->attachComp(shadowComp);
     //entity->attachComp(aabbComp);
     //entity->attachComp(velComp);
 
@@ -866,7 +907,7 @@ namespace winapp {
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
-    ShadowComp *shadowComp = new ShadowComp();
+    //ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
     //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
@@ -877,7 +918,7 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    entity->attachComp(shadowComp);
+    //entity->attachComp(shadowComp);
     //entity->attachComp(aabbComp);
     //entity->attachComp(velComp);
 
@@ -894,14 +935,14 @@ namespace winapp {
     // Create a models loader
     ModelsLoader modelsLoader;
 
-	  ShapeComp *ptrToShape = modelsLoader.load("media/models/skull/skull_monster.obj");
+	  ShapeComp *ptrToShape = modelsLoader.load("media/models/human_skull_low_res/human_skull_low_res.obj");
     //ptrToShape->invertNormals();
     //ptrToShape->setRenderingDir(GL_CW);
 
     // Load texture
     GLuint roomTexture = 0;
     roomTexture = SOIL_load_OGL_texture  (
-                        "media/models/skull/Skull_Monster_512.png",
+                        "media/models/human_skull_low_res/human_skull_aged_dif.png",
                         SOIL_LOAD_AUTO,
                         SOIL_CREATE_NEW_ID,
                         SOIL_FLAG_MIPMAPS | 
@@ -916,13 +957,13 @@ namespace winapp {
     MaterialComp *testMaterial = new MaterialComp();
     testMaterial->setAmbient(kBlackColourNoAlpha);
     testMaterial->setDiffuse(0.64f, 0.64f, 0.64f, 1.f);
-    testMaterial->setSpecular(0.5f, 0.5f, 0.5f, 1.f);
-    testMaterial->setShininess(96.078431f);
+    testMaterial->setSpecular(1.f, 1.f, 1.f, 1.f);
+    testMaterial->setShininess(194.117647f);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
-    ShadowComp *shadowComp = new ShadowComp();
+    //ShadowComp *shadowComp = new ShadowComp();
     //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
     //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
@@ -933,7 +974,7 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    entity->attachComp(shadowComp);
+    //entity->attachComp(shadowComp);
     //entity->attachComp(aabbComp);
     //entity->attachComp(velComp);
 

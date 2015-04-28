@@ -126,9 +126,9 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0);
-  light->setPosition(1.f, 1.f, 1.f, 0.f); // Directional light
-  light->setLinAttenuation(100.f);
-  light->setConstAttenuation(100.f);
+  light->setPosition(-40.f, 44.f, -43.f, 1.f); // Directional light
+  light->setLinAttenuation(0.01f);
+  //light->setConstAttenuation(100.f);
   lights_.push_back(light);
   //light = new Light(GL_LIGHT1);
   //light->setPosition(80.f, 80.f, 80.f, 1.0f); // Point light
@@ -164,25 +164,26 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   entities_.push_back(entitiesFactory.createBoxRoom());
   //entities_.push_back(entitiesFactory.createTeapot());
   lnfw::Entity *mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.7f), 15.f);
-  mDisk->transform.position.set(60.f, 25.f, -45.3f);
+  mDisk->transform.position.set(50.f, 35.f, -45.3f);
   entities_.push_back(mDisk);
   mDisk = entitiesFactory.createMetallicDisk(Vec3(0.6f, 0.6f, 0.9f), 15.f);
-  mDisk->transform.position.set(80.f, 25.f, -45.2f);
+  mDisk->transform.position.set(65.f, 35.f, -45.2f);
   entities_.push_back(mDisk);
   mDisk = entitiesFactory.createMetallicDisk(Vec3(0.6f, 0.9f, 0.9f), 15.f);
-  mDisk->transform.position.set(100.f, 25.f, -45.0f);
+  mDisk->transform.position.set(80.f, 35.f, -45.0f);
   entities_.push_back(mDisk);
 
-  //lnfw::Entity *pillar = entitiesFactory.createStonePillar();
-  ////pillar->transform.position.set(42.5f, 18.f, 88.f);
-  //pillar->transform.scale.set(35.f, 70.f, 35.f);
-  //entities_.push_back(pillar);
+  lnfw::Entity *skull = entitiesFactory.createSkull();
+  skull->transform.position.set(103.424f, 10.116f, 6.526f);
+  skull->transform.rotation.set(-20.f, -45.f, 0.f);
+  skull->transform.scale.set(22.f, 22.f, 22.f);
+  entities_.push_back(skull);
 
   // Create a sand timer and place it
- /* lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
-  sandTimer->transform.position.set(42.5f, 18.f, 88.f);
+  lnfw::Entity *sandTimer = entitiesFactory.createSandTimer();
+  sandTimer->transform.position.set(42.5f, 25.f, 86.f);
   sandTimer->transform.rotation.set(0.f, 180.f, 0.f);
-  entities_.push_back(sandTimer);*/
+  entities_.push_back(sandTimer);
 
   lnfw::Entity *archane = entitiesFactory.createRotatingArchane();
   archane->transform.position.set(-16.f, -2.f, -28.f);
@@ -195,23 +196,51 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
 
   lnfw::Entity *chair = entitiesFactory.createChair();
-  chair->transform.position.set(0.f, 30.f, 0.f);
-  chair->transform.scale.set(10.f, 10.f, 10.f);
+  chair->transform.position.set(85.f, 20.f, 25.f);
+  chair->transform.scale.set(13.f, 13.f, 13.f);
   entities_.push_back(chair);
 
-
   lnfw::Entity *ottoman = entitiesFactory.createOttoman();
-  ottoman->transform.position.set(0.f, 20.f, 0.f);
-  ottoman->transform.scale.set(10.f, 10.f, 10.f);
+  ottoman->transform.position.set(68.483f, 4.284f, -40.778f);
+  ottoman->transform.scale.set(12.651f, 12.651f, 12.651f);
   entities_.push_back(ottoman);
 
   lnfw::Entity *desk = entitiesFactory.createDesk();
-  desk->transform.position.set(50.f, 20.f, 0.f);
-  desk->transform.scale.set(10.f, 10.f, 10.f);
+  desk->transform.position.set(78.614f, 0.746f, -1.495f);
+  desk->transform.scale.set(9.f, 9.f, 9.f);
+  desk->transform.rotation.set(0.f, 90.f, 0.f);
   entities_.push_back(desk);
   
+  lnfw::Entity *pot = entitiesFactory.createPot();
+  pot->transform.position.set(-4.433f, 1.f, 19.238f);
+  pot->transform.scale.set(14.f, 14.f, 14.f);
+  pot->transform.rotation.set(0.f, 45.f, 0.f);
+  entities_.push_back(pot);
 
 
+  lnfw::Entity *ceiling = entitiesFactory.createPlane(Vec3(0.8f, 0.8f, 0.8f));
+  ceiling->transform.position.set(29.f, 58.f, 4.f);
+  ceiling->transform.scale.set(200.f, 150.f, 1.f);
+  ceiling->transform.rotation.set(90.f, 0.f, 0.f);
+  entities_.push_back(ceiling);
+
+  lnfw::Entity *bookShelf = entitiesFactory.createBookShelf();
+  bookShelf->transform.position.set(9.383f, 1.f, 11.379f);
+  bookShelf->transform.scale.set(12.f, 12.f, 12.f);
+  bookShelf->transform.rotation.set(0.f, -45.f, 0.f);
+  entities_.push_back(bookShelf);
+
+  bookShelf = entitiesFactory.createBookShelf();
+  bookShelf->transform.position.set(-24.243f, 1.f, 15.814f);
+  bookShelf->transform.scale.set(12.f, 12.f, 12.f);
+  bookShelf->transform.rotation.set(0.f, 264.771f, 0.f);
+  entities_.push_back(bookShelf);
+
+  bookShelf = entitiesFactory.createBookShelf();
+  bookShelf->transform.position.set(28.919f, 1.f, -26.911f);
+  bookShelf->transform.scale.set(12.f, 12.f, 12.f);
+  bookShelf->transform.rotation.set(0.f, 13.908f, 0.f);
+  entities_.push_back(bookShelf);
 }
 
 void Scene::resize() {

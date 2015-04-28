@@ -347,7 +347,7 @@ namespace winapp {
     glPushMatrix();
 
       // Make the front shadow slightly smaller than the actual front faces
-      glScalef(0.993f, 0.993f, 0.993f);
+      glScalef(0.990f, 0.99f, 0.99f);
 
       // Deference
       glDrawElements(GL_TRIANGLES, frontFacesIndices_.size(), 
