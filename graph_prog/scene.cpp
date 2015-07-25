@@ -1,4 +1,3 @@
-// Lab3 - 30/09/2014
 // Coder: Alberto Taiuti
 //
 // Purpose: Source for scene class
@@ -71,10 +70,6 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   // Init openGL
   initOpenGL(screenRect_.right, screenRect_.bottom); // initialise openGL
 
-  // Allocate a console to the application
- // AllocConsole();
-  //freopen("CONOUT$", "w", stdout);
-
   // OpenGL settings
   glShadeModel(GL_SMOOTH);										                  // Enable Smooth Shading
   glClearColor(0.3809f, 0.501f, 0.58431f, 0.f);				
@@ -99,7 +94,7 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Create a default camera
   camera_ = new Camera(hwnd_, &screenRect_);
-  camera_->setPos(Vec3(0.f, 0.f, 12.f));
+  camera_->setPos(Vec3(0.f, 20.f, 12.f));
   camera_->setUp(Vec3(0.f, 1.f, 0.f));
   camera_->setForward(Vec3(0.f, 0.f, -1.f));
   camera_->updateVectors();
@@ -129,7 +124,8 @@ void Scene::initialise(HWND *lwnd, Input* in) {
 
   // Setup lights
   Light *light = new Light(GL_LIGHT0, true);
-  light->setPosition(-40.f, 44.f, -43.f, 1.f); // Point light
+ // light->setPosition(-40.f, 44.f, -43.f, 1.f); // Point light
+  light->setPosition(-60.f, 60.f, -60.f, 1.f); // Point light
   light->setLinAttenuation(0.01f);
   //light->setConstAttenuation(100.f);
   lights_.push_back(light);
@@ -168,13 +164,14 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   entities_.push_back(entitiesFactory.createMainRoom(lights_));
   std::cout << "Loaded main room" << std::endl;
 
-  lnfw::Entity *cone = entitiesFactory.createCone(lights_);
-  cone->transform.position.set(-4.f, 18.f, -17.f);
-  entities_.push_back(cone);
+  /*lnfw::Entity *cone = entitiesFactory.createCone(lights_);
+  cone->transform.position.set(-3.f, 25.f, -18.f);
+  entities_.push_back(cone);*/
 
+  /*lnfw::Entity *teapot = entitiesFactory.createTeapot();
+  teapot->transform.position.set(-3.f, 25.f, -18.f);
+  entities_.push_back(teapot);*/
 
-  entities_.push_back(entitiesFactory.createBoxRoom());
-  //entities_.push_back(entitiesFactory.createTeapot());
   lnfw::Entity *mDisk = entitiesFactory.createMetallicDisk(Vec3(0.7f, 0.7f, 0.7f), 15.f);
   mDisk->transform.position.set(50.f, 35.f, -45.3f);
   entities_.push_back(mDisk);
@@ -186,9 +183,10 @@ void Scene::initialise(HWND *lwnd, Input* in) {
   entities_.push_back(mDisk);
 
   lnfw::Entity *skull = entitiesFactory.createSkull();
-  skull->transform.position.set(103.424f, 10.116f, 6.526f);
+  //skull->transform.position.set(103.424f, 10.116f, 6.526f);
+  skull->transform.position.set(-3.f, 25.f, -18.f);
   skull->transform.rotation.set(-20.f, -45.f, 0.f);
-  skull->transform.scale.set(22.f, 22.f, 22.f);
+  skull->transform.scale.set(60.f, 60.f, 60.f);
   entities_.push_back(skull);
 
   // Create a sand timer and place it
@@ -610,7 +608,7 @@ void Scene::resizeGLWindow(int w, int h) {
   glLoadIdentity();
 
   // Calculate aspect ratio and set the frustum for clipping
-  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.001, 300.0);
+  gluPerspective(45.0, (GLfloat)w/(GLfloat)h, 0.001, 600.0);
   //glFrustum(screenRect_.left, screenRect_.right, screenRect_.bottom, screenRect_.top, 1.0f, 150.0f);
   //glFrustum(-2, 2, -2, 2, 1, 100);
 

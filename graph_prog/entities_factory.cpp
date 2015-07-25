@@ -33,7 +33,7 @@ namespace winapp {
     shape->createDList();
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
     transform->position.set(0.f, 0.f, 0.f);
-    transform->scale.set(10.f, 10.f, 10.f);
+    transform->scale.set(9.f, 9.f, 9.f);
     MaterialComp *material = new MaterialComp();
     ShadowComp *shadowComp = new ShadowComp();
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
@@ -62,7 +62,8 @@ namespace winapp {
     //shape->invertNormals();
 
     lnfw::Transform<Vec3> *transform = new lnfw::Transform<Vec3>();
-    transform->position.set(23.f, 0.f, 0.f);
+    //transform->position.set(23.f, 0.f, 0.f);
+    transform->position.set(0.f, 0.f, 0.f);
     transform->scale.set(30.f, 2.f, 30.f);
     MaterialComp *material = new MaterialComp();
     material->setDiffuse(0.8f, 0.8f, 0.8f, 1.f);
@@ -609,21 +610,20 @@ namespace winapp {
     //ptrToShape->invertNormals();
     //ptrToShape->setRenderingDir(GL_CW);
 
-    // Load skybox texture
-    /*GLuint roomTexture = 0;
-    roomTexture = SOIL_load_OGL_texture  (
-                        "media/Models/wizard_house/wizardohouseTempTex1024.png",
-                        SOIL_LOAD_AUTO,
-                        SOIL_CREATE_NEW_ID,
-                        SOIL_FLAG_MIPMAPS | 
-                        SOIL_FLAG_NTSC_SAFE_RGB | 
-                        SOIL_FLAG_COMPRESS_TO_DXT
-    );*/
+    GLuint text = 0;
+    text = SOIL_load_OGL_texture  (
+      "media/Models/crate.png",
+      SOIL_LOAD_AUTO,
+      SOIL_CREATE_NEW_ID,
+      SOIL_FLAG_MIPMAPS | 
+      SOIL_FLAG_NTSC_SAFE_RGB | 
+      SOIL_FLAG_COMPRESS_TO_DXT
+      );
 
     // If the texture has been loaded
-    //assert(roomTexture != 0);
+    assert(text != 0);
 
-    //TextureComp *testTextComp = new TextureComp(roomTexture);
+    TextureComp *testTextComp = new TextureComp(text);
     lnfw::Transform<Vec3> *testTransform = new lnfw::Transform<Vec3>();
     testTransform->scale.set(1.f, 1.f, 1.f);
     MaterialComp *testMaterial = new MaterialComp();
@@ -631,23 +631,23 @@ namespace winapp {
     testMaterial->setDiffuse(0.8f, 0.2f, 0.f, 1.f);
     testMaterial->setSpecular(1.f, 1.f, 1.f, 1.f);
     BaseRendererComp *vertexRendererComp = new VertexRendererComp();
-    /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
-    lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
-    animTextureComp->setTransform(animTextTransform);*/
-    ShadowComp *shadowComp = new ShadowComp();
-    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
-    lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
+    AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
+    lnfw::Transform<Texel> animTextTransform(Texel(3.f, 0.0f), Texel(0.f, 20.f), Texel(0.f, 0.f));
+    animTextureComp->setTransform(animTextTransform);
+    //ShadowComp *shadowComp = new ShadowComp();
+    VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 25.f, 25.f), Vec3());
+    //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
     lnfw::Entity *entity = new lnfw::Entity(abfw::CRC::GetICRC("Teapot"));
     entity->attachComp(testMaterial);
     entity->attachComp(ptrToShape);
-    //entity->attachComp(testTextComp);
+    entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    entity->attachComp(shadowComp);
-    entity->attachComp(aabbComp);
-    //entity->attachComp(velComp);
+    //entity->attachComp(shadowComp);
+    //entity->attachComp(aabbComp);
+    entity->attachComp(velComp);
 
 
     delete testTransform;
@@ -964,8 +964,8 @@ namespace winapp {
     /*AnimatedTextureComp *animTextureComp = new AnimatedTextureComp();
     lnfw::Transform<Texel> animTextTransform(Texel(0.f, 0.0f), Texel(0.f, 0.f), Texel(0.f, 0.f));
     animTextureComp->setTransform(animTextTransform);*/
-    //ShadowComp *shadowComp = new ShadowComp();
-    //VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(0.f, 1.f, 0.f), Vec3());
+    ShadowComp *shadowComp = new ShadowComp();
+    VelocityComp *velComp = new VelocityComp(Vec3(), Vec3(40.f, 25.f, 0.f), Vec3());
     //lnfw::AABBComp *aabbComp = new lnfw::AABBComp(ptrToShape->getVertices());
   
     // Add components to entity
@@ -975,9 +975,9 @@ namespace winapp {
     entity->attachComp(testTextComp);
     entity->transform = *testTransform;
     entity->attachComp(vertexRendererComp);
-    //entity->attachComp(shadowComp);
+    entity->attachComp(shadowComp);
     //entity->attachComp(aabbComp);
-    //entity->attachComp(velComp);
+    entity->attachComp(velComp);
 
 
     delete testTransform;

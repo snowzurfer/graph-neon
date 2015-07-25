@@ -11,7 +11,7 @@
 #include <base_renderer_comp.h>
 #include <gl/GLU.h>
 
-#define PROJ_INFINITY 50.f
+#define PROJ_INFINITY 200.f
 
 namespace winapp {
 
@@ -135,7 +135,7 @@ namespace winapp {
               // Push the attributes to easily retrieve them after the passes
               glPushAttrib( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | 
                 GL_ENABLE_BIT | GL_POLYGON_BIT | GL_STENCIL_BUFFER_BIT |
-                GL_LIGHTING_BIT | GL_TEXTURE_BIT);
+                GL_LIGHTING_BIT);
               // Enable face culling
               glEnable(GL_CULL_FACE);
               // Turn off lighting
@@ -150,8 +150,6 @@ namespace winapp {
               glEnable(GL_STENCIL_TEST);
               // Set the stencil function
               glStencilFunc(GL_ALWAYS, 0, 0);
-              // Disable texturing
-              glDisable(GL_TEXTURE_2D);
 
               // First pass. Increase the stencil values where there are
               // shadows
@@ -352,7 +350,7 @@ namespace winapp {
     glPushMatrix();
 
       // Make the front shadow slightly smaller than the actual front faces
-      glScalef(0.99f, 0.99f, 0.99f);
+      glScalef(0.98f, 0.98f, 0.98f);
 
       // Deference
       glDrawElements(GL_TRIANGLES, frontFacesIndices_.size(), 
